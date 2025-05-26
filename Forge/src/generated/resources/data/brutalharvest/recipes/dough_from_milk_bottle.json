@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "tag": "forge:items/flour"
+    },
+    {
+      "tag": "forge:items/flour"
+    },
+    {
+      "tag": "forge:eggs"
+    },
+    {
+      "tag": "forge:bottles/milk"
+    }
+  ],
+  "result": {
+    "item": "brutalharvest:dough"
+  }
+}

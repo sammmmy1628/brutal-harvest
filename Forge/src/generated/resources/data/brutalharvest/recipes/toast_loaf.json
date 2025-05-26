@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "D": {
+      "item": "brutalharvest:dough"
+    }
+  },
+  "pattern": [
+    "DDD",
+    "DDD"
+  ],
+  "result": {
+    "item": "brutalharvest:toast_loaf"
+  },
+  "show_notification": true
+}

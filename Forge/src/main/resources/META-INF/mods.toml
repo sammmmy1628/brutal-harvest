@@ -1,0 +1,32 @@
+modLoader="javafml"
+loaderVersion="[46,)"
+issueTrackerURL="https://github.com/Christofmeg/BrutalHarvest/issues"
+license="The MIT License (MIT)"
+[[mods]]
+    modId="brutalharvest"
+    version="${version}"
+    displayName="Brutal Harvest"
+    displayURL="https://github.com/Christofmeg/BrutalHarvest"
+    logoFile="icon.png"
+    authors="Christofmeg, PatiKa02, tristanh"
+    description=""
+[[dependencies.brutalharvest]]
+    modId="forge"
+    mandatory=true
+    versionRange="[46,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.brutalharvest]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.20,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.brutalharvest]]
+    modId="geckolib"
+    mandatory=true
+    versionRange="[4.0.0,)"
+    ordering="NONE"
+    side="BOTH"
+[modproperties.brutalharvest]
+    catalogueItemIcon="brutalharvest:tomato"

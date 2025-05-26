@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "brutalharvest:cotton"
+    },
+    {
+      "item": "brutalharvest:cotton"
+    },
+    {
+      "item": "brutalharvest:cotton"
+    }
+  ],
+  "result": {
+    "item": "brutalharvest:fabric"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "brutalharvest:blueberry_jam"
+    },
+    {
+      "item": "brutalharvest:toast_slice"
+    }
+  ],
+  "result": {
+    "item": "brutalharvest:blueberry_toast"
+  }
+}

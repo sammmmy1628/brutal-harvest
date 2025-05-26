@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "tag": "forge:items/flour"
+    },
+    {
+      "tag": "forge:vegetables/tomato"
+    },
+    {
+      "tag": "forge:eggs"
+    },
+    {
+      "tag": "forge:buckets/water"
+    }
+  ],
+  "result": {
+    "item": "brutalharvest:tomato_dough"
+  }
+}

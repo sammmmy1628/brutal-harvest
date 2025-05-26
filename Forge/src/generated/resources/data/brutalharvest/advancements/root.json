@@ -1,0 +1,64 @@
+{
+  "criteria": {
+    "0": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "brutalharvest:unripe_tomato"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "1": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "brutalharvest:tomato"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "2": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "brutalharvest:rotten_tomato"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "minecraft:textures/block/rooted_dirt.png",
+    "description": {
+      "translate": "advancement.brutalharvest.root.desc"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "brutalharvest:tomato"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "Brutal Harvest"
+    }
+  },
+  "requirements": [
+    [
+      "0",
+      "1",
+      "2"
+    ]
+  ],
+  "sends_telemetry_event": true
+}
