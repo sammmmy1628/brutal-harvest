@@ -8,7 +8,7 @@ license="The MIT License (MIT)"
     displayName="Brutal Harvest"
     displayURL="https://github.com/Christofmeg/BrutalHarvest"
     logoFile="icon.png"
-    authors="Christofmeg, PatiKa02, tristanh"
+    authors="Christofmeg, PatiKa02, tristanh, Tymogekh"
     description=""
 [[dependencies.brutalharvest]]
     modId="forge"

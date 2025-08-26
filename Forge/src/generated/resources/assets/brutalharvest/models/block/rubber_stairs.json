@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/stairs",
+  "textures": {
+    "bottom": "brutalharvest:block/rubber_planks",
+    "side": "brutalharvest:block/rubber_planks",
+    "top": "brutalharvest:block/rubber_planks"
+  }
+}

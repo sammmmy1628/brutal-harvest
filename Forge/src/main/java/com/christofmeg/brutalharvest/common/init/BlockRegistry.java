@@ -2,6 +2,7 @@ package com.christofmeg.brutalharvest.common.init;
 
 import com.christofmeg.brutalharvest.CommonConstants;
 import com.christofmeg.brutalharvest.common.block.*;
+import com.christofmeg.brutalharvest.common.item.MillstoneBlockItem;
 import com.christofmeg.brutalharvest.common.world.tree.RubberTreeGrower;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.AxeItem;
@@ -12,6 +13,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
@@ -49,9 +51,12 @@ public class BlockRegistry {
     public static final RegistryObject<Block> RUBBER_PLANKS;
     public static final RegistryObject<Block> RUBBER_LEAVES;
     public static final RegistryObject<Block> RUBBER_LOG_GENERATED;
+    public static final RegistryObject<FlowerPotBlock> POTTED_RUBBER_SAPLING;
+    public static final RegistryObject<SlabBlock> RUBBER_SLAB;
+    public static final RegistryObject<StairBlock> RUBBER_STAIRS;
 
 //    public static final RegistryObject<Block> RUBBER_CAULDRON;
-//    public static final RegistryObject<Block> MILLSTONE;
+    public static final RegistryObject<Block> MILLSTONE;
 
     public static final RegistryObject<Block> FARMLAND_SLAB;
     public static final RegistryObject<Block> DIRT_SLAB;
@@ -126,6 +131,14 @@ public class BlockRegistry {
         RUBBER_LOG_GENERATED = BLOCKS.register("rubber_log_generated", () -> new RubberLogGeneratedBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).instrument(NoteBlockInstrument.BASS).strength(2.0F).sound(SoundType.WOOD).ignitedByLava()));
         ItemRegistry.ITEMS.register("rubber_log_generated", () -> new BlockItem(RUBBER_LOG_GENERATED.get(), new Item.Properties()));
 
+        RUBBER_SLAB = BLOCKS.register("rubber_slab", () -> new SlabBlock(BlockBehaviour.Properties.copy(Blocks.OAK_SLAB)));
+        ItemRegistry.ITEMS.register("rubber_slab", () -> new BlockItem(RUBBER_SLAB.get(), new Item.Properties()));
+
+        RUBBER_STAIRS = BLOCKS.register("rubber_stairs", () -> new StairBlock(Blocks.OAK_STAIRS::defaultBlockState, BlockBehaviour.Properties.copy(Blocks.OAK_STAIRS)));
+        ItemRegistry.ITEMS.register("rubber_stairs", () -> new BlockItem(RUBBER_STAIRS.get(), new Item.Properties()));
+
+        POTTED_RUBBER_SAPLING = BLOCKS.register("potted_rubber_sapling", () -> new FlowerPotBlock(null, RUBBER_SAPLING, BlockBehaviour.Properties.copy(Blocks.POTTED_OAK_SAPLING)));
+
         FARMLAND_SLAB = BLOCKS.register("farmland_slab", () -> new FarmlandSlabBlock(BlockBehaviour.Properties.of().mapColor(MapColor.DIRT).randomTicks().strength(0.6F).sound(SoundType.GRAVEL).isViewBlocking(BlockRegistry::always).isSuffocating(BlockRegistry::always)));
         ItemRegistry.ITEMS.register("farmland_slab", () -> new BlockItem(FARMLAND_SLAB.get(), new Item.Properties()));
 
@@ -144,16 +157,16 @@ public class BlockRegistry {
         DIRT_TRACK = BLOCKS.register("dirt_track", () -> new DirtPathBlock(BlockBehaviour.Properties.of().mapColor(MapColor.DIRT).strength(0.65F).sound(SoundType.GRASS).isViewBlocking(BlockRegistry::always).isSuffocating(BlockRegistry::always)));
         ItemRegistry.ITEMS.register("dirt_track", () -> new BlockItem(DIRT_TRACK.get(), new Item.Properties()));
 
+        MILLSTONE = BLOCKS.register("millstone", () -> new MillstoneBlock(BlockBehaviour.Properties.of().noOcclusion().requiresCorrectToolForDrops().sound(SoundType.STONE).strength(2.0F, 6.0F)));
+        ItemRegistry.ITEMS.register("millstone", () -> new MillstoneBlockItem(new Item.Properties()));
+
         // BIRCH_SIGN,
         // BIRCH_WALL_SIGN,
         // BIRCH_HANGING_SIGN,
         // BIRCH_WALL_HANGING_SIGN,
         // BIRCH_PRESSURE_PLATE,
         // BIRCH_TRAPDOOR,
-        // BIRCH_STAIRS,
-        // POTTED_BIRCH_SAPLING,
         // BIRCH_BUTTON,
-        // BIRCH_SLAB,
         // BIRCH_FENCE_GATE,
         // BIRCH_FENCE,
         // BIRCH_DOOR

@@ -23,6 +23,8 @@ import java.util.Objects;
 
 public class BrutalItemModelProvider extends ItemModelProvider {
 
+    private static final ResourceLocation RUBBER_PLANKS_LOCATION = new ResourceLocation(CommonConstants.MOD_ID, "block/rubber_planks");
+
     public BrutalItemModelProvider(PackOutput generator, ExistingFileHelper existingFileHelper) {
         super(generator, CommonConstants.MOD_ID, existingFileHelper);
     }
@@ -46,6 +48,7 @@ public class BrutalItemModelProvider extends ItemModelProvider {
                 .filter(item -> (item instanceof ScytheItem))
                 .forEach(this::handHeldItem);
 
+        basicItem(ItemRegistry.SEED_SATCHEL.get()).override().predicate(modLoc("filled"), 1.0F).model(basicItem(modLoc("seed_satchel_filled"))).end();
         saplingItem(BlockRegistry.RUBBER_SAPLING);
         withExistingParent(getItemName(BlockRegistry.RUBBER_LOG.get()), modLoc("block/" + getItemName(BlockRegistry.RUBBER_LOG.get())));
         withExistingParent(getItemName(BlockRegistry.RUBBER_WOOD.get()), modLoc("block/" + getItemName(BlockRegistry.RUBBER_WOOD.get())));
@@ -60,6 +63,15 @@ public class BrutalItemModelProvider extends ItemModelProvider {
         withExistingParent(getItemName(BlockRegistry.DIRT_PATH_SLAB.get()), modLoc("block/" + getItemName(BlockRegistry.DIRT_PATH_SLAB.get())));
         withExistingParent(getItemName(BlockRegistry.DIRT_TRACK_SLAB.get()), modLoc("block/" + getItemName(BlockRegistry.DIRT_TRACK_SLAB.get())));
         withExistingParent(getItemName(BlockRegistry.DIRT_TRACK.get()), modLoc("block/" + getItemName(BlockRegistry.DIRT_TRACK.get())));
+        withExistingParent(getItemName(BlockRegistry.RUBBER_SLAB.get()), modLoc("block/" + getItemName(BlockRegistry.RUBBER_SLAB.get())));
+        withExistingParent(getItemName(BlockRegistry.RUBBER_STAIRS.get()), modLoc("block/" + getItemName(BlockRegistry.RUBBER_STAIRS.get())));
+        withExistingParent(CommonConstants.MOD_ID + ":block/potted_rubber_sapling", mcLoc("block/flower_pot_cross"))
+                .texture("plant", modLoc("block/" + getItemName(BlockRegistry.RUBBER_SAPLING.get()))).renderType(mcLoc("cutout"));
+        slab(CommonConstants.MOD_ID + ":block/rubber_slab", RUBBER_PLANKS_LOCATION, RUBBER_PLANKS_LOCATION, RUBBER_PLANKS_LOCATION);
+        slabTop(CommonConstants.MOD_ID + ":block/rubber_slab_top", RUBBER_PLANKS_LOCATION, RUBBER_PLANKS_LOCATION, RUBBER_PLANKS_LOCATION);
+        stairs(CommonConstants.MOD_ID + ":block/rubber_stairs", RUBBER_PLANKS_LOCATION, RUBBER_PLANKS_LOCATION, RUBBER_PLANKS_LOCATION);
+        stairsInner(CommonConstants.MOD_ID + ":block/rubber_stairs_inner", RUBBER_PLANKS_LOCATION, RUBBER_PLANKS_LOCATION, RUBBER_PLANKS_LOCATION);
+        stairsOuter(CommonConstants.MOD_ID + ":block/rubber_stairs_outer", RUBBER_PLANKS_LOCATION, RUBBER_PLANKS_LOCATION, RUBBER_PLANKS_LOCATION);
 
     }
 
@@ -71,7 +83,8 @@ public class BrutalItemModelProvider extends ItemModelProvider {
     private void saplingItem(RegistryObject<Block> item) {
         withExistingParent(item.getId().getPath(),
                 new ResourceLocation("item/generated")).texture("layer0",
-                new ResourceLocation(CommonConstants.MOD_ID, "block/" + item.getId().getPath()));
+                new ResourceLocation(CommonConstants.MOD_ID, "block/" + item.getId().getPath()))
+                .renderType(mcLoc("cutout"));
     }
 
     private void handHeldItem(Item item) {

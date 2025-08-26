@@ -19,12 +19,12 @@ public class BrutalHarvest {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         GeckoLib.initialize();
         init(bus);
-        bus.addListener(new ClientSetupEvent()::clientSetupEvent);
-        bus.addListener(new ClientSetupEvent()::registerLayerDefinitions);
-        bus.addListener(new ClientSetupEvent()::registerBlockColors);
-        bus.addListener(new ClientSetupEvent()::registerItemColors);
+        bus.addListener(ClientSetupEvent::clientSetupEvent);
+        bus.addListener(ClientSetupEvent::registerLayerDefinitions);
+        bus.addListener(ClientSetupEvent::registerBlockColors);
+        bus.addListener(ClientSetupEvent::registerItemColors);
 
-        bus.addListener(new CommonSetupEvent()::commonSetupEvent);
+        bus.addListener(CommonSetupEvent::commonSetupEvent);
     }
 
     private void init(@Nonnull IEventBus modEventBus) {
@@ -32,13 +32,18 @@ public class BrutalHarvest {
         BlockRegistry.init(modEventBus);
         ItemRegistry.init(modEventBus);
         CreativeModeTabRegistry.init(modEventBus);
+        BlockEntityTypeRegistry.init(modEventBus);
         EntityTypeRegistry.init(modEventBus);
         AdvancementRegistry.register();
         LootModifierRegistry.init(modEventBus);
         SoundRegistry.init(modEventBus);
+        RecipeTypeRegistry.init(modEventBus);
         RecipeSerializerRegistry.init(modEventBus);
         TrunkPlacerTypeRegistry.init(modEventBus);
         EnchantmentRegistry.init(modEventBus);
+        MenuRegistry.init(modEventBus);
+        FluidTypeRegistry.init(modEventBus);
+        FluidRegistry.init(modEventBus);
     }
 
     /*TODO
@@ -49,4 +54,9 @@ public class BrutalHarvest {
 
     //TODO serene seasons crops https://github.com/vectorwing/FarmersDelight/tree/1.19/src/generated/resources/data/sereneseasons/tags/items
 
+    //TODO JEI recipe compatibility
+
+    //TODO create recipe for oil
+
+    //TODO rubber wood blocks and woodcutter compatibility
 }

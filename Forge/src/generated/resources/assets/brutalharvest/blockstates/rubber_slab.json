@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "brutalharvest:block/rubber_slab"
+    },
+    "type=double": {
+      "model": "brutalharvest:block/rubber_planks"
+    },
+    "type=top": {
+      "model": "brutalharvest:block/rubber_slab_top"
+    }
+  }
+}

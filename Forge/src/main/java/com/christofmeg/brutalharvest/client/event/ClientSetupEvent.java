@@ -1,15 +1,22 @@
 package com.christofmeg.brutalharvest.client.event;
 
+import com.christofmeg.brutalharvest.CommonConstants;
 import com.christofmeg.brutalharvest.client.model.ThrownKnifeModel;
 import com.christofmeg.brutalharvest.client.model.ThrownScytheModel;
+import com.christofmeg.brutalharvest.client.renderer.MillstoneBlockEntityRenderer;
 import com.christofmeg.brutalharvest.client.renderer.RenderLayers;
 import com.christofmeg.brutalharvest.client.renderer.ThrownKnifeRenderer;
 import com.christofmeg.brutalharvest.client.renderer.ThrownScytheRenderer;
-import com.christofmeg.brutalharvest.common.init.BlockRegistry;
-import com.christofmeg.brutalharvest.common.init.EntityTypeRegistry;
+import com.christofmeg.brutalharvest.client.screen.SeedSatchelScreen;
+import com.christofmeg.brutalharvest.common.init.*;
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.BiomeColors;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
+import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.GrassColor;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -20,24 +27,34 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 @OnlyIn(Dist.CLIENT)
 public class ClientSetupEvent {
 
-    public void clientSetupEvent(final FMLClientSetupEvent event) {
+    public static void clientSetupEvent(final FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
             EntityRenderers.register(EntityTypeRegistry.TOMATO_PROJECTILE.get(), ThrownItemRenderer::new);
             EntityRenderers.register(EntityTypeRegistry.THROWN_SCYTHE.get(), ThrownScytheRenderer::new);
             EntityRenderers.register(EntityTypeRegistry.THROWN_KNIFE.get(), ThrownKnifeRenderer::new);
+            BlockEntityRenderers.register(BlockEntityTypeRegistry.MILLSTONE_BLOCK_ENTITY.get(), MillstoneBlockEntityRenderer::new);
+            MenuScreens.register(MenuRegistry.SEED_SATCHEL_MENU_TYPE.get(), SeedSatchelScreen::new);
+            ItemProperties.register(ItemRegistry.SEED_SATCHEL.get(), new ResourceLocation(CommonConstants.MOD_ID, "filled"),
+                    (stack, level, living, id) -> {
+                        CompoundTag tag = stack.getTag();
+                        if (tag != null && tag.contains("IsEmpty")) {
+                            return tag.getFloat("IsEmpty");
+                        }
+                        return 0.0F;
+                    });
         });
     }
 
-    public void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
+    public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(RenderLayers.register("scythe"), ThrownScytheModel::createLayer);
         event.registerLayerDefinition(RenderLayers.register("knife"), ThrownKnifeModel::createLayer);
     }
 
-    public void registerBlockColors(RegisterColorHandlersEvent.Block event) {
+    public static void registerBlockColors(RegisterColorHandlersEvent.Block event) {
         event.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getAverageGrassColor(world, pos) : -1, BlockRegistry.GRASS_SLAB.get());
     }
 
-    public void registerItemColors(final RegisterColorHandlersEvent.Item event) {
+    public static void registerItemColors(final RegisterColorHandlersEvent.Item event) {
         event.register((stack, tintIndex) -> GrassColor.get(0.5D, 1.0D), BlockRegistry.GRASS_SLAB.get());
     }
 

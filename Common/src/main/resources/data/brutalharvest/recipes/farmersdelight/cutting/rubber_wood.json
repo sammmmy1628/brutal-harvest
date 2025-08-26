@@ -1,21 +1,34 @@
 {
-  "type": "farmersdelight:cutting",
-  "ingredients": [
+  "type": "forge:conditional",
+  "recipes": [
     {
-      "item": "brutalharvest:rubber_wood"
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "farmersdelight"
+        }
+      ],
+      "recipe": {
+        "type": "farmersdelight:cutting",
+        "ingredients": [
+          {
+            "item": "brutalharvest:rubber_wood"
+          }
+        ],
+        "result": [
+          {
+            "item": "brutalharvest:stripped_rubber_wood"
+          },
+          {
+            "item": "farmersdelight:tree_bark"
+          }
+        ],
+        "sound": "minecraft:item.axe.strip",
+        "tool": {
+          "type": "farmersdelight:tool_action",
+          "action": "axe_strip"
+        }
+      }
     }
-  ],
-  "result": [
-    {
-      "item": "brutalharvest:stripped_rubber_wood"
-    },
-    {
-      "item": "farmersdelight:tree_bark"
-    }
-  ],
-  "sound": "minecraft:item.axe.strip",
-  "tool": {
-    "type": "farmersdelight:tool_action",
-    "action": "axe_strip"
-  }
+  ]
 }

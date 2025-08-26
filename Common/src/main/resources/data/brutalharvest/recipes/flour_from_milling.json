@@ -1,0 +1,15 @@
+{
+  "type": "brutalharvest:milling",
+  "ingredient": {
+    "item": "minecraft:wheat"
+  },
+  "spins": 3,
+  "item_result": {
+    "item": "brutalharvest:flour",
+    "amount": 1
+  },
+  "fluid_result": {
+    "fluid": "minecraft:water",
+    "amount": 0
+  }
+}

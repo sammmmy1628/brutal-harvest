@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "minecraft:stick"
+    },
+    "S": {
+      "item": "minecraft:smooth_stone"
+    }
+  },
+  "pattern": [
+    " B ",
+    " S ",
+    "SSS"
+  ],
+  "result": {
+    "item": "brutalharvest:millstone"
+  },
+  "show_notification": true
+}

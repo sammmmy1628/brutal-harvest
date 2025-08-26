@@ -1,0 +1,31 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"millstone.animation.spin": {
+			"animation_length": 2,
+			"bones": {
+				"bone": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"2.0": {
+							"vector": [0, 360, 0]
+						}
+					}
+				}
+			},
+			"sound_effects": {
+				"0.0": {
+					"effect": "grindstone_use"
+				}
+			},
+			"particle_effects": {
+				"0.0": {
+					"effect": "item_particles"
+				}
+			}
+		}
+	},
+	"geckolib_format_version": 2
+}

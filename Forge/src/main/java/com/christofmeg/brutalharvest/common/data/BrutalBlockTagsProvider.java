@@ -51,6 +51,10 @@ public class BrutalBlockTagsProvider extends BlockTagsProvider {
                 .add(BlockRegistry.BLUEBERRY.get())
         ;
 
+        tag(BlockTags.MINEABLE_WITH_PICKAXE)
+                .add(BlockRegistry.MILLSTONE.get())
+                ;
+
         tag(BlockTags.MAINTAINS_FARMLAND)
                 .add(BlockRegistry.TOMATO.get())
                 .add(BlockRegistry.LETTUCE.get())

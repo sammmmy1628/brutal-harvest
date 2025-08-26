@@ -40,7 +40,7 @@ public class ItemRegistry {
 
     public static final RegistryObject<Item> RAPESEED_BEANS;
     public static final RegistryObject<Item> RAPESEEDS;
-    public static final RegistryObject<Item> RAPESEED_OIL;
+    public static final RegistryObject<Item> RAPESEED_OIL_BOTTLE;
 
     public static final RegistryObject<Item> SUGAR_BEET;
     public static final RegistryObject<Item> SUGAR_BEET_SEEDS;
@@ -169,7 +169,7 @@ public class ItemRegistry {
         COTTON = ITEMS.register("cotton", () -> new Item(new Item.Properties()));
 
         RAPESEED_BEANS = ITEMS.register("rapeseed_beans", () -> new Item(new Item.Properties()));
-        RAPESEED_OIL = ITEMS.register("rapeseed_oil", () -> new Item(new Item.Properties()));
+        RAPESEED_OIL_BOTTLE = ITEMS.register("rapeseed_oil_bottle", () -> new Item(new Item.Properties()));
 
         SUGAR_BEET = ITEMS.register("sugar_beet", () -> new Item(new Item.Properties().food(Foods.BEETROOT)));
         // ONION = ITEMS.register("onion", () -> new Item(new Item.Properties().food(BrutalFoods.ONION)));
@@ -206,7 +206,7 @@ public class ItemRegistry {
         STRAWBERRY_TOAST = ITEMS.register("strawberry_toast", () -> new Item(new Item.Properties().food(BrutalFoods.STRAWBERRY_TOAST)));
         BLUEBERRY_TOAST = ITEMS.register("blueberry_toast", () -> new Item(new Item.Properties().food(BrutalFoods.BLUEBERRY_TOAST)));
 
-        SEED_SATCHEL = ITEMS.register("seed_satchel", () -> new Item(new Item.Properties()));
+        SEED_SATCHEL = ITEMS.register("seed_satchel", () -> new SeedSatchelItem(new Item.Properties().stacksTo(1)));
         JAR = ITEMS.register("jar", () -> new Item(new Item.Properties()));
 
         HONEY_JAR = ITEMS.register("honey_jar", () -> new Item(new Item.Properties().food(BrutalFoods.HONEY_JAR).craftRemainder(ItemRegistry.JAR.get())));

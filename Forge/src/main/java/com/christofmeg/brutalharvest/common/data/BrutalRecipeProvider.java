@@ -92,6 +92,10 @@ public class BrutalRecipeProvider extends BaseRecipeProvider {
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockRegistry.DIRT_TRACK.get()).define('B', BlockRegistry.DIRT_TRACK_SLAB.get()).pattern("B").pattern("B").unlockedBy("has_dirt", has(ItemTags.DIRT)).save(consumer, modLoc(getItemName(BlockRegistry.DIRT_TRACK.get())));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockRegistry.GRASS_SLAB.get(), 6).define('B', Blocks.GRASS_BLOCK).pattern("BBB").unlockedBy("has_dirt", has(ItemTags.DIRT)).save(consumer, modLoc(getItemName(BlockRegistry.GRASS_SLAB.get())));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blocks.GRASS_BLOCK).define('B', BlockRegistry.GRASS_SLAB.get()).pattern("B").pattern("B").unlockedBy("has_dirt", has(ItemTags.DIRT)).save(consumer, modLoc(getItemName(Blocks.GRASS_BLOCK)));
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockRegistry.MILLSTONE.get()).define('B', Items.STICK).define('S', Items.SMOOTH_STONE).pattern(" B ").pattern(" S ").pattern("SSS").unlockedBy("has_smooth_stone", has(Items.SMOOTH_STONE)).save(consumer, modLoc(getItemName(BlockRegistry.MILLSTONE.get())));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.RUBBER_SLAB.get(), 6).define('P', BlockRegistry.RUBBER_PLANKS.get()).pattern("PPP").unlockedBy("has_rubber_planks", has(BlockRegistry.RUBBER_PLANKS.get())).save(consumer, modLoc(getItemName(BlockRegistry.RUBBER_SLAB.get())));
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.RUBBER_STAIRS.get(), 4).define('P', BlockRegistry.RUBBER_PLANKS.get()).pattern("P  ").pattern("PP ").pattern("PPP").unlockedBy("has_rubber_planks", has(BlockRegistry.RUBBER_PLANKS.get())).save(consumer, modLoc(getItemName(BlockRegistry.RUBBER_STAIRS.get())));
 
 /*        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemRegistry.SUSHI.get())
                 .define('K', Items.DRIED_KELP)

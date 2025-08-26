@@ -6,6 +6,7 @@ import com.christofmeg.brutalharvest.common.block.*;
 import com.christofmeg.brutalharvest.common.init.BlockRegistry;
 import net.minecraft.core.Direction;
 import net.minecraft.data.PackOutput;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.state.properties.SlabType;
@@ -15,8 +16,11 @@ import org.jetbrains.annotations.NotNull;
 
 public class BrutalBlockStateProvider extends BaseBlockStateProvider {
 
+    private final ExistingFileHelper fileHelper;
+
     public BrutalBlockStateProvider(PackOutput output, ExistingFileHelper exFileHelper) {
         super(output, exFileHelper);
+        this.fileHelper = exFileHelper;
     }
 
     @Override
@@ -48,6 +52,9 @@ public class BrutalBlockStateProvider extends BaseBlockStateProvider {
         leavesBlock(BlockRegistry.RUBBER_LEAVES);
 
         slabBlock(BlockRegistry.DIRT_SLAB.get(), mcLoc("block/dirt"), mcLoc("block/dirt"));
+        slabBlock(BlockRegistry.RUBBER_SLAB.get(), modLoc("block/rubber_planks"), modLoc("block/rubber_planks"));
+
+        stairsBlock(BlockRegistry.RUBBER_STAIRS.get(), modLoc("block/rubber_planks"));
 
         ModelFile farmland = vanillaModels().withExistingParent("farmland", mcLoc("block/farmland_moist"));
         ModelFile farmland_moist = vanillaModels().withExistingParent("farmland_moist", mcLoc("block/farmland_moist"));

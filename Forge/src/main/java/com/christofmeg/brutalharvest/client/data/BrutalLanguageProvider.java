@@ -40,6 +40,7 @@ public class BrutalLanguageProvider extends LanguageProvider {
             addItem(ItemRegistry.CHEFS_HAT, "Chef's Hat");
             addItem(ItemRegistry.CHEFS_APRON, "Chef's Apron");
             add("block." + CommonConstants.MOD_ID + "." + "rubber_log_generated", "Rubber Log");
+            add(BlockRegistry.POTTED_RUBBER_SAPLING.get(), "Potted Rubber Sapling");
 
             add("advancement" + "." + CommonConstants.MOD_ID + "." + "root" + ".desc", "Obtain some tomatoes");
             add("advancement" + "." + CommonConstants.MOD_ID + "." + "rotten_tomatoes", "Rotten Tomatoes");
@@ -70,6 +71,10 @@ public class BrutalLanguageProvider extends LanguageProvider {
             addEntityType(EntityTypeRegistry.TOMATO_PROJECTILE, "Tomato");
             addEntityType(EntityTypeRegistry.THROWN_SCYTHE, "Scythe");
             addEntityType(EntityTypeRegistry.THROWN_KNIFE, "Knife");
+
+            add("fluid_type." + CommonConstants.MOD_ID + ".rapeseed_oil_fluid", "Rapeseed Oil");
+
+            add("container.seedSatchel", "Seed Satchel");
 
         }
     }

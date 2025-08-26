@@ -1,17 +1,28 @@
 package com.christofmeg.brutalharvest.common.event;
 
 import com.christofmeg.brutalharvest.CommonConstants;
+import com.christofmeg.brutalharvest.common.init.BlockRegistry;
+import com.christofmeg.brutalharvest.common.init.ItemRegistry;
+import com.christofmeg.brutalharvest.common.recipe.custom.Milling;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.monster.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ShovelItem;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.ToolAction;
 import net.minecraftforge.common.ToolActions;
+import net.minecraftforge.event.OnDatapackSyncEvent;
+import net.minecraftforge.event.entity.living.MobSpawnEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.Event;
@@ -25,11 +36,12 @@ import java.util.Objects;
 @Mod.EventBusSubscriber(modid = CommonConstants.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class CommonSetupEvent {
 
-    public void commonSetupEvent(final FMLCommonSetupEvent event) {
+    public static void commonSetupEvent(final FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
             ComposterBlockCompostables.registerCompostables();
             HoeItemTillables.register();
             ShovelItemFlattenables.register();
+            ((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(BlockRegistry.RUBBER_SAPLING.getId(), BlockRegistry.POTTED_RUBBER_SAPLING);
         });
     }
 
@@ -89,7 +101,6 @@ public class CommonSetupEvent {
         }
     }
 
-    /*
     @SubscribeEvent
     public static void onLivingSpecialSpawn(final MobSpawnEvent.FinalizeSpawn event) {
         LivingEntity entity = event.getEntity();
@@ -104,6 +115,9 @@ public class CommonSetupEvent {
             }
         }
     }
-     */
 
+    @SubscribeEvent
+    public static void onResourcePackReload(OnDatapackSyncEvent event) {
+        Milling.MillingItemsCache.invalidate();
+    }
 }
