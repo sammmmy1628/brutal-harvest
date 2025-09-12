@@ -2,6 +2,8 @@ package com.christofmeg.brutalharvest.common.init;
 
 import com.christofmeg.brutalharvest.CommonConstants;
 import com.christofmeg.brutalharvest.common.block.*;
+import com.christofmeg.brutalharvest.common.block.base.BaseCookingBlock;
+import com.christofmeg.brutalharvest.common.item.CookingBlockItem;
 import com.christofmeg.brutalharvest.common.item.MillstoneBlockItem;
 import com.christofmeg.brutalharvest.common.world.tree.RubberTreeGrower;
 import net.minecraft.core.BlockPos;
@@ -15,6 +17,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
+import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraftforge.common.ToolAction;
@@ -31,6 +34,9 @@ public class BlockRegistry {
 
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, CommonConstants.MOD_ID);
     public static BlockBehaviour. Properties cropPropeties = BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY);
+
+    private static final BlockSetType RUBBER_SET_TYPE = new BlockSetType("rubber");
+    private static final WoodType RUBBER_WOOD_TYPE = new WoodType("rubber", RUBBER_SET_TYPE);
 
 //    public static final RegistryObject<Block> CROP_SUPPORT;
     public static final RegistryObject<Block> TOMATO;
@@ -51,12 +57,20 @@ public class BlockRegistry {
     public static final RegistryObject<Block> RUBBER_PLANKS;
     public static final RegistryObject<Block> RUBBER_LEAVES;
     public static final RegistryObject<Block> RUBBER_LOG_GENERATED;
-    public static final RegistryObject<FlowerPotBlock> POTTED_RUBBER_SAPLING;
+    public static final RegistryObject<Block> POTTED_RUBBER_SAPLING;
     public static final RegistryObject<SlabBlock> RUBBER_SLAB;
     public static final RegistryObject<StairBlock> RUBBER_STAIRS;
+    public static final RegistryObject<PressurePlateBlock> RUBBER_PRESSURE_PLATE;
+    public static final RegistryObject<ButtonBlock> RUBBER_BUTTON;
+    public static final RegistryObject<FenceBlock> RUBBER_FENCE;
+    public static final RegistryObject<FenceGateBlock> RUBBER_FENCE_GATE;
 
 //    public static final RegistryObject<Block> RUBBER_CAULDRON;
     public static final RegistryObject<Block> MILLSTONE;
+    public static final RegistryObject<Block> PAN;
+    public static final RegistryObject<Block> POT;
+
+
 
     public static final RegistryObject<Block> FARMLAND_SLAB;
     public static final RegistryObject<Block> DIRT_SLAB;
@@ -70,6 +84,7 @@ public class BlockRegistry {
     }
 
     public static void init(@Nonnull IEventBus modEventBus) {
+        BlockSetType.register(RUBBER_SET_TYPE);
         BLOCKS.register(modEventBus);
     }
 
@@ -137,6 +152,18 @@ public class BlockRegistry {
         RUBBER_STAIRS = BLOCKS.register("rubber_stairs", () -> new StairBlock(Blocks.OAK_STAIRS::defaultBlockState, BlockBehaviour.Properties.copy(Blocks.OAK_STAIRS)));
         ItemRegistry.ITEMS.register("rubber_stairs", () -> new BlockItem(RUBBER_STAIRS.get(), new Item.Properties()));
 
+        RUBBER_PRESSURE_PLATE = BLOCKS.register("rubber_pressure_plate", () -> new PressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, BlockBehaviour.Properties.copy(Blocks.OAK_PRESSURE_PLATE), RUBBER_SET_TYPE));
+        ItemRegistry.ITEMS.register("rubber_pressure_plate", () -> new BlockItem(RUBBER_PRESSURE_PLATE.get(), new Item.Properties()));
+
+        RUBBER_BUTTON = BLOCKS.register("rubber_button", () -> new ButtonBlock(BlockBehaviour.Properties.copy(Blocks.OAK_BUTTON), RUBBER_SET_TYPE, 30, true));
+        ItemRegistry.ITEMS.register("rubber_button", () -> new BlockItem(RUBBER_BUTTON.get(), new Item.Properties()));
+
+        RUBBER_FENCE = BLOCKS.register("rubber_fence", () -> new FenceBlock(BlockBehaviour.Properties.copy(Blocks.OAK_FENCE)));
+        ItemRegistry.ITEMS.register("rubber_fence", () -> new BlockItem(RUBBER_FENCE.get(), new Item.Properties()));
+
+        RUBBER_FENCE_GATE = BLOCKS.register("rubber_fence_gate", () -> new FenceGateBlock(BlockBehaviour.Properties.copy(Blocks.OAK_FENCE_GATE), RUBBER_WOOD_TYPE));
+        ItemRegistry.ITEMS.register("rubber_fence_gate", () -> new BlockItem(RUBBER_FENCE_GATE.get(), new Item.Properties()));
+
         POTTED_RUBBER_SAPLING = BLOCKS.register("potted_rubber_sapling", () -> new FlowerPotBlock(null, RUBBER_SAPLING, BlockBehaviour.Properties.copy(Blocks.POTTED_OAK_SAPLING)));
 
         FARMLAND_SLAB = BLOCKS.register("farmland_slab", () -> new FarmlandSlabBlock(BlockBehaviour.Properties.of().mapColor(MapColor.DIRT).randomTicks().strength(0.6F).sound(SoundType.GRAVEL).isViewBlocking(BlockRegistry::always).isSuffocating(BlockRegistry::always)));
@@ -160,15 +187,19 @@ public class BlockRegistry {
         MILLSTONE = BLOCKS.register("millstone", () -> new MillstoneBlock(BlockBehaviour.Properties.of().noOcclusion().requiresCorrectToolForDrops().sound(SoundType.STONE).strength(2.0F, 6.0F)));
         ItemRegistry.ITEMS.register("millstone", () -> new MillstoneBlockItem(new Item.Properties()));
 
+        PAN = BLOCKS.register("pan", () -> new PanBlock(BlockBehaviour.Properties.of().noOcclusion().requiresCorrectToolForDrops().sound(SoundType.STONE).strength(1.25F, 4.2F).lightLevel(state -> state.getValue(BaseCookingBlock.ON_CAMPFIRE) != BaseCookingBlock.OnCampfire.NONE ? 15 : 0)));
+        ItemRegistry.ITEMS.register("pan", () -> new CookingBlockItem(PAN.get(), new Item.Properties()));
+
+        POT = BLOCKS.register("pot", () -> new PotBlock(BlockBehaviour.Properties.of().noOcclusion().requiresCorrectToolForDrops().sound(SoundType.STONE).strength(1.25F, 4.2F).lightLevel(state -> state.getValue(BaseCookingBlock.ON_CAMPFIRE) != BaseCookingBlock.OnCampfire.NONE ? 15 : 0)));
+        ItemRegistry.ITEMS.register("pot", () -> new CookingBlockItem(POT.get(), new Item.Properties()));
+
+
+
         // BIRCH_SIGN,
         // BIRCH_WALL_SIGN,
         // BIRCH_HANGING_SIGN,
         // BIRCH_WALL_HANGING_SIGN,
-        // BIRCH_PRESSURE_PLATE,
         // BIRCH_TRAPDOOR,
-        // BIRCH_BUTTON,
-        // BIRCH_FENCE_GATE,
-        // BIRCH_FENCE,
         // BIRCH_DOOR
 
 

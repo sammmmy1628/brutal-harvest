@@ -63,8 +63,6 @@ public class BrutalItemModelProvider extends ItemModelProvider {
         withExistingParent(getItemName(BlockRegistry.DIRT_PATH_SLAB.get()), modLoc("block/" + getItemName(BlockRegistry.DIRT_PATH_SLAB.get())));
         withExistingParent(getItemName(BlockRegistry.DIRT_TRACK_SLAB.get()), modLoc("block/" + getItemName(BlockRegistry.DIRT_TRACK_SLAB.get())));
         withExistingParent(getItemName(BlockRegistry.DIRT_TRACK.get()), modLoc("block/" + getItemName(BlockRegistry.DIRT_TRACK.get())));
-        withExistingParent(getItemName(BlockRegistry.RUBBER_SLAB.get()), modLoc("block/" + getItemName(BlockRegistry.RUBBER_SLAB.get())));
-        withExistingParent(getItemName(BlockRegistry.RUBBER_STAIRS.get()), modLoc("block/" + getItemName(BlockRegistry.RUBBER_STAIRS.get())));
         withExistingParent(CommonConstants.MOD_ID + ":block/potted_rubber_sapling", mcLoc("block/flower_pot_cross"))
                 .texture("plant", modLoc("block/" + getItemName(BlockRegistry.RUBBER_SAPLING.get()))).renderType(mcLoc("cutout"));
         slab(CommonConstants.MOD_ID + ":block/rubber_slab", RUBBER_PLANKS_LOCATION, RUBBER_PLANKS_LOCATION, RUBBER_PLANKS_LOCATION);
@@ -72,7 +70,23 @@ public class BrutalItemModelProvider extends ItemModelProvider {
         stairs(CommonConstants.MOD_ID + ":block/rubber_stairs", RUBBER_PLANKS_LOCATION, RUBBER_PLANKS_LOCATION, RUBBER_PLANKS_LOCATION);
         stairsInner(CommonConstants.MOD_ID + ":block/rubber_stairs_inner", RUBBER_PLANKS_LOCATION, RUBBER_PLANKS_LOCATION, RUBBER_PLANKS_LOCATION);
         stairsOuter(CommonConstants.MOD_ID + ":block/rubber_stairs_outer", RUBBER_PLANKS_LOCATION, RUBBER_PLANKS_LOCATION, RUBBER_PLANKS_LOCATION);
-
+        pressurePlate(CommonConstants.MOD_ID + ":block/rubber_pressure_plate", RUBBER_PLANKS_LOCATION);
+        button(CommonConstants.MOD_ID + ":block/rubber_button", RUBBER_PLANKS_LOCATION);
+        buttonInventory(CommonConstants.MOD_ID + ":block/rubber_button_inventory", RUBBER_PLANKS_LOCATION);
+        buttonPressed(CommonConstants.MOD_ID + ":block/rubber_button_pressed", RUBBER_PLANKS_LOCATION);
+        fencePost(CommonConstants.MOD_ID + ":block/rubber_fence_post", RUBBER_PLANKS_LOCATION);
+        fenceSide(CommonConstants.MOD_ID + ":block/rubber_fence_side", RUBBER_PLANKS_LOCATION);
+        fenceInventory(CommonConstants.MOD_ID + ":block/rubber_fence_inventory", RUBBER_PLANKS_LOCATION);
+        fenceGate(CommonConstants.MOD_ID + ":block/rubber_fence_gate", RUBBER_PLANKS_LOCATION);
+        fenceGateOpen(CommonConstants.MOD_ID + ":block/rubber_fence_gate_open", RUBBER_PLANKS_LOCATION);
+        fenceGateWall(CommonConstants.MOD_ID + ":block/rubber_fence_gate_wall", RUBBER_PLANKS_LOCATION);
+        fenceGateWallOpen(CommonConstants.MOD_ID + ":block/rubber_fence_gate_wall_open", RUBBER_PLANKS_LOCATION);
+        withExistingParent(getItemName(BlockRegistry.RUBBER_SLAB.get()), modLoc("block/" + getItemName(BlockRegistry.RUBBER_SLAB.get())));
+        withExistingParent(getItemName(BlockRegistry.RUBBER_STAIRS.get()), modLoc("block/" + getItemName(BlockRegistry.RUBBER_STAIRS.get())));
+        withExistingParent(getItemName(BlockRegistry.RUBBER_PRESSURE_PLATE.get()), modLoc("block/" + getItemName(BlockRegistry.RUBBER_PRESSURE_PLATE.get())));
+        withExistingParent(getItemName(BlockRegistry.RUBBER_BUTTON.get()), modLoc("block/" + getItemName(BlockRegistry.RUBBER_BUTTON.get()) + "_inventory"));
+        withExistingParent(getItemName(BlockRegistry.RUBBER_FENCE.get()), modLoc("block/" + getItemName(BlockRegistry.RUBBER_FENCE.get()) + "_inventory"));
+        withExistingParent(getItemName(BlockRegistry.RUBBER_FENCE_GATE.get()), modLoc("block/" + getItemName(BlockRegistry.RUBBER_FENCE_GATE.get())));
     }
 
     @SuppressWarnings("deprecation")

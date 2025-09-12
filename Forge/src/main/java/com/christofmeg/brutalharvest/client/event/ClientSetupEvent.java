@@ -8,6 +8,9 @@ import com.christofmeg.brutalharvest.client.renderer.RenderLayers;
 import com.christofmeg.brutalharvest.client.renderer.ThrownKnifeRenderer;
 import com.christofmeg.brutalharvest.client.renderer.ThrownScytheRenderer;
 import com.christofmeg.brutalharvest.client.screen.SeedSatchelScreen;
+import com.christofmeg.brutalharvest.common.block.base.BaseCookingBlock;
+import com.christofmeg.brutalharvest.common.blockentity.renderer.PanBlockEntityRenderer;
+import com.christofmeg.brutalharvest.common.blockentity.renderer.PotBlockEntityRenderer;
 import com.christofmeg.brutalharvest.common.init.*;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.BiomeColors;
@@ -37,12 +40,17 @@ public class ClientSetupEvent {
             ItemProperties.register(ItemRegistry.SEED_SATCHEL.get(), new ResourceLocation(CommonConstants.MOD_ID, "filled"),
                     (stack, level, living, id) -> {
                         CompoundTag tag = stack.getTag();
-                        if (tag != null && tag.contains("IsEmpty")) {
-                            return tag.getFloat("IsEmpty");
+                        if (tag != null && tag.contains("isEmpty")) {
+                            return tag.getFloat("isEmpty");
                         }
                         return 0.0F;
                     });
         });
+    }
+
+    public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
+        event.registerBlockEntityRenderer(BlockEntityTypeRegistry.PAN_BLOCK_ENTITY.get(), PanBlockEntityRenderer::new);
+        event.registerBlockEntityRenderer(BlockEntityTypeRegistry.POT_BLOCK_ENTITY.get(), PotBlockEntityRenderer::new);
     }
 
     public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
@@ -52,10 +60,10 @@ public class ClientSetupEvent {
 
     public static void registerBlockColors(RegisterColorHandlersEvent.Block event) {
         event.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getAverageGrassColor(world, pos) : -1, BlockRegistry.GRASS_SLAB.get());
+        event.register((state, world, pos, tintIndex) -> world != null && pos != null && state.getValue(BaseCookingBlock.FILLED) && tintIndex == 1 ? BiomeColors.getAverageWaterColor(world, pos) : -1, BlockRegistry.POT.get());
     }
 
     public static void registerItemColors(final RegisterColorHandlersEvent.Item event) {
         event.register((stack, tintIndex) -> GrassColor.get(0.5D, 1.0D), BlockRegistry.GRASS_SLAB.get());
     }
-
 }

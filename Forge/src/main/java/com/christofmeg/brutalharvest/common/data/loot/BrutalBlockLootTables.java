@@ -191,8 +191,14 @@ public class BrutalBlockLootTables extends BlockLootSubProvider {
         this.dropSelf(BlockRegistry.STRIPPED_RUBBER_WOOD.get());
         this.dropSelf(BlockRegistry.RUBBER_PLANKS.get());
         this.dropSelf(BlockRegistry.MILLSTONE.get());
+        this.dropSelf(BlockRegistry.PAN.get());
+        this.dropSelf(BlockRegistry.POT.get());
         this.dropSelf(BlockRegistry.RUBBER_SLAB.get());
         this.dropSelf(BlockRegistry.RUBBER_STAIRS.get());
+        this.dropSelf(BlockRegistry.RUBBER_PRESSURE_PLATE.get());
+        this.dropSelf(BlockRegistry.RUBBER_BUTTON.get());
+        this.dropSelf(BlockRegistry.RUBBER_FENCE.get());
+        this.dropSelf(BlockRegistry.RUBBER_FENCE_GATE.get());
         this.add(BlockRegistry.RUBBER_LEAVES.get(), block -> createLeavesDrops(block, BlockRegistry.RUBBER_SAPLING.get(), NORMAL_LEAVES_SAPLING_CHANCES));
         this.dropOther(BlockRegistry.RUBBER_LOG_GENERATED.get(), BlockRegistry.RUBBER_LOG.get());
         this.dropPottedContents(BlockRegistry.POTTED_RUBBER_SAPLING.get());

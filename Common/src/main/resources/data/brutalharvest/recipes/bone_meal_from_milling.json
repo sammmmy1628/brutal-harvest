@@ -1,0 +1,15 @@
+{
+  "type": "brutalharvest:milling",
+  "ingredient": {
+    "item": "minecraft:bone"
+  },
+  "spins": 3,
+  "item_result": {
+    "item": "minecraft:bone_meal",
+    "count": 5
+  },
+  "fluid_result": {
+    "fluid": "minecraft:water",
+    "amount": 0
+  }
+}

@@ -148,7 +148,7 @@ public class MillstoneBlockEntity extends BlockEntity implements GeoBlockEntity 
                         if (iItemHandler.getStackInSlot(0) != ItemStack.EMPTY) {
                             for (int i = 0; i < (int) (Math.random() * 10) + 10; i++) {
                                 level1.addParticle(new ItemParticleOption(ParticleTypes.ITEM, iItemHandler.getStackInSlot(0)),
-                                        pos.getX() + 0.5F, pos.getY() + 0.35F, pos.getZ() + 0.5F, 0.2F * (Math.random() - 0.5F), 0.3F * Math.random(), 0.2F * (Math.random() - 0.5F));
+                                        pos.getX() + 0.5F, pos.getY() + 0.375F, pos.getZ() + 0.5F, 0.2F * (Math.random() - 0.5F), 0.3F * Math.random(), 0.2F * (Math.random() - 0.5F));
                             }
                         }
                     });
@@ -180,7 +180,7 @@ public class MillstoneBlockEntity extends BlockEntity implements GeoBlockEntity 
     @Override
     public void setChanged() {
         super.setChanged();
-        if (this.level != null) {
+        if (this.level != null && !this.level.isClientSide) {
             this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), Block.UPDATE_ALL);
         }
     }

@@ -3,6 +3,8 @@ package com.christofmeg.brutalharvest.common.event;
 import com.christofmeg.brutalharvest.CommonConstants;
 import com.christofmeg.brutalharvest.common.init.BlockRegistry;
 import com.christofmeg.brutalharvest.common.init.ItemRegistry;
+import com.christofmeg.brutalharvest.common.recipe.custom.Cooking;
+import com.christofmeg.brutalharvest.common.recipe.custom.Frying;
 import com.christofmeg.brutalharvest.common.recipe.custom.Milling;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
@@ -13,12 +15,14 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ShovelItem;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.common.ToolAction;
 import net.minecraftforge.common.ToolActions;
 import net.minecraftforge.event.OnDatapackSyncEvent;
@@ -101,6 +105,17 @@ public class CommonSetupEvent {
         }
     }
 
+    @SubscribeEvent(receiveCanceled = true)
+    public static void rightClickedItemEvent(PlayerInteractEvent.RightClickItem event) {
+        Level level = event.getLevel();
+        if (!level.isClientSide && event.isCancelable() && event.getItemStack().is(Items.EGG)) {
+            BlockState blockState = level.getBlockState(((BlockHitResult) event.getEntity().pick(5.0F, 0.0F, false)).getBlockPos());
+            if (blockState.is(BlockRegistry.PAN.get()) || blockState.is(BlockRegistry.POT.get())) {
+                event.setCanceled(true);
+            }
+        }
+    }
+
     @SubscribeEvent
     public static void onLivingSpecialSpawn(final MobSpawnEvent.FinalizeSpawn event) {
         LivingEntity entity = event.getEntity();
@@ -119,5 +134,7 @@ public class CommonSetupEvent {
     @SubscribeEvent
     public static void onResourcePackReload(OnDatapackSyncEvent event) {
         Milling.MillingItemsCache.invalidate();
+        Frying.FryingItemsCache.invalidate();
+        Cooking.CookingItemsCache.invalidate();
     }
 }

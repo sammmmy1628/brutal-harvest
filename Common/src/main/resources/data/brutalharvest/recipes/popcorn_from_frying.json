@@ -1,0 +1,12 @@
+{
+  "type": "brutalharvest:frying",
+  "ingredient": {
+    "item": "brutalharvest:corn_seeds"
+  },
+  "time": 400,
+  "bowl": true,
+  "result": {
+    "count": 1,
+    "item": "brutalharvest:popcorn"
+  }
+}

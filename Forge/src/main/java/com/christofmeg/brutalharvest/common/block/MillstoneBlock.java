@@ -8,6 +8,8 @@ import com.christofmeg.brutalharvest.common.init.FluidRegistry;
 import com.christofmeg.brutalharvest.common.init.ItemRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -75,6 +77,7 @@ public class MillstoneBlock extends BaseEntityBlock {
                     if (fluidStack.getAmount() >= 250 && playerStack.is(Items.GLASS_BOTTLE)) {
                         if (fluidStack.getFluid().isSame(FluidRegistry.SOURCE_RAPESEED_OIL.get())) {
                             fluidTank.drain(250, IFluidHandler.FluidAction.EXECUTE);
+                            pLevel.playSound(pPlayer, pPos, SoundEvents.BUCKET_FILL, SoundSource.PLAYERS, 1.0F, 1.0F);
                             pPlayer.addItem(new ItemStack(ItemRegistry.RAPESEED_OIL_BOTTLE.get(), 1));
                         }
                     } else if (fluidStack.getAmount() == 1000 && playerStack.is(Items.BUCKET)) {

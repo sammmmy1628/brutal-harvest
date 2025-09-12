@@ -1,6 +1,8 @@
 package com.christofmeg.brutalharvest.common.init;
 
 import com.christofmeg.brutalharvest.CommonConstants;
+import com.christofmeg.brutalharvest.common.recipe.custom.Cooking;
+import com.christofmeg.brutalharvest.common.recipe.custom.Frying;
 import com.christofmeg.brutalharvest.common.recipe.custom.Milling;
 import com.christofmeg.brutalharvest.common.recipe.shapeless.DamageTool;
 import com.christofmeg.brutalharvest.common.recipe.shapeless.DamageToolWithRemainder;
@@ -26,6 +28,8 @@ public class RecipeSerializerRegistry {
     public static final RegistryObject<RecipeSerializer<?>> SHAPELESS_DAMAGE_TOOL = register("shapeless_damage_tool", DamageTool.Serializer::new);
     public static final RegistryObject<RecipeSerializer<?>> SHAPELESS_DAMAGE_TOOL_WITH_REMAINDER = register("shapeless_damage_tool_with_remainder", DamageToolWithRemainder.Serializer::new);
     public static final RegistryObject<RecipeSerializer<?>> MILLING = register("milling", Milling.MillingRecipeSerializer::new);
+    public static final RegistryObject<RecipeSerializer<?>> COOKING = register("cooking", Cooking.CookingRecipeSerializer::new);
+    public static final RegistryObject<RecipeSerializer<?>> FRYING = register("frying", Frying.FryingRecipeSerializer::new);
 
     private static RegistryObject<RecipeSerializer<?>> register(String name, Supplier<RecipeSerializer<?>> serializer) {
         return RECIPE_SERIALIZERS.register(name, serializer);

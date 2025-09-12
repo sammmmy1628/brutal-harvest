@@ -1,5 +1,6 @@
 {
   "values": [
-    "#forge:slabs/dirt"
+    "#forge:slabs/dirt",
+    "brutalharvest:rubber_slab"
   ]
 }

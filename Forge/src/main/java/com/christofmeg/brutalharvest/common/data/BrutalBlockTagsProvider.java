@@ -53,7 +53,8 @@ public class BrutalBlockTagsProvider extends BlockTagsProvider {
 
         tag(BlockTags.MINEABLE_WITH_PICKAXE)
                 .add(BlockRegistry.MILLSTONE.get())
-                ;
+                .add(BlockRegistry.PAN.get())
+                .add(BlockRegistry.POT.get());
 
         tag(BlockTags.MAINTAINS_FARMLAND)
                 .add(BlockRegistry.TOMATO.get())
@@ -141,5 +142,21 @@ public class BrutalBlockTagsProvider extends BlockTagsProvider {
 
         tag(BlockTags.SLABS).addTag(TagRegistry.Blocks.SLABS_DIRT);
 
+        tag(BlockTags.WOODEN_SLABS).add(BlockRegistry.RUBBER_SLAB.get());
+        tag(BlockTags.SLABS).add(BlockRegistry.RUBBER_SLAB.get());
+
+        tag(BlockTags.WOODEN_STAIRS).add(BlockRegistry.RUBBER_STAIRS.get());
+        tag(BlockTags.STAIRS).add(BlockRegistry.RUBBER_STAIRS.get());
+
+        tag(BlockTags.WOODEN_PRESSURE_PLATES).add(BlockRegistry.RUBBER_PRESSURE_PLATE.get());
+        tag(BlockTags.PRESSURE_PLATES).add(BlockRegistry.RUBBER_PRESSURE_PLATE.get());
+
+        tag(BlockTags.WOODEN_BUTTONS).add(BlockRegistry.RUBBER_BUTTON.get());
+        tag(BlockTags.BUTTONS).add(BlockRegistry.RUBBER_BUTTON.get());
+
+        tag(BlockTags.WOODEN_FENCES).add(BlockRegistry.RUBBER_FENCE.get());
+        tag(BlockTags.FENCES).add(BlockRegistry.RUBBER_FENCE.get());
+
+        tag(BlockTags.FENCE_GATES).add(BlockRegistry.RUBBER_FENCE_GATE.get());
     }
 }

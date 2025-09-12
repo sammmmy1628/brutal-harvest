@@ -30,7 +30,7 @@ public record Milling(Ingredient ingredient, int spins, ItemStack itemOutput, Fl
 
     @Override
     public @NotNull ItemStack assemble(@NotNull Container container, @NotNull RegistryAccess registryAccess) {
-        return this.itemOutput != null ? this.itemOutput.copy() : ItemStack.EMPTY;
+        return this.itemOutput.copy();
     }
 
     @Override
@@ -40,7 +40,7 @@ public record Milling(Ingredient ingredient, int spins, ItemStack itemOutput, Fl
 
     @Override
     public @NotNull ItemStack getResultItem(@NotNull RegistryAccess registryAccess) {
-        return this.itemOutput != null ? this.itemOutput.copy() : ItemStack.EMPTY;
+        return this.itemOutput.copy();
     }
 
     public FluidStack getResultFluid() {
@@ -80,13 +80,11 @@ public record Milling(Ingredient ingredient, int spins, ItemStack itemOutput, Fl
         public @NotNull Milling fromJson(@NotNull ResourceLocation resourceLocation, @NotNull JsonObject jsonObject) {
             Ingredient ingredient1 = Ingredient.fromJson(GsonHelper.getAsJsonObject(jsonObject, "ingredient"), false);
             int spins = GsonHelper.getAsInt(jsonObject, "spins");
-            JsonObject item_result =  GsonHelper.getAsJsonObject(jsonObject, "item_result");
             JsonObject fluid_result = GsonHelper.getAsJsonObject(jsonObject, "fluid_result");
-            byte item_amount = GsonHelper.getAsByte(item_result, "amount");
-            Item item = ShapedRecipe.itemFromJson(item_result);
+            ItemStack result = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(jsonObject, "item_result"));
             int fluid_amount = GsonHelper.getAsInt(fluid_result, "amount");
             Fluid fluid = fluidFromJson(GsonHelper.getAsString(fluid_result, "fluid"));
-            return new Milling(ingredient1, spins, new ItemStack(item, item_amount), new FluidStack(fluid, fluid_amount));
+            return new Milling(ingredient1, spins, result, new FluidStack(fluid, fluid_amount));
         }
 
         @Override
@@ -107,7 +105,7 @@ public record Milling(Ingredient ingredient, int spins, ItemStack itemOutput, Fl
         }
     }
 
-    public record MillingItemsCache() {
+    public static class MillingItemsCache {
         private static final Set<Item> ALLOWED = new HashSet<>();
 
         public static boolean isValid(Level level, Item item) {

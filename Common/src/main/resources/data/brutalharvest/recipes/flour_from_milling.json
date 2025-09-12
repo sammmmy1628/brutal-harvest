@@ -6,7 +6,7 @@
   "spins": 3,
   "item_result": {
     "item": "brutalharvest:flour",
-    "amount": 1
+    "count": 2
   },
   "fluid_result": {
     "fluid": "minecraft:water",

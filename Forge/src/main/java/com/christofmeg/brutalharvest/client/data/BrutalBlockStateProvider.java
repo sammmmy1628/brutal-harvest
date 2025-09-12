@@ -3,10 +3,12 @@ package com.christofmeg.brutalharvest.client.data;
 import com.christofmeg.brutalharvest.CommonConstants;
 import com.christofmeg.brutalharvest.client.data.base.BaseBlockStateProvider;
 import com.christofmeg.brutalharvest.common.block.*;
+import com.christofmeg.brutalharvest.common.block.base.BaseCookingBlock;
 import com.christofmeg.brutalharvest.common.init.BlockRegistry;
 import net.minecraft.core.Direction;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.state.properties.SlabType;
@@ -55,6 +57,34 @@ public class BrutalBlockStateProvider extends BaseBlockStateProvider {
         slabBlock(BlockRegistry.RUBBER_SLAB.get(), modLoc("block/rubber_planks"), modLoc("block/rubber_planks"));
 
         stairsBlock(BlockRegistry.RUBBER_STAIRS.get(), modLoc("block/rubber_planks"));
+
+        pressurePlateBlock(BlockRegistry.RUBBER_PRESSURE_PLATE.get(), modLoc("block/rubber_planks"));
+
+        buttonBlock(BlockRegistry.RUBBER_BUTTON.get(), modLoc("block/rubber_planks"));
+
+        fenceBlock(BlockRegistry.RUBBER_FENCE.get(), modLoc("block/rubber_planks"));
+        fenceGateBlock(BlockRegistry.RUBBER_FENCE_GATE.get(), modLoc("block/rubber_planks"));
+
+        for (String name : new String[] {"pan", "pot"}) {
+
+            Block block = name.equals("pan") ? BlockRegistry.PAN.get() : BlockRegistry.POT.get();
+
+            ModelFile model = new ModelFile.ExistingModelFile(modLoc("block/" + name), this.fileHelper);
+            ModelFile model_on_campfire = new ModelFile.ExistingModelFile(modLoc("block/" + name + "_on_campfire"), this.fileHelper);
+            ModelFile model_on_campfire_filled = new ModelFile.ExistingModelFile(modLoc("block/" + name + "_on_campfire_filled"), this.fileHelper);
+            ModelFile model_on_soul_campfire = new ModelFile.ExistingModelFile(modLoc("block/" + name + "_on_soul_campfire"), this.fileHelper);
+            ModelFile model_on_soul_campfire_filled = new ModelFile.ExistingModelFile(modLoc("block/" + name + "_on_soul_campfire_filled"), this.fileHelper);
+
+            for (Direction direction : HorizontalDirectionalBlock.FACING.getPossibleValues()) {
+                int rot = (int) direction.getClockWise().toYRot();
+                getVariantBuilder(block)
+                        .partialState().with(BaseCookingBlock.ON_CAMPFIRE, BaseCookingBlock.OnCampfire.NONE).with(BaseCookingBlock.FACING, direction).modelForState().rotationY(rot).modelFile(model).addModel()
+                        .partialState().with(BaseCookingBlock.ON_CAMPFIRE, BaseCookingBlock.OnCampfire.CAMPFIRE).with(BaseCookingBlock.FILLED, false).with(BaseCookingBlock.FACING, direction).modelForState().rotationY(rot).modelFile(model_on_campfire).addModel()
+                        .partialState().with(BaseCookingBlock.ON_CAMPFIRE, BaseCookingBlock.OnCampfire.CAMPFIRE).with(BaseCookingBlock.FILLED, true).with(BaseCookingBlock.FACING, direction).modelForState().rotationY(rot).modelFile(model_on_campfire_filled).addModel()
+                        .partialState().with(BaseCookingBlock.ON_CAMPFIRE, BaseCookingBlock.OnCampfire.SOUL_CAMPFIRE).with(BaseCookingBlock.FILLED, false).with(BaseCookingBlock.FACING, direction).modelForState().rotationY(rot).modelFile(model_on_soul_campfire).addModel()
+                        .partialState().with(BaseCookingBlock.ON_CAMPFIRE, BaseCookingBlock.OnCampfire.SOUL_CAMPFIRE).with(BaseCookingBlock.FILLED, true).with(BaseCookingBlock.FACING, direction).modelForState().rotationY(rot).modelFile(model_on_soul_campfire_filled).addModel();
+            }
+        }
 
         ModelFile farmland = vanillaModels().withExistingParent("farmland", mcLoc("block/farmland_moist"));
         ModelFile farmland_moist = vanillaModels().withExistingParent("farmland_moist", mcLoc("block/farmland_moist"));

@@ -20,6 +20,7 @@ public class BrutalHarvest {
         GeckoLib.initialize();
         init(bus);
         bus.addListener(ClientSetupEvent::clientSetupEvent);
+        bus.addListener(ClientSetupEvent::registerRenderers);
         bus.addListener(ClientSetupEvent::registerLayerDefinitions);
         bus.addListener(ClientSetupEvent::registerBlockColors);
         bus.addListener(ClientSetupEvent::registerItemColors);
@@ -55,8 +56,4 @@ public class BrutalHarvest {
     //TODO serene seasons crops https://github.com/vectorwing/FarmersDelight/tree/1.19/src/generated/resources/data/sereneseasons/tags/items
 
     //TODO JEI recipe compatibility
-
-    //TODO create recipe for oil
-
-    //TODO rubber wood blocks and woodcutter compatibility
 }

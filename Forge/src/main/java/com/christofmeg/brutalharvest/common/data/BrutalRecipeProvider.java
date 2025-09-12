@@ -93,9 +93,15 @@ public class BrutalRecipeProvider extends BaseRecipeProvider {
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockRegistry.GRASS_SLAB.get(), 6).define('B', Blocks.GRASS_BLOCK).pattern("BBB").unlockedBy("has_dirt", has(ItemTags.DIRT)).save(consumer, modLoc(getItemName(BlockRegistry.GRASS_SLAB.get())));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blocks.GRASS_BLOCK).define('B', BlockRegistry.GRASS_SLAB.get()).pattern("B").pattern("B").unlockedBy("has_dirt", has(ItemTags.DIRT)).save(consumer, modLoc(getItemName(Blocks.GRASS_BLOCK)));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockRegistry.MILLSTONE.get()).define('B', Items.STICK).define('S', Items.SMOOTH_STONE).pattern(" B ").pattern(" S ").pattern("SSS").unlockedBy("has_smooth_stone", has(Items.SMOOTH_STONE)).save(consumer, modLoc(getItemName(BlockRegistry.MILLSTONE.get())));
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockRegistry.PAN.get()).define('C', Items.COPPER_INGOT).define('I', Items.IRON_INGOT).pattern("C C").pattern("III").unlockedBy("has_iron", has(Items.IRON_INGOT));
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockRegistry.POT.get()).define('C', Items.COPPER_INGOT).define('I', Items.IRON_INGOT).pattern("C C").pattern("I I").pattern("III").unlockedBy("has_iron", has(Items.IRON_INGOT));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.RUBBER_SLAB.get(), 6).define('P', BlockRegistry.RUBBER_PLANKS.get()).pattern("PPP").unlockedBy("has_rubber_planks", has(BlockRegistry.RUBBER_PLANKS.get())).save(consumer, modLoc(getItemName(BlockRegistry.RUBBER_SLAB.get())));
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.RUBBER_STAIRS.get(), 4).define('P', BlockRegistry.RUBBER_PLANKS.get()).pattern("P  ").pattern("PP ").pattern("PPP").unlockedBy("has_rubber_planks", has(BlockRegistry.RUBBER_PLANKS.get())).save(consumer, modLoc(getItemName(BlockRegistry.RUBBER_STAIRS.get())));
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, BlockRegistry.RUBBER_PRESSURE_PLATE.get()).define('P', BlockRegistry.RUBBER_PLANKS.get()).pattern("PP").unlockedBy("has_rubber_planks", has(BlockRegistry.RUBBER_PLANKS.get()));
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, BlockRegistry.RUBBER_BUTTON.get()).define('P', BlockRegistry.RUBBER_PLANKS.get()).pattern("P").unlockedBy("has_rubber_planks", has(BlockRegistry.RUBBER_PLANKS.get()));
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.RUBBER_FENCE.get(), 3).define('P', BlockRegistry.RUBBER_PLANKS.get()).define('S', Items.STICK).pattern("PSP").pattern("PSP").unlockedBy("has_rubber_planks", has(BlockRegistry.RUBBER_PLANKS.get()));
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.RUBBER_FENCE_GATE.get()).define('P', BlockRegistry.RUBBER_PLANKS.get()).define('S', Items.STICK).pattern("SPS").pattern("SPS").unlockedBy("has_rubber_planks", has(BlockRegistry.RUBBER_PLANKS.get()));
 
 /*        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemRegistry.SUSHI.get())
                 .define('K', Items.DRIED_KELP)

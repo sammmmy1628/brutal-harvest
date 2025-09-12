@@ -1,0 +1,79 @@
+{
+  "variants": {
+    "facing=east,filled=false,on_campfire=campfire": {
+      "model": "brutalharvest:block/pan_on_campfire"
+    },
+    "facing=east,filled=false,on_campfire=soul_campfire": {
+      "model": "brutalharvest:block/pan_on_soul_campfire"
+    },
+    "facing=east,filled=true,on_campfire=campfire": {
+      "model": "brutalharvest:block/pan_on_campfire_filled"
+    },
+    "facing=east,filled=true,on_campfire=soul_campfire": {
+      "model": "brutalharvest:block/pan_on_soul_campfire_filled"
+    },
+    "facing=east,on_campfire=none": {
+      "model": "brutalharvest:block/pan"
+    },
+    "facing=north,filled=false,on_campfire=campfire": {
+      "model": "brutalharvest:block/pan_on_campfire",
+      "y": 270
+    },
+    "facing=north,filled=false,on_campfire=soul_campfire": {
+      "model": "brutalharvest:block/pan_on_soul_campfire",
+      "y": 270
+    },
+    "facing=north,filled=true,on_campfire=campfire": {
+      "model": "brutalharvest:block/pan_on_campfire_filled",
+      "y": 270
+    },
+    "facing=north,filled=true,on_campfire=soul_campfire": {
+      "model": "brutalharvest:block/pan_on_soul_campfire_filled",
+      "y": 270
+    },
+    "facing=north,on_campfire=none": {
+      "model": "brutalharvest:block/pan",
+      "y": 270
+    },
+    "facing=south,filled=false,on_campfire=campfire": {
+      "model": "brutalharvest:block/pan_on_campfire",
+      "y": 90
+    },
+    "facing=south,filled=false,on_campfire=soul_campfire": {
+      "model": "brutalharvest:block/pan_on_soul_campfire",
+      "y": 90
+    },
+    "facing=south,filled=true,on_campfire=campfire": {
+      "model": "brutalharvest:block/pan_on_campfire_filled",
+      "y": 90
+    },
+    "facing=south,filled=true,on_campfire=soul_campfire": {
+      "model": "brutalharvest:block/pan_on_soul_campfire_filled",
+      "y": 90
+    },
+    "facing=south,on_campfire=none": {
+      "model": "brutalharvest:block/pan",
+      "y": 90
+    },
+    "facing=west,filled=false,on_campfire=campfire": {
+      "model": "brutalharvest:block/pan_on_campfire",
+      "y": 180
+    },
+    "facing=west,filled=false,on_campfire=soul_campfire": {
+      "model": "brutalharvest:block/pan_on_soul_campfire",
+      "y": 180
+    },
+    "facing=west,filled=true,on_campfire=campfire": {
+      "model": "brutalharvest:block/pan_on_campfire_filled",
+      "y": 180
+    },
+    "facing=west,filled=true,on_campfire=soul_campfire": {
+      "model": "brutalharvest:block/pan_on_soul_campfire_filled",
+      "y": 180
+    },
+    "facing=west,on_campfire=none": {
+      "model": "brutalharvest:block/pan",
+      "y": 180
+    }
+  }
+}
