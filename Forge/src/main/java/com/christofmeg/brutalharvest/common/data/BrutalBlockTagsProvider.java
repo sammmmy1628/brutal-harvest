@@ -49,12 +49,27 @@ public class BrutalBlockTagsProvider extends BlockTagsProvider {
                 .add(BlockRegistry.STRAWBERRY.get())
 //                .add(BlockRegistry.ONION.get())
                 .add(BlockRegistry.BLUEBERRY.get())
-        ;
+                .add(BlockRegistry.RUBBER_WOOD.get())
+                .add(BlockRegistry.RUBBER_LOG.get())
+                .add(BlockRegistry.RUBBER_LOG_GENERATED.get())
+                .add(BlockRegistry.RUBBER_PLANKS.get())
+                .add(BlockRegistry.RUBBER_FENCE.get())
+                .add(BlockRegistry.RUBBER_FENCE_GATE.get())
+                .add(BlockRegistry.RUBBER_BUTTON.get())
+                .add(BlockRegistry.RUBBER_PRESSURE_PLATE.get())
+                .add(BlockRegistry.RUBBER_SLAB.get())
+                .add(BlockRegistry.RUBBER_STAIRS.get())
+                .add(BlockRegistry.RUBBER_SIGN.get())
+                .add(BlockRegistry.RUBBER_WALL_SIGN.get())
+                .add(BlockRegistry.RUBBER_HANGING_SIGN.get())
+                .add(BlockRegistry.RUBBER_WALL_HANGING_SIGN.get())
+                .add(BlockRegistry.WOODEN_CUTTING_BOARD.get());
 
         tag(BlockTags.MINEABLE_WITH_PICKAXE)
                 .add(BlockRegistry.MILLSTONE.get())
                 .add(BlockRegistry.PAN.get())
-                .add(BlockRegistry.POT.get());
+                .add(BlockRegistry.POT.get())
+                .add(BlockRegistry.IRON_CUTTING_BOARD.get());
 
         tag(BlockTags.MAINTAINS_FARMLAND)
                 .add(BlockRegistry.TOMATO.get())
@@ -158,5 +173,25 @@ public class BrutalBlockTagsProvider extends BlockTagsProvider {
         tag(BlockTags.FENCES).add(BlockRegistry.RUBBER_FENCE.get());
 
         tag(BlockTags.FENCE_GATES).add(BlockRegistry.RUBBER_FENCE_GATE.get());
+
+        tag(BlockTags.SIGNS)
+                .add(BlockRegistry.RUBBER_SIGN.get())
+                .add(BlockRegistry.RUBBER_WALL_SIGN.get());
+
+        tag(BlockTags.ALL_HANGING_SIGNS)
+                .add(BlockRegistry.RUBBER_HANGING_SIGN.get())
+                .add(BlockRegistry.RUBBER_WALL_HANGING_SIGN.get());
+
+        tag(BlockTags.CEILING_HANGING_SIGNS).add(BlockRegistry.RUBBER_HANGING_SIGN.get());
+
+        tag(BlockTags.WALL_HANGING_SIGNS).add(BlockRegistry.RUBBER_WALL_HANGING_SIGN.get());
+
+        tag(BlockTags.DOORS).add(BlockRegistry.RUBBER_DOOR.get());
+
+        tag(BlockTags.WOODEN_DOORS).add(BlockRegistry.RUBBER_DOOR.get());
+
+        tag(BlockTags.TRAPDOORS).add(BlockRegistry.RUBBER_TRAPDOOR.get());
+
+        tag(BlockTags.WOODEN_TRAPDOORS).add(BlockRegistry.RUBBER_TRAPDOOR.get());
     }
 }

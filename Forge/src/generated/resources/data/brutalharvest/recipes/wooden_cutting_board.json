@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "P": {
+      "tag": "minecraft:wooden_pressure_plates"
+    }
+  },
+  "pattern": [
+    "PPP"
+  ],
+  "result": {
+    "item": "brutalharvest:wooden_cutting_board"
+  },
+  "show_notification": true
+}

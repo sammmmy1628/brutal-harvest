@@ -1,15 +1,12 @@
 {
   "type": "brutalharvest:milling",
+  "result_type": "item",
   "ingredient": {
-    "item": "minecraft:wheat"
+    "tag": "forge:crops/wheat"
   },
   "spins": 3,
   "item_result": {
     "item": "brutalharvest:flour",
     "count": 2
-  },
-  "fluid_result": {
-    "fluid": "minecraft:water",
-    "amount": 0
   }
 }

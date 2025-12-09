@@ -1,0 +1,74 @@
+{
+  "modId": "brutalharvest",
+  "group": {
+    "name": "Brutal Harvest Seeds",
+    "enabledByDefault": true,
+    "defaultPayment": "minecraft:emerald",
+    "defaultCategory": "brutalharvest:seeds"
+  },
+  "customCategories": {
+    "brutalharvest:seeds": {
+      "name": "Brutal Harvest Seeds",
+      "icon": {
+        "item": "brutalharvest:tomato_seeds"
+      },
+      "sortIndex": 10
+    }
+  },
+  "customEntries": [
+    {
+      "output": {
+        "item": "brutalharvest:tomato_seeds",
+        "count": 1
+      }
+    },
+    {
+      "output": {
+        "item": "brutalharvest:lettuce_seeds",
+        "count": 1
+      }
+    },
+    {
+      "output": {
+        "item": "brutalharvest:coffee_beans",
+        "count": 1
+      }
+    },
+    {
+      "output": {
+        "item": "brutalharvest:corn_seeds",
+        "count": 1
+      }
+    },
+    {
+      "output": {
+        "item": "brutalharvest:cucumber_seeds",
+        "count": 1
+      }
+    },
+    {
+      "output": {
+        "item": "brutalharvest:cotton_seeds",
+        "count": 1
+      }
+    },
+    {
+      "output": {
+        "item": "brutalharvest:rapeseeds",
+        "count": 1
+      }
+    },
+    {
+      "output": {
+        "item": "brutalharvest:strawberry_seeds",
+        "count": 1
+      }
+    },
+    {
+      "output": {
+        "item": "brutalharvest:sugar_beet_seeds",
+        "count": 1
+      }
+    }
+  ]
+}

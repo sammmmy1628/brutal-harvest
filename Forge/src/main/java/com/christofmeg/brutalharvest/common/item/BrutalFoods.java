@@ -21,7 +21,7 @@ public class BrutalFoods {
     public static final FoodProperties CUCUMBER_SLICE = builder(1, 1F).build();
     public static final FoodProperties PICKLE = builder(3, 2.4F).build();
 
-    public static final FoodProperties BOTTLED_COFFEE = builder(0, 0).effect(() -> new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 1200), 1.0F).build();
+    public static final FoodProperties COFFEE_BOTTLE = builder(0, 0).effect(() -> new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 1200), 1.0F).build();
 
     public static final FoodProperties SUGAR_BEET = builder(2, 2.4F).build();
 

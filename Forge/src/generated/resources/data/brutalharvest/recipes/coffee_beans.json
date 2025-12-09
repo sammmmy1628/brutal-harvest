@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "brutalharvest:coffee_cherry"
+    }
+  ],
+  "result": {
+    "item": "brutalharvest:coffee_beans"
+  }
+}

@@ -3,21 +3,21 @@ package com.christofmeg.brutalharvest.common.init;
 import com.christofmeg.brutalharvest.CommonConstants;
 import com.christofmeg.brutalharvest.common.block.*;
 import com.christofmeg.brutalharvest.common.block.base.BaseCookingBlock;
+import com.christofmeg.brutalharvest.common.block.woodtype.BrutalWoodTypes;
+import com.christofmeg.brutalharvest.common.blockentity.BrutalHangingSignBlockEntity;
+import com.christofmeg.brutalharvest.common.blockentity.BrutalSignBlockEntity;
 import com.christofmeg.brutalharvest.common.item.CookingBlockItem;
 import com.christofmeg.brutalharvest.common.item.MillstoneBlockItem;
 import com.christofmeg.brutalharvest.common.world.tree.RubberTreeGrower;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.item.AxeItem;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
-import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraftforge.common.ToolAction;
@@ -25,6 +25,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -35,12 +36,10 @@ public class BlockRegistry {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, CommonConstants.MOD_ID);
     public static BlockBehaviour. Properties cropPropeties = BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY);
 
-    private static final BlockSetType RUBBER_SET_TYPE = new BlockSetType("rubber");
-    private static final WoodType RUBBER_WOOD_TYPE = new WoodType("rubber", RUBBER_SET_TYPE);
-
 //    public static final RegistryObject<Block> CROP_SUPPORT;
     public static final RegistryObject<Block> TOMATO;
     public static final RegistryObject<Block> LETTUCE;
+    public static final RegistryObject<Block> COFFEE;
     public static final RegistryObject<Block> CORN;
     public static final RegistryObject<Block> CUCUMBER;
     public static final RegistryObject<Block> COTTON;
@@ -64,13 +63,19 @@ public class BlockRegistry {
     public static final RegistryObject<ButtonBlock> RUBBER_BUTTON;
     public static final RegistryObject<FenceBlock> RUBBER_FENCE;
     public static final RegistryObject<FenceGateBlock> RUBBER_FENCE_GATE;
+    public static final RegistryObject<StandingSignBlock> RUBBER_SIGN;
+    public static final RegistryObject<WallSignBlock> RUBBER_WALL_SIGN;
+    public static final RegistryObject<CeilingHangingSignBlock> RUBBER_HANGING_SIGN;
+    public static final RegistryObject<WallHangingSignBlock> RUBBER_WALL_HANGING_SIGN;
+    public static final RegistryObject<DoorBlock> RUBBER_DOOR;
+    public static final RegistryObject<TrapDoorBlock> RUBBER_TRAPDOOR;
 
 //    public static final RegistryObject<Block> RUBBER_CAULDRON;
     public static final RegistryObject<Block> MILLSTONE;
     public static final RegistryObject<Block> PAN;
     public static final RegistryObject<Block> POT;
-
-
+    public static final RegistryObject<Block> WOODEN_CUTTING_BOARD;
+    public static final RegistryObject<Block> IRON_CUTTING_BOARD;
 
     public static final RegistryObject<Block> FARMLAND_SLAB;
     public static final RegistryObject<Block> DIRT_SLAB;
@@ -84,7 +89,6 @@ public class BlockRegistry {
     }
 
     public static void init(@Nonnull IEventBus modEventBus) {
-        BlockSetType.register(RUBBER_SET_TYPE);
         BLOCKS.register(modEventBus);
     }
 
@@ -94,6 +98,7 @@ public class BlockRegistry {
 
         TOMATO = BLOCKS.register("tomato", () -> new TomatoCropBlock(cropPropeties));
         LETTUCE = BLOCKS.register("lettuce", () -> new LettuceCropBlock(cropPropeties));
+        COFFEE = BLOCKS.register("coffee", () -> new CoffeeCropBlock(cropPropeties));
         CORN = BLOCKS.register("corn", () -> new CornCropBlock(cropPropeties));
         CUCUMBER = BLOCKS.register("cucumber", () -> new CucumberCropBlock(cropPropeties));
         COTTON = BLOCKS.register("cotton", () -> new CottonCropBlock(cropPropeties));
@@ -152,17 +157,51 @@ public class BlockRegistry {
         RUBBER_STAIRS = BLOCKS.register("rubber_stairs", () -> new StairBlock(Blocks.OAK_STAIRS::defaultBlockState, BlockBehaviour.Properties.copy(Blocks.OAK_STAIRS)));
         ItemRegistry.ITEMS.register("rubber_stairs", () -> new BlockItem(RUBBER_STAIRS.get(), new Item.Properties()));
 
-        RUBBER_PRESSURE_PLATE = BLOCKS.register("rubber_pressure_plate", () -> new PressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, BlockBehaviour.Properties.copy(Blocks.OAK_PRESSURE_PLATE), RUBBER_SET_TYPE));
+        RUBBER_PRESSURE_PLATE = BLOCKS.register("rubber_pressure_plate", () -> new PressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, BlockBehaviour.Properties.copy(Blocks.OAK_PRESSURE_PLATE), BrutalWoodTypes.RUBBER_SET_TYPE));
         ItemRegistry.ITEMS.register("rubber_pressure_plate", () -> new BlockItem(RUBBER_PRESSURE_PLATE.get(), new Item.Properties()));
 
-        RUBBER_BUTTON = BLOCKS.register("rubber_button", () -> new ButtonBlock(BlockBehaviour.Properties.copy(Blocks.OAK_BUTTON), RUBBER_SET_TYPE, 30, true));
+        RUBBER_BUTTON = BLOCKS.register("rubber_button", () -> new ButtonBlock(BlockBehaviour.Properties.copy(Blocks.OAK_BUTTON), BrutalWoodTypes.RUBBER_SET_TYPE, 30, true));
         ItemRegistry.ITEMS.register("rubber_button", () -> new BlockItem(RUBBER_BUTTON.get(), new Item.Properties()));
 
         RUBBER_FENCE = BLOCKS.register("rubber_fence", () -> new FenceBlock(BlockBehaviour.Properties.copy(Blocks.OAK_FENCE)));
         ItemRegistry.ITEMS.register("rubber_fence", () -> new BlockItem(RUBBER_FENCE.get(), new Item.Properties()));
 
-        RUBBER_FENCE_GATE = BLOCKS.register("rubber_fence_gate", () -> new FenceGateBlock(BlockBehaviour.Properties.copy(Blocks.OAK_FENCE_GATE), RUBBER_WOOD_TYPE));
+        RUBBER_FENCE_GATE = BLOCKS.register("rubber_fence_gate", () -> new FenceGateBlock(BlockBehaviour.Properties.copy(Blocks.OAK_FENCE_GATE), BrutalWoodTypes.RUBBER_WOOD_TYPE));
         ItemRegistry.ITEMS.register("rubber_fence_gate", () -> new BlockItem(RUBBER_FENCE_GATE.get(), new Item.Properties()));
+
+        RUBBER_SIGN = BLOCKS.register("rubber_sign", () -> new StandingSignBlock(BlockBehaviour.Properties.copy(Blocks.OAK_SIGN), BrutalWoodTypes.RUBBER_WOOD_TYPE) {
+            @Override
+            public BlockEntity newBlockEntity(@NotNull BlockPos pPos, @NotNull BlockState pState) {
+                return new BrutalSignBlockEntity(pPos, pState);
+            }
+        });
+        RUBBER_WALL_SIGN = BLOCKS.register("rubber_wall_sign", () -> new WallSignBlock(BlockBehaviour.Properties.copy(Blocks.OAK_WALL_SIGN), BrutalWoodTypes.RUBBER_WOOD_TYPE) {
+            @Override
+            public BlockEntity newBlockEntity(@NotNull BlockPos pPos, @NotNull BlockState pState) {
+                return new BrutalSignBlockEntity(pPos, pState);
+            }
+        });
+        ItemRegistry.ITEMS.register("rubber_sign", () -> new SignItem(new Item.Properties().stacksTo(16), RUBBER_SIGN.get(), RUBBER_WALL_SIGN.get()));
+
+        RUBBER_HANGING_SIGN = BLOCKS.register("rubber_hanging_sign", () -> new CeilingHangingSignBlock(BlockBehaviour.Properties.copy(Blocks.OAK_HANGING_SIGN), BrutalWoodTypes.RUBBER_WOOD_TYPE) {
+            @Override
+            public BlockEntity newBlockEntity(@NotNull BlockPos pPos, @NotNull BlockState pState) {
+                return new BrutalHangingSignBlockEntity(pPos, pState);
+            }
+        });
+        RUBBER_WALL_HANGING_SIGN = BLOCKS.register("rubber_wall_hanging_sign", () -> new WallHangingSignBlock(BlockBehaviour.Properties.copy(Blocks.OAK_WALL_HANGING_SIGN), BrutalWoodTypes.RUBBER_WOOD_TYPE) {
+            @Override
+            public BlockEntity newBlockEntity(@NotNull BlockPos pPos, @NotNull BlockState pState) {
+                return new BrutalHangingSignBlockEntity(pPos, pState);
+            }
+        });
+        ItemRegistry.ITEMS.register("rubber_hanging_sign", () -> new HangingSignItem(RUBBER_HANGING_SIGN.get(), RUBBER_WALL_HANGING_SIGN.get(), new Item.Properties().stacksTo(16)));
+
+        RUBBER_DOOR = BLOCKS.register("rubber_door", () -> new DoorBlock(BlockBehaviour.Properties.copy(Blocks.OAK_DOOR), BrutalWoodTypes.RUBBER_SET_TYPE));
+        ItemRegistry.ITEMS.register("rubber_door", () -> new BlockItem(RUBBER_DOOR.get(), new Item.Properties()));
+
+        RUBBER_TRAPDOOR = BLOCKS.register("rubber_trapdoor", () -> new TrapDoorBlock(BlockBehaviour.Properties.copy(Blocks.OAK_TRAPDOOR), BrutalWoodTypes.RUBBER_SET_TYPE));
+        ItemRegistry.ITEMS.register("rubber_trapdoor", () -> new BlockItem(RUBBER_TRAPDOOR.get(), new Item.Properties()));
 
         POTTED_RUBBER_SAPLING = BLOCKS.register("potted_rubber_sapling", () -> new FlowerPotBlock(null, RUBBER_SAPLING, BlockBehaviour.Properties.copy(Blocks.POTTED_OAK_SAPLING)));
 
@@ -187,22 +226,17 @@ public class BlockRegistry {
         MILLSTONE = BLOCKS.register("millstone", () -> new MillstoneBlock(BlockBehaviour.Properties.of().noOcclusion().requiresCorrectToolForDrops().sound(SoundType.STONE).strength(2.0F, 6.0F)));
         ItemRegistry.ITEMS.register("millstone", () -> new MillstoneBlockItem(new Item.Properties()));
 
-        PAN = BLOCKS.register("pan", () -> new PanBlock(BlockBehaviour.Properties.of().noOcclusion().requiresCorrectToolForDrops().sound(SoundType.STONE).strength(1.25F, 4.2F).lightLevel(state -> state.getValue(BaseCookingBlock.ON_CAMPFIRE) != BaseCookingBlock.OnCampfire.NONE ? 15 : 0)));
+        PAN = BLOCKS.register("pan", () -> new PanBlock(BlockBehaviour.Properties.of().noOcclusion().requiresCorrectToolForDrops().sound(SoundType.METAL).strength(1.25F, 4.2F).lightLevel(state -> state.getValue(BaseCookingBlock.ON_CAMPFIRE) != BaseCookingBlock.OnCampfire.NONE ? 15 : 0)));
         ItemRegistry.ITEMS.register("pan", () -> new CookingBlockItem(PAN.get(), new Item.Properties()));
 
-        POT = BLOCKS.register("pot", () -> new PotBlock(BlockBehaviour.Properties.of().noOcclusion().requiresCorrectToolForDrops().sound(SoundType.STONE).strength(1.25F, 4.2F).lightLevel(state -> state.getValue(BaseCookingBlock.ON_CAMPFIRE) != BaseCookingBlock.OnCampfire.NONE ? 15 : 0)));
+        POT = BLOCKS.register("pot", () -> new PotBlock(BlockBehaviour.Properties.of().noOcclusion().requiresCorrectToolForDrops().sound(SoundType.METAL).strength(1.25F, 4.2F).lightLevel(state -> state.getValue(BaseCookingBlock.ON_CAMPFIRE) != BaseCookingBlock.OnCampfire.NONE ? 15 : 0)));
         ItemRegistry.ITEMS.register("pot", () -> new CookingBlockItem(POT.get(), new Item.Properties()));
 
+        WOODEN_CUTTING_BOARD = BLOCKS.register("wooden_cutting_board", () -> new CuttingBoardBlock(BlockBehaviour.Properties.of().noOcclusion().sound(SoundType.WOOD).strength(2.0F)));
+        ItemRegistry.ITEMS.register("wooden_cutting_board", () -> new BlockItem(WOODEN_CUTTING_BOARD.get(), new Item.Properties()));
 
-
-        // BIRCH_SIGN,
-        // BIRCH_WALL_SIGN,
-        // BIRCH_HANGING_SIGN,
-        // BIRCH_WALL_HANGING_SIGN,
-        // BIRCH_TRAPDOOR,
-        // BIRCH_DOOR
-
-
+        IRON_CUTTING_BOARD = BLOCKS.register("iron_cutting_board", () -> new CuttingBoardBlock(BlockBehaviour.Properties.of().noOcclusion().sound(SoundType.METAL).strength(2.0F, 4.2F)));
+        ItemRegistry.ITEMS.register("iron_cutting_board", () -> new BlockItem(IRON_CUTTING_BOARD.get(), new Item.Properties()));
 
         //        RUBBER_CAULDRON = BLOCKS.register("rubber_cauldron", () -> new LayeredCauldronBlock(BlockBehaviour.Properties.copy(Blocks.CAULDRON), LayeredCauldronBlock.RAIN, CauldronInteraction.WATER));
 

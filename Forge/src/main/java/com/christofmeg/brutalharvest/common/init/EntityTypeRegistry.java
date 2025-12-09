@@ -1,11 +1,11 @@
 package com.christofmeg.brutalharvest.common.init;
 
 import com.christofmeg.brutalharvest.CommonConstants;
-import com.christofmeg.brutalharvest.common.entity.ThrownKnifeEntity;
-import com.christofmeg.brutalharvest.common.entity.ThrownScytheEntity;
-import com.christofmeg.brutalharvest.common.entity.TomatoProjectileEntity;
+import com.christofmeg.brutalharvest.common.entity.*;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.vehicle.Boat;
+import net.minecraft.world.entity.vehicle.ChestBoat;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -25,6 +25,10 @@ public class EntityTypeRegistry {
     public static final RegistryObject<EntityType<ThrownScytheEntity>> THROWN_SCYTHE;
     public static final RegistryObject<EntityType<ThrownKnifeEntity>> THROWN_KNIFE;
 
+    public static final RegistryObject<EntityType<BrutalBoatEntity>> BRUTAL_BOAT_ENTITY;
+    public static final RegistryObject<EntityType<BrutalChestBoatEntity>> BRUTAL_CHEST_BOAT_ENTITY;
+
+
     static {
         TOMATO_PROJECTILE =
                 ENTITY_TYPES.register("tomato_projectile", () -> EntityType.Builder.<TomatoProjectileEntity>of(TomatoProjectileEntity::new, MobCategory.MISC)
@@ -37,6 +41,13 @@ public class EntityTypeRegistry {
         THROWN_KNIFE =
                 ENTITY_TYPES.register("thrown_knife", () -> EntityType.Builder.<ThrownKnifeEntity>of(ThrownKnifeEntity::new, MobCategory.MISC)
                         .clientTrackingRange(4).updateInterval(10).sized(0.25F, 0.25F).build("thrown_knife"));
+
+
+        BRUTAL_BOAT_ENTITY =
+                ENTITY_TYPES.register("brutal_boat", () -> EntityType.Builder.<BrutalBoatEntity>of(BrutalBoatEntity::new, MobCategory.MISC).sized(1.375F, 0.5625F).build("brutal_boat"));
+
+        BRUTAL_CHEST_BOAT_ENTITY =
+                ENTITY_TYPES.register("brutal_chest_boat", () -> EntityType.Builder.<BrutalChestBoatEntity>of(BrutalChestBoatEntity::new, MobCategory.MISC).sized(1.375F, 0.5625F).build("brutal_chest_boat"));
     }
 
 }

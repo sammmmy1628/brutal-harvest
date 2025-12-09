@@ -1,11 +1,14 @@
 {
   "type": "brutalharvest:cooking",
-  "ingredient": {
-    "item": "minecraft:egg"
-  },
+  "result_type": "item",
+  "ingredients": [
+    {
+      "item": "minecraft:egg"
+    }
+  ],
   "time": 400,
-  "bowl": false,
-  "result": {
+  "container": "none",
+  "item_result": {
     "count": 1,
     "item": "brutalharvest:boiled_egg"
   }

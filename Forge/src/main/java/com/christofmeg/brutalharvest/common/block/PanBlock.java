@@ -4,13 +4,17 @@ import com.christofmeg.brutalharvest.common.block.base.BaseCookingBlock;
 import com.christofmeg.brutalharvest.common.blockentity.PanBlockEntity;
 import com.christofmeg.brutalharvest.common.handler.PanStackHandler;
 import com.christofmeg.brutalharvest.common.init.BlockEntityTypeRegistry;
+import com.christofmeg.brutalharvest.common.init.FluidRegistry;
 import com.christofmeg.brutalharvest.common.init.ItemRegistry;
+import com.christofmeg.brutalharvest.common.recipe.custom.Containers;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockGetter;
@@ -24,6 +28,9 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.minecraftforge.items.IItemHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -49,39 +56,76 @@ public class PanBlock extends BaseCookingBlock {
     public @NotNull InteractionResult use(@NotNull BlockState pState, @NotNull Level pLevel, @NotNull BlockPos pPos, @NotNull Player pPlayer, @NotNull InteractionHand pHand, @NotNull BlockHitResult pHit) {
         PanBlockEntity panBlockEntity = (PanBlockEntity) pLevel.getBlockEntity(pPos);
         ItemStack playerStack = pPlayer.getItemInHand(pHand);
-        if (playerStack.is(ItemRegistry.RAPESEED_OIL_BOTTLE.get()) && pState.getValue(ON_CAMPFIRE) != OnCampfire.NONE && !pState.getValue(BaseCookingBlock.FILLED)) {
-            if (!pPlayer.isCreative()) {
-                playerStack.shrink(1);
-            }
-            pState = pState.setValue(FILLED, true);
-            pLevel.setBlockAndUpdate(pPos, pState);
-            pLevel.playSound(pPlayer, pPos, SoundEvents.BOTTLE_EMPTY, SoundSource.PLAYERS, 1.0F, 1.0F);
-            pPlayer.addItem(new ItemStack(Items.GLASS_BOTTLE, 1));
-            return InteractionResult.SUCCESS;
-        } else if (panBlockEntity != null) {
+        if (panBlockEntity != null) {
             Optional<IItemHandler> optional = panBlockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).resolve();
-            if (optional.isPresent() && !pLevel.isClientSide) {
+            Optional<IFluidHandler> optional1 =  panBlockEntity.getCapability(ForgeCapabilities.FLUID_HANDLER).resolve();
+            if (optional.isPresent() ) {
                 PanStackHandler stackHandler = (PanStackHandler) optional.get();
-                ItemStack stack = stackHandler.getStackInSlot(0);
-                ItemStack resultStack = stackHandler.getStackInSlot(1);
+                ItemStack stack = stackHandler.getStackInSlot(1);
+                ItemStack resultStack = stackHandler.getStackInSlot(0);
                 stackHandler.updateLevel(pLevel);
-                if (pPlayer.isShiftKeyDown() && stack != ItemStack.EMPTY) {
-                    pPlayer.addItem(stack.copy());
-                    stackHandler.extractItem(0, stack.getCount(), false);
-                    panBlockEntity.setChanged();
-                    return InteractionResult.SUCCESS;
-                } else if (resultStack != ItemStack.EMPTY) {
-                    stackHandler.extractItem(1, resultStack.getCount(), false);
-                    pPlayer.addItem(resultStack);
-                    panBlockEntity.setChanged();
-                    return InteractionResult.SUCCESS;
-                } else if (stack.getCount() < 6 && stackHandler.isItemValid(0, playerStack) && pState.getValue(BaseCookingBlock.FILLED)) {
-                    if (!pPlayer.isCreative()) {
-                        playerStack.shrink(1);
+                Item requiredItem = Items.AIR;
+                if (!resultStack.isEmpty()) {
+                    CompoundTag tag = resultStack.getTag();
+                    byte extracted = (byte) resultStack.getCount();
+                    if (tag != null) {
+                        if (tag.contains("container")) {
+                            requiredItem = Containers.byName(tag.getString("container")).getItem();
+                        }
+                        if (playerStack.is(requiredItem)) {
+                            if (!pPlayer.isCreative()) {
+                                if (playerStack.getCount() < resultStack.getCount()) {
+                                    extracted = (byte) playerStack.getCount();
+                                }
+                                if (requiredItem != Items.AIR) {
+                                    playerStack.shrink(extracted);
+                                }
+                            }
+                            if (tag.contains("onPan")) {
+                                tag.putFloat("onPan", 0.0F);
+                            }
+                            tag.remove("container");
+                            if (!pLevel.isClientSide) {
+                                stackHandler.extractItem(1, extracted, false);
+                                pPlayer.addItem(resultStack);
+                                panBlockEntity.setChanged();
+                            }
+                        } else {
+                            return InteractionResult.PASS;
+                        }
                     }
-                    stackHandler.insertItem(0, new ItemStack(playerStack.getItem(), 1), false);
-                    panBlockEntity.setChanged();
                     return InteractionResult.SUCCESS;
+                } else if (optional1.isPresent()) {
+                    FluidTank tank = (FluidTank) optional1.get();
+                    if (playerStack.is(ItemRegistry.RAPESEED_OIL_BOTTLE.get()) && pState.getValue(ON_CAMPFIRE) != OnCampfire.NONE && tank.isEmpty()) {
+                        if (!pLevel.isClientSide) {
+                            if (!pPlayer.isCreative()) {
+                                playerStack.shrink(1);
+                            }
+                            tank.fill(new FluidStack(FluidRegistry.SOURCE_RAPESEED_OIL.get(), 250), IFluidHandler.FluidAction.EXECUTE);
+                            pLevel.setBlockAndUpdate(pPos, pState);
+                            pLevel.playSound(null, pPos, SoundEvents.BOTTLE_EMPTY, SoundSource.BLOCKS, 1.0F, 1.0F);
+                            pPlayer.addItem(new ItemStack(Items.GLASS_BOTTLE, 1));
+                            panBlockEntity.setChanged();
+                        }
+                        return InteractionResult.SUCCESS;
+                    } else if (pPlayer.isShiftKeyDown() && stack != ItemStack.EMPTY) {
+                        if (!pLevel.isClientSide) {
+                            pPlayer.addItem(stack.copy());
+                            stackHandler.extractItem(1, stack.getCount(), false);
+                            panBlockEntity.setChanged();
+                        }
+                        return InteractionResult.SUCCESS;
+                    } else if (stack.getCount() < 6 && stackHandler.isItemValid(1, playerStack) && tank.getFluid().getFluid().isSame(FluidRegistry.SOURCE_RAPESEED_OIL.get()) && tank.getFluid().getAmount() == 250) {
+                        if (!pLevel.isClientSide) {
+                            stackHandler.insertItem(1, playerStack.copyWithCount(1), false);
+                            if (!pPlayer.isCreative()) {
+                                playerStack.shrink(1);
+                            }
+                            panBlockEntity.setChanged();
+                        }
+                        return InteractionResult.sidedSuccess(pLevel.isClientSide);
+                    }
                 }
             }
         }

@@ -113,5 +113,4 @@ public abstract class BaseCropBlock extends CropBlock {
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(this.getAgeProperty());
     }
-
 }

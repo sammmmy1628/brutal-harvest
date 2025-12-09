@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "P": {
+      "item": "brutalharvest:stripped_rubber_log"
+    },
+    "X": {
+      "item": "minecraft:chain"
+    }
+  },
+  "pattern": [
+    "X X",
+    "PPP",
+    "PPP"
+  ],
+  "result": {
+    "count": 3,
+    "item": "brutalharvest:rubber_hanging_sign"
+  },
+  "show_notification": true
+}

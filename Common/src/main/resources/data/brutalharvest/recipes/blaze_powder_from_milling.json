@@ -1,5 +1,6 @@
 {
   "type": "brutalharvest:milling",
+  "result_type": "item",
   "ingredient": {
     "item": "minecraft:blaze_rod"
   },
@@ -7,9 +8,5 @@
   "item_result": {
     "item": "minecraft:blaze_powder",
     "count": 4
-  },
-  "fluid_result": {
-    "fluid": "minecraft:water",
-    "amount": 0
   }
 }

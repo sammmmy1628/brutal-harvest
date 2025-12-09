@@ -8,6 +8,21 @@
     "brutalharvest:rapeseed",
     "brutalharvest:sugar_beet",
     "brutalharvest:strawberry",
-    "brutalharvest:blueberry"
+    "brutalharvest:blueberry",
+    "brutalharvest:rubber_wood",
+    "brutalharvest:rubber_log",
+    "brutalharvest:rubber_log_generated",
+    "brutalharvest:rubber_planks",
+    "brutalharvest:rubber_fence",
+    "brutalharvest:rubber_fence_gate",
+    "brutalharvest:rubber_button",
+    "brutalharvest:rubber_pressure_plate",
+    "brutalharvest:rubber_slab",
+    "brutalharvest:rubber_stairs",
+    "brutalharvest:rubber_sign",
+    "brutalharvest:rubber_wall_sign",
+    "brutalharvest:rubber_hanging_sign",
+    "brutalharvest:rubber_wall_hanging_sign",
+    "brutalharvest:wooden_cutting_board"
   ]
 }

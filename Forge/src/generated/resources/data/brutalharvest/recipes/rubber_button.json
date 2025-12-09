@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    {
+      "item": "brutalharvest:rubber_planks"
+    }
+  ],
+  "result": {
+    "item": "brutalharvest:rubber_button"
+  }
+}

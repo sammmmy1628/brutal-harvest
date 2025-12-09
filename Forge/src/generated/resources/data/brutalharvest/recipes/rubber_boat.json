@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "P": {
+      "item": "brutalharvest:rubber_planks"
+    }
+  },
+  "pattern": [
+    "P P",
+    "PPP"
+  ],
+  "result": {
+    "item": "brutalharvest:rubber_boat"
+  },
+  "show_notification": true
+}

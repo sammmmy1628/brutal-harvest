@@ -14,7 +14,6 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.RegistryObject;
@@ -136,6 +135,8 @@ public class BrutalItemTagsProvider extends ItemTagsProvider {
                 .addTag(TagRegistry.Items.TOAST_LOAF)
                 .addTag(TagRegistry.Items.TOAST)
                 .addTag(TagRegistry.Items.TOAST_SLICE);
+
+
 //
 //        tag(TagRegistry.Items.LOBSTER).add(ItemRegistry.LOBSTER.get());
 //        tag(TagRegistry.Items.RAW_LOBSTER).add(ItemRegistry.RAW_LOBSTER.get());
@@ -169,7 +170,7 @@ public class BrutalItemTagsProvider extends ItemTagsProvider {
                 .add(ItemRegistry.LETTUCE_SEEDS.get())
                 .add(ItemRegistry.CORN_SEEDS.get())
                 .add(ItemRegistry.CUCUMBER_SEEDS.get())
-    //            .add(ItemRegistry.COFFEE_SEEDS.get())
+                .add(ItemRegistry.COFFEE_BEANS.get())
 //                .add(ItemRegistry.ONION_SEEDS.get())
 //                .add(ItemRegistry.CHILI_PEPPER_SEEDS.get())
         ;
@@ -280,5 +281,36 @@ public class BrutalItemTagsProvider extends ItemTagsProvider {
 
         tag(ItemTags.SLABS).addTag(TagRegistry.Items.SLABS_TILLABLE).add(BlockRegistry.FARMLAND_SLAB.get().asItem());
 
+        tag(ItemTags.WOODEN_SLABS).add(BlockRegistry.RUBBER_SLAB.get().asItem());
+        tag(ItemTags.SLABS).add(BlockRegistry.RUBBER_SLAB.get().asItem());
+
+        tag(ItemTags.WOODEN_STAIRS).add(BlockRegistry.RUBBER_STAIRS.get().asItem());
+        tag(ItemTags.STAIRS).add(BlockRegistry.RUBBER_STAIRS.get().asItem());
+
+        tag(ItemTags.WOODEN_PRESSURE_PLATES).add(BlockRegistry.RUBBER_PRESSURE_PLATE.get().asItem());
+
+        tag(ItemTags.WOODEN_BUTTONS).add(BlockRegistry.RUBBER_BUTTON.get().asItem());
+        tag(ItemTags.BUTTONS).add(BlockRegistry.RUBBER_BUTTON.get().asItem());
+
+        tag(ItemTags.WOODEN_FENCES).add(BlockRegistry.RUBBER_FENCE.get().asItem());
+        tag(ItemTags.FENCES).add(BlockRegistry.RUBBER_FENCE.get().asItem());
+
+        tag(ItemTags.FENCE_GATES).add(BlockRegistry.RUBBER_FENCE_GATE.get().asItem());
+
+        tag(ItemTags.SIGNS).add(BlockRegistry.RUBBER_SIGN.get().asItem());
+
+        tag(ItemTags.HANGING_SIGNS).add(BlockRegistry.RUBBER_HANGING_SIGN.get().asItem());
+
+        tag(ItemTags.DOORS).add(BlockRegistry.RUBBER_DOOR.get().asItem());
+
+        tag(ItemTags.WOODEN_DOORS).add(BlockRegistry.RUBBER_DOOR.get().asItem());
+
+        tag(ItemTags.TRAPDOORS).add(BlockRegistry.RUBBER_TRAPDOOR.get().asItem());
+
+        tag(ItemTags.WOODEN_TRAPDOORS).add(BlockRegistry.RUBBER_TRAPDOOR.get().asItem());
+
+        tag(ItemTags.BOATS).add(ItemRegistry.RUBBER_BOAT_ITEM.get());
+
+        tag(ItemTags.CHEST_BOATS).add(ItemRegistry.RUBBER_CHEST_BOAT_ITEM.get());
     }
 }

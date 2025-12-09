@@ -4,7 +4,7 @@
     "item": "minecraft:egg"
   },
   "time": 400,
-  "bowl": false,
+  "container": "none",
   "result": {
     "count": 1,
     "item": "brutalharvest:fried_egg"

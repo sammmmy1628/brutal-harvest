@@ -1,6 +1,7 @@
 package com.christofmeg.brutalharvest.common.init;
 
 import com.christofmeg.brutalharvest.CommonConstants;
+import com.christofmeg.brutalharvest.common.entity.BrutalBoatEntity;
 import com.christofmeg.brutalharvest.common.item.*;
 import net.minecraft.world.food.Foods;
 import net.minecraft.world.item.*;
@@ -13,8 +14,6 @@ import javax.annotation.Nonnull;
 
 public class ItemRegistry {
 
-    //TODO look at farmers delight cooking pot
-
     public static final DeferredRegister<Item> ITEMS;
 
     public static final RegistryObject<Item> UNRIPE_TOMATO;
@@ -26,6 +25,12 @@ public class ItemRegistry {
     public static final RegistryObject<Item> LETTUCE;
     public static final RegistryObject<Item> SLICED_LETTUCE;
     public static final RegistryObject<Item> LETTUCE_SEEDS;
+
+    public static final RegistryObject<Item> COFFEE_BEANS;
+    public static final RegistryObject<Item> COFFEE_CHERRY;
+    public static final RegistryObject<Item> COFFEE_POWDER;
+    public static final RegistryObject<Item> DRIED_COFFEE_BEANS;
+    public static final RegistryObject<Item> COFFEE_BOTTLE;
 
     public static final RegistryObject<Item> CORN;
     public static final RegistryObject<Item> CORN_SEEDS;
@@ -94,6 +99,10 @@ public class ItemRegistry {
     public static final RegistryObject<Item> DOUGH;
     public static final RegistryObject<Item> TOMATO_DOUGH;
 
+    public static final RegistryObject<Item> UNCOOKED_PASTA;
+    public static final RegistryObject<Item> PASTA;
+    public static final RegistryObject<Item> SPAGHETTI;
+
 //    public static final RegistryObject<Item> RUBBER_BUCKET;
 //    public static final RegistryObject<Item> RUBBER;
 
@@ -141,6 +150,9 @@ public class ItemRegistry {
     public static final RegistryObject<Item> BOOTS;
     public static final RegistryObject<Item> CHEFS_APRON;
 
+    public static final RegistryObject<Item> RUBBER_BOAT_ITEM;
+    public static final RegistryObject<Item> RUBBER_CHEST_BOAT_ITEM;
+
     public static void init(@Nonnull IEventBus modEventBus) {
         ITEMS.register(modEventBus);
     }
@@ -159,6 +171,12 @@ public class ItemRegistry {
         STRAWBERRY = ITEMS.register("strawberry", () -> new Item(new Item.Properties().food(BrutalFoods.STRAWBERRY)));
         UNRIPE_STRAWBERRY = ITEMS.register("unripe_strawberry", () -> new Item(new Item.Properties().food(BrutalFoods.UNRIPE_STRAWBERRY)));
         BLUEBERRY = ITEMS.register("blueberry", () -> new ItemNameBlockItem(BlockRegistry.BLUEBERRY.get(), new Item.Properties().food(BrutalFoods.BLUEBERRY)));
+
+        COFFEE_BEANS = ITEMS.register("coffee_beans", () -> new ItemNameBlockItem(BlockRegistry.COFFEE.get(), new Item.Properties()));
+        COFFEE_CHERRY = ITEMS.register("coffee_cherry", () -> new Item(new Item.Properties()));
+        COFFEE_POWDER = ITEMS.register("coffee_powder", () -> new Item(new Item.Properties()));
+        DRIED_COFFEE_BEANS = ITEMS.register("dried_coffee_beans", () -> new Item(new Item.Properties()));
+        COFFEE_BOTTLE = ITEMS.register("coffee_bottle", () -> new BrutalRemainderFoodItem(new Item.Properties().food(BrutalFoods.COFFEE_BOTTLE), Items.GLASS_BOTTLE));
 
         CORN = ITEMS.register("corn", () -> new Item(new Item.Properties().food(BrutalFoods.CORN)));
 
@@ -221,11 +239,15 @@ public class ItemRegistry {
         TOAST = ITEMS.register("toast", () -> new Item(new Item.Properties().food(BrutalFoods.TOAST)));
         TOAST_SLICE = ITEMS.register("toast_slice", () -> new Item(new Item.Properties().food(BrutalFoods.TOAST_SLICE)));
 
-        POPCORN = ITEMS.register("popcorn", () -> new Item(new Item.Properties().food(BrutalFoods.POPCORN).craftRemainder(Items.BOWL)));
+        POPCORN = ITEMS.register("popcorn", () -> new BrutalRemainderFoodItem(new Item.Properties().food(BrutalFoods.POPCORN), Items.BOWL));
 
         FLOUR = ITEMS.register("flour", () -> new Item(new Item.Properties()));
         DOUGH = ITEMS.register("dough", () -> new Item(new Item.Properties()));
         TOMATO_DOUGH = ITEMS.register("tomato_dough", () -> new Item(new Item.Properties()));
+
+        UNCOOKED_PASTA = ITEMS.register("uncooked_pasta", () -> new Item(new Item.Properties()));
+        PASTA = ITEMS.register("pasta", () -> new BrutalRemainderFoodItem(new Item.Properties().food(BrutalFoods.PASTA), Items.BOWL));
+        SPAGHETTI = ITEMS.register("spaghetti", () -> new BrutalRemainderFoodItem(new Item.Properties().food(BrutalFoods.SPAGHETTI), Items.BOWL));
 
 //        RUBBER_BUCKET = ITEMS.register("rubber_bucket", () -> new Item(new Item.Properties().craftRemainder(Items.BUCKET))); //TODO implement
 //        RUBBER = ITEMS.register("rubber", () -> new Item(new Item.Properties()));
@@ -272,6 +294,8 @@ public class ItemRegistry {
         BOOTS = ITEMS.register("boots", () -> new ArmorItem(BrutalArmorMaterials.BOOTS, ArmorItem.Type.BOOTS, new Item.Properties()));
         CHEFS_APRON = ITEMS.register("chefs_apron", () -> new ChefsApronItem(BrutalArmorMaterials.CHEFS_HAT, ArmorItem.Type.CHESTPLATE, new Item.Properties()));
 
+        RUBBER_BOAT_ITEM = ITEMS.register("rubber_boat", () -> new BrutalBoatItem(false, BrutalBoatEntity.Type.RUBBER, new Item.Properties().stacksTo(1)));
+        RUBBER_CHEST_BOAT_ITEM = ITEMS.register("rubber_chest_boat", () -> new BrutalBoatItem(true, BrutalBoatEntity.Type.RUBBER, new Item.Properties().stacksTo(1)));
     }
 
 }

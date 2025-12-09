@@ -1,0 +1,10 @@
+{
+  "type": "brutalharvest:cutting",
+  "ingredient": {
+    "item": "brutalharvest:dough"
+  },
+  "result": {
+    "item": "brutalharvest:uncooked_pasta",
+    "count": 2
+  }
+}

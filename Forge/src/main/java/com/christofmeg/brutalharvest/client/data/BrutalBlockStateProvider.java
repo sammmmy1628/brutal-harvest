@@ -7,14 +7,15 @@ import com.christofmeg.brutalharvest.common.block.base.BaseCookingBlock;
 import com.christofmeg.brutalharvest.common.init.BlockRegistry;
 import net.minecraft.core.Direction;
 import net.minecraft.data.PackOutput;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.HorizontalDirectionalBlock;
-import net.minecraft.world.level.block.RotatedPillarBlock;
-import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
 
 public class BrutalBlockStateProvider extends BaseBlockStateProvider {
 
@@ -35,6 +36,7 @@ public class BrutalBlockStateProvider extends BaseBlockStateProvider {
 
         makeCrop(BlockRegistry.TOMATO.get(), TomatoCropBlock.AGE, modLoc("block/lowered_cross"));
         makeCrop(BlockRegistry.LETTUCE.get(), LettuceCropBlock.AGE);
+        makeCrop(BlockRegistry.COFFEE.get(), CoffeeCropBlock.AGE);
         makeDoubleCrop(BlockRegistry.CORN.get(), 8, 2, modLoc("block/lowered_cross"), mcLoc("block/cross"));
         makeDoubleCrop(BlockRegistry.CUCUMBER.get(), 7, 4, modLoc("block/lowered_cross"), mcLoc("block/cross"));
 
@@ -65,24 +67,38 @@ public class BrutalBlockStateProvider extends BaseBlockStateProvider {
         fenceBlock(BlockRegistry.RUBBER_FENCE.get(), modLoc("block/rubber_planks"));
         fenceGateBlock(BlockRegistry.RUBBER_FENCE_GATE.get(), modLoc("block/rubber_planks"));
 
-        for (String name : new String[] {"pan", "pot"}) {
+        signBlock(BlockRegistry.RUBBER_SIGN.get(), BlockRegistry.RUBBER_WALL_SIGN.get(), modLoc("block/rubber_planks"));
+        hangingSignBlock(BlockRegistry.RUBBER_HANGING_SIGN.get(), BlockRegistry.RUBBER_WALL_HANGING_SIGN.get(), modLoc("block/stripped_rubber_log"));
 
-            Block block = name.equals("pan") ? BlockRegistry.PAN.get() : BlockRegistry.POT.get();
+        doorBlockWithRenderType(BlockRegistry.RUBBER_DOOR.get(), modLoc("block/rubber_door_bottom"), modLoc("block/rubber_door_top"), mcLoc("cutout"));
+
+        trapdoorBlockWithRenderType(BlockRegistry.RUBBER_TRAPDOOR.get(), modLoc("block/rubber_trapdoor"), true, mcLoc("cutout"));
+
+        for (Block block : new Block[] {BlockRegistry.WOODEN_CUTTING_BOARD.get(), BlockRegistry.IRON_CUTTING_BOARD.get()}) {
+
+            String name = Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block)).getPath();
+
+            ModelFile model = new ModelFile.ExistingModelFile(modLoc("block/" + name), this.fileHelper);
+            for (Direction direction : HorizontalDirectionalBlock.FACING.getPossibleValues()) {
+                int rot = (int) direction.toYRot();
+                getVariantBuilder(block)
+                        .partialState().with(CuttingBoardBlock.FACING, direction).modelForState().rotationY(rot).modelFile(model).addModel();
+            }
+        }
+
+        for (Block block : new Block[] {BlockRegistry.PAN.get(), BlockRegistry.POT.get()}) {
+
+            String name = Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block)).getPath();
 
             ModelFile model = new ModelFile.ExistingModelFile(modLoc("block/" + name), this.fileHelper);
             ModelFile model_on_campfire = new ModelFile.ExistingModelFile(modLoc("block/" + name + "_on_campfire"), this.fileHelper);
-            ModelFile model_on_campfire_filled = new ModelFile.ExistingModelFile(modLoc("block/" + name + "_on_campfire_filled"), this.fileHelper);
             ModelFile model_on_soul_campfire = new ModelFile.ExistingModelFile(modLoc("block/" + name + "_on_soul_campfire"), this.fileHelper);
-            ModelFile model_on_soul_campfire_filled = new ModelFile.ExistingModelFile(modLoc("block/" + name + "_on_soul_campfire_filled"), this.fileHelper);
-
             for (Direction direction : HorizontalDirectionalBlock.FACING.getPossibleValues()) {
                 int rot = (int) direction.getClockWise().toYRot();
                 getVariantBuilder(block)
                         .partialState().with(BaseCookingBlock.ON_CAMPFIRE, BaseCookingBlock.OnCampfire.NONE).with(BaseCookingBlock.FACING, direction).modelForState().rotationY(rot).modelFile(model).addModel()
-                        .partialState().with(BaseCookingBlock.ON_CAMPFIRE, BaseCookingBlock.OnCampfire.CAMPFIRE).with(BaseCookingBlock.FILLED, false).with(BaseCookingBlock.FACING, direction).modelForState().rotationY(rot).modelFile(model_on_campfire).addModel()
-                        .partialState().with(BaseCookingBlock.ON_CAMPFIRE, BaseCookingBlock.OnCampfire.CAMPFIRE).with(BaseCookingBlock.FILLED, true).with(BaseCookingBlock.FACING, direction).modelForState().rotationY(rot).modelFile(model_on_campfire_filled).addModel()
-                        .partialState().with(BaseCookingBlock.ON_CAMPFIRE, BaseCookingBlock.OnCampfire.SOUL_CAMPFIRE).with(BaseCookingBlock.FILLED, false).with(BaseCookingBlock.FACING, direction).modelForState().rotationY(rot).modelFile(model_on_soul_campfire).addModel()
-                        .partialState().with(BaseCookingBlock.ON_CAMPFIRE, BaseCookingBlock.OnCampfire.SOUL_CAMPFIRE).with(BaseCookingBlock.FILLED, true).with(BaseCookingBlock.FACING, direction).modelForState().rotationY(rot).modelFile(model_on_soul_campfire_filled).addModel();
+                        .partialState().with(BaseCookingBlock.ON_CAMPFIRE, BaseCookingBlock.OnCampfire.CAMPFIRE).with(BaseCookingBlock.FACING, direction).modelForState().rotationY(rot).modelFile(model_on_campfire).addModel()
+                        .partialState().with(BaseCookingBlock.ON_CAMPFIRE, BaseCookingBlock.OnCampfire.SOUL_CAMPFIRE).with(BaseCookingBlock.FACING, direction).modelForState().rotationY(rot).modelFile(model_on_soul_campfire).addModel();
             }
         }
 
@@ -156,6 +172,12 @@ public class BrutalBlockStateProvider extends BaseBlockStateProvider {
             .partialState().with(RubberLogGeneratedBlock.OPEN, true).with(RubberLogGeneratedBlock.CUT, true).with(RubberLogGeneratedBlock.FACING, Direction.EAST).modelForState().modelFile(cut).rotationY(90).addModel()
             .partialState().with(RubberLogGeneratedBlock.OPEN, true).with(RubberLogGeneratedBlock.CUT, true).with(RubberLogGeneratedBlock.FACING, Direction.WEST).modelForState().modelFile(cut).rotationY(270).addModel();
         
+    }
+
+    private void hangingSignBlock(CeilingHangingSignBlock ceilingSign, WallHangingSignBlock wallSign, ResourceLocation texture) {
+        ModelFile sign = this.models().sign(Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(ceilingSign)).getPath(), texture);
+        simpleBlock(ceilingSign, sign);
+        simpleBlock(wallSign, sign);
     }
 
 }

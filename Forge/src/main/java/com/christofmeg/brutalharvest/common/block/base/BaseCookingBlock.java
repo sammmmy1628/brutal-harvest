@@ -11,7 +11,6 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
@@ -21,20 +20,17 @@ import org.jetbrains.annotations.Nullable;
 public abstract class BaseCookingBlock extends BaseEntityBlock {
 
     public static final Property<Direction> FACING = HorizontalDirectionalBlock.FACING;
-    public static final BooleanProperty FILLED = BooleanProperty.create("filled");
     public static final EnumProperty<OnCampfire> ON_CAMPFIRE = EnumProperty.create("on_campfire", OnCampfire.class);
 
     protected BaseCookingBlock(Properties pProperties) {
         super(pProperties);
         this.registerDefaultState(this.getStateDefinition().any()
-                .setValue(ON_CAMPFIRE, OnCampfire.NONE)
-                .setValue(FILLED, false));
+                .setValue(ON_CAMPFIRE, OnCampfire.NONE));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.@NotNull Builder<Block, BlockState> pBuilder) {
         pBuilder.add(FACING);
-        pBuilder.add(FILLED);
         pBuilder.add(ON_CAMPFIRE);
     }
 
@@ -64,7 +60,7 @@ public abstract class BaseCookingBlock extends BaseEntityBlock {
         BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
         if (blockEntity != null) {
             blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(iItemHandler ->
-                    Containers.dropContents(pLevel, pPos, new SimpleContainer(iItemHandler.getStackInSlot(0))));
+                    Containers.dropContents(pLevel, pPos, new SimpleContainer(iItemHandler.getStackInSlot(0), iItemHandler.getStackInSlot(1))));
         }
         super.onRemove(pState, pLevel, pPos, pNewState, pMovedByPiston);
     }

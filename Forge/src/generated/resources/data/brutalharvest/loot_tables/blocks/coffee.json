@@ -1,0 +1,66 @@
+{
+  "type": "minecraft:block",
+  "functions": [
+    {
+      "function": "minecraft:explosion_decay"
+    }
+  ],
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "block": "brutalharvest:coffee",
+          "condition": "minecraft:block_state_property",
+          "properties": {
+            "age": "9"
+          }
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "chance": 0.25,
+              "condition": "minecraft:random_chance"
+            }
+          ],
+          "name": "brutalharvest:coffee_beans"
+        }
+      ],
+      "rolls": 1.0
+    },
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "block": "brutalharvest:coffee",
+          "condition": "minecraft:block_state_property",
+          "properties": {
+            "age": "8"
+          }
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 3.0,
+                "min": 2.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "brutalharvest:coffee_cherry"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "brutalharvest:blocks/coffee"
+}

@@ -22,11 +22,11 @@ public class ComposterBlockCompostables {
         compost(ItemRegistry.CUCUMBER, 0.65F);
         compost(ItemRegistry.CUCUMBER_SLICE, 0.50F);
         compost(ItemRegistry.PICKLE, 0.65F);
-/*
-            compost(ItemRegistry.COFFEE_BEANS, 0.30F);
-            compost(ItemRegistry.DRIED_COFFEE_BEANS, 0.30F);
-            compost(ItemRegistry.COFFEE_POWDER, 0.30F);
-*/
+
+        compost(ItemRegistry.COFFEE_BEANS, 0.30F);
+        compost(ItemRegistry.DRIED_COFFEE_BEANS, 0.30F);
+        compost(ItemRegistry.COFFEE_POWDER, 0.30F);
+        
         compost(ItemRegistry.RAPESEED_BEANS, 0.50F);
 
         compost(ItemRegistry.SUGAR_BEET, 0.65F);
@@ -47,7 +47,7 @@ public class ComposterBlockCompostables {
         compost(ItemRegistry.CORN_SEEDS, 0.30F);
         compost(ItemRegistry.CUCUMBER_SEEDS, 0.30F);
         compost(ItemRegistry.COTTON_SEEDS, 0.30F);
-//          compost(ItemRegistry.COFFEE_CHERRY, 0.30F);
+        compost(ItemRegistry.COFFEE_CHERRY, 0.30F);
         compost(ItemRegistry.RAPESEEDS, 0.30F);
         compost(ItemRegistry.SUGAR_BEET_SEEDS, 0.30F);
         compost(ItemRegistry.STRAWBERRY_SEEDS, 0.30F);

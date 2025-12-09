@@ -1,0 +1,15 @@
+{
+  "type": "brutalharvest:cooking",
+  "result_type": "item",
+  "ingredients": [
+    {
+      "item": "brutalharvest:uncooked_pasta"
+    }
+  ],
+  "time": 400,
+  "container": "bowl",
+  "item_result": {
+    "count": 1,
+    "item": "brutalharvest:pasta"
+  }
+}

@@ -72,10 +72,12 @@ public class BrutalLanguageProvider extends LanguageProvider {
             addEntityType(EntityTypeRegistry.THROWN_SCYTHE, "Scythe");
             addEntityType(EntityTypeRegistry.THROWN_KNIFE, "Knife");
 
-            add("fluid_type." + CommonConstants.MOD_ID + ".rapeseed_oil_fluid", "Rapeseed Oil");
+            add("fluid_type." + CommonConstants.MOD_ID + ".rapeseed_oil", "Rapeseed Oil");
+            add("fluid_type." + CommonConstants.MOD_ID + ".coffee", "Coffee");
 
             add("container.seedSatchel", "Seed Satchel");
-
+            add("entity." + CommonConstants.MOD_ID + ".brutal_boat.rubber", "Rubber Boat");
+            add("entity." + CommonConstants.MOD_ID + ".brutal_chest_boat.rubber", "Rubber Boat with Chest");
         }
     }
 

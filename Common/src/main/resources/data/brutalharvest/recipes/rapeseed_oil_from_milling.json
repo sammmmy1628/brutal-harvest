@@ -1,13 +1,10 @@
 {
   "type": "brutalharvest:milling",
+  "result_type": "fluid",
   "ingredient": {
-    "item": "brutalharvest:rapeseeds"
+    "item": "brutalharvest:rapeseed_beans"
   },
   "spins": 3,
-  "item_result": {
-    "item": "minecraft:dirt",
-    "amount": 0
-  },
   "fluid_result": {
     "fluid": "brutalharvest:rapeseed_oil",
     "amount": 50

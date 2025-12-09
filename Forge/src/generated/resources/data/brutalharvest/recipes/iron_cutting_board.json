@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "P": {
+      "item": "minecraft:heavy_weighted_pressure_plate"
+    }
+  },
+  "pattern": [
+    "PPP"
+  ],
+  "result": {
+    "item": "brutalharvest:iron_cutting_board"
+  },
+  "show_notification": true
+}

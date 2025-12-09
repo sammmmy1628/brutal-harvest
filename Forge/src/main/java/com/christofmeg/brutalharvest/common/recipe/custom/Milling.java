@@ -19,6 +19,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public record Milling(Ingredient ingredient, int spins, ItemStack itemOutput, FluidStack fluidOutput) implements Recipe<Container> {
@@ -44,15 +45,15 @@ public record Milling(Ingredient ingredient, int spins, ItemStack itemOutput, Fl
     }
 
     public FluidStack getResultFluid() {
-        return this.fluidOutput != null ? this.fluidOutput.copy() : FluidStack.EMPTY;
+        return this.fluidOutput.copy();
     }
 
     @Override
     public @NotNull ResourceLocation getId() {
-        if (itemOutput.getCount() == 0) {
-            return new ResourceLocation(CommonConstants.MOD_ID, fluidOutput.getFluid().getFluidType().getDescriptionId() + "_from_milling");
+        if (itemOutput == ItemStack.EMPTY && fluidOutput != FluidStack.EMPTY) {
+            return new ResourceLocation(CommonConstants.MOD_ID, Objects.requireNonNull(ForgeRegistries.FLUIDS.getKey(fluidOutput.getFluid())).getPath() + "_from_milling");
         } else {
-            return new ResourceLocation(CommonConstants.MOD_ID, itemOutput.getDescriptionId() + "_from_milling");
+            return new ResourceLocation(CommonConstants.MOD_ID, Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(itemOutput.getItem())).getPath() + "_from_milling");
         }
     }
 
@@ -70,21 +71,27 @@ public record Milling(Ingredient ingredient, int spins, ItemStack itemOutput, Fl
         return this.ingredient.getItems()[0];
     }
 
-    private static Fluid fluidFromJson(String fluid) {
-        return ForgeRegistries.FLUIDS.getValue(new ResourceLocation(fluid));
+    public static FluidStack fluidFromJson(JsonObject json) {
+        JsonObject fluidObject = GsonHelper.getAsJsonObject(json, "fluid_result");
+        int amount = GsonHelper.getAsInt(fluidObject, "amount");
+        String fluid_name = GsonHelper.getAsString(fluidObject, "fluid");
+        Fluid fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(fluid_name));
+        if (fluid == null) {
+            throw new IllegalArgumentException(fluid_name + " is not a valid fluid name!");
+        }
+        return new FluidStack(fluid, amount);
     }
 
     public record MillingRecipeSerializer() implements RecipeSerializer<Milling> {
 
         @Override
         public @NotNull Milling fromJson(@NotNull ResourceLocation resourceLocation, @NotNull JsonObject jsonObject) {
+            String results = GsonHelper.getAsString(jsonObject, "result_type");
             Ingredient ingredient1 = Ingredient.fromJson(GsonHelper.getAsJsonObject(jsonObject, "ingredient"), false);
             int spins = GsonHelper.getAsInt(jsonObject, "spins");
-            JsonObject fluid_result = GsonHelper.getAsJsonObject(jsonObject, "fluid_result");
-            ItemStack result = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(jsonObject, "item_result"));
-            int fluid_amount = GsonHelper.getAsInt(fluid_result, "amount");
-            Fluid fluid = fluidFromJson(GsonHelper.getAsString(fluid_result, "fluid"));
-            return new Milling(ingredient1, spins, result, new FluidStack(fluid, fluid_amount));
+            FluidStack fluid_result = results.equals("both") || results.equals("fluid") ? fluidFromJson(jsonObject) : FluidStack.EMPTY;
+            ItemStack result = results.equals("both") || results.equals("item") ? ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(jsonObject, "item_result")) : ItemStack.EMPTY;
+            return new Milling(ingredient1, spins, result, fluid_result);
         }
 
         @Override
@@ -107,6 +114,7 @@ public record Milling(Ingredient ingredient, int spins, ItemStack itemOutput, Fl
 
     public static class MillingItemsCache {
         private static final Set<Item> ALLOWED = new HashSet<>();
+        private static final Set<Fluid> ALLOWED_FLUIDS = new HashSet<>();
 
         public static boolean isValid(Level level, Item item) {
             if (level == null) {
@@ -120,8 +128,23 @@ public record Milling(Ingredient ingredient, int spins, ItemStack itemOutput, Fl
             return ALLOWED.contains(item);
         }
 
+        public static boolean isFluidValid(Level level, Fluid fluid) {
+            if (level == null) {
+                return false;
+            }
+            if (ALLOWED_FLUIDS.isEmpty()) {
+                for (Milling recipe : level.getRecipeManager().getAllRecipesFor(RecipeTypeRegistry.MILLING_RECIPE_TYPE.get())) {
+                    if (recipe.fluidOutput != FluidStack.EMPTY) {
+                        ALLOWED_FLUIDS.add(recipe.fluidOutput.getFluid());
+                    }
+                }
+            }
+            return ALLOWED_FLUIDS.contains(fluid);
+        }
+
         public static void invalidate() {
             ALLOWED.clear();
+            ALLOWED_FLUIDS.clear();
         }
     }
 }

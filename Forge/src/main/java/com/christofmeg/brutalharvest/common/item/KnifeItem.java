@@ -2,6 +2,7 @@ package com.christofmeg.brutalharvest.common.item;
 
 import com.christofmeg.brutalharvest.common.entity.ThrownKnifeEntity;
 import com.christofmeg.brutalharvest.common.init.AdvancementRegistry;
+import com.christofmeg.brutalharvest.common.init.BlockRegistry;
 import com.christofmeg.brutalharvest.common.init.EnchantmentRegistry;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -16,21 +17,27 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
 
 public class KnifeItem extends SwordItem {
     protected Tier tier;
 
     public KnifeItem(Tier tier, Properties properties) {
-        super(tier, 1, -2, properties);
+        super(tier, 1, -2, properties.defaultDurability(tier.getUses()));
         this.tier = tier;
     }
 
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand interactionHand) {
+        BlockState target = level.getBlockState(((BlockHitResult) player.pick(2.0F, 1.0F, false)).getBlockPos());
         ItemStack $$3 = player.getItemInHand(interactionHand);
-        player.startUsingItem(interactionHand);
-        return InteractionResultHolder.consume($$3);
+        if (!target.is(BlockRegistry.WOODEN_CUTTING_BOARD.get()) && !target.is(BlockRegistry.IRON_CUTTING_BOARD.get())) {
+            player.startUsingItem(interactionHand);
+            return InteractionResultHolder.consume($$3);
+        }
+        return InteractionResultHolder.success($$3);
     }
 
     @Override

@@ -53,7 +53,7 @@ public class MillstoneBlockEntity extends BlockEntity implements GeoBlockEntity 
     public MillstoneBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(BlockEntityTypeRegistry.MILLSTONE_BLOCK_ENTITY.get(), pPos, pBlockState);
         this.handler = new MillstoneStackHandler();
-        this.fluidHandler = new FluidTank(1000, fluidStack -> true);
+        this.fluidHandler = new FluidTank(1000, fluidStack -> Milling.MillingItemsCache.isFluidValid(this.level, fluidStack.getFluid()));
         this.fluidHandlerLazyOptional = LazyOptional.of(() -> this.fluidHandler);
         this.itemHandlerLazyOptional = LazyOptional.of(() -> this.handler);
     }

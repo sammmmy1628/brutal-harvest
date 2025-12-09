@@ -1,5 +1,6 @@
 {
   "type": "brutalharvest:milling",
+  "result_type": "item",
   "ingredient": {
     "item": "minecraft:glowstone"
   },
@@ -7,9 +8,5 @@
   "item_result": {
     "item": "minecraft:glowstone_dust",
     "count": 4
-  },
-  "fluid_result": {
-    "fluid": "minecraft:water",
-    "amount": 0
   }
 }

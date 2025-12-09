@@ -72,6 +72,13 @@ public class BrutalBlockLootTables extends BlockLootSubProvider {
                         .setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(LettuceCropBlock.AGE, 5))
         ));
 
+        this.add(BlockRegistry.COFFEE.get(), createCoffeeCropDrops(BlockRegistry.COFFEE.get(),
+                LootItemBlockStatePropertyCondition.hasBlockStateProperties(BlockRegistry.COFFEE.get())
+                        .setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(CoffeeCropBlock.AGE, 8)),
+                LootItemBlockStatePropertyCondition.hasBlockStateProperties(BlockRegistry.COFFEE.get())
+                        .setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(CoffeeCropBlock.AGE, 9)))
+        );
+
         this.add(BlockRegistry.CORN.get(), createTallCropDrops(
                 BlockRegistry.CORN.get(),
                 ItemRegistry.CORN.get(),
@@ -193,12 +200,20 @@ public class BrutalBlockLootTables extends BlockLootSubProvider {
         this.dropSelf(BlockRegistry.MILLSTONE.get());
         this.dropSelf(BlockRegistry.PAN.get());
         this.dropSelf(BlockRegistry.POT.get());
+        this.dropSelf(BlockRegistry.WOODEN_CUTTING_BOARD.get());
+        this.dropSelf(BlockRegistry.IRON_CUTTING_BOARD.get());
         this.dropSelf(BlockRegistry.RUBBER_SLAB.get());
         this.dropSelf(BlockRegistry.RUBBER_STAIRS.get());
         this.dropSelf(BlockRegistry.RUBBER_PRESSURE_PLATE.get());
         this.dropSelf(BlockRegistry.RUBBER_BUTTON.get());
         this.dropSelf(BlockRegistry.RUBBER_FENCE.get());
         this.dropSelf(BlockRegistry.RUBBER_FENCE_GATE.get());
+        this.dropSelf(BlockRegistry.RUBBER_SIGN.get());
+        this.dropSelf(BlockRegistry.RUBBER_HANGING_SIGN.get());
+        this.dropOther(BlockRegistry.RUBBER_WALL_SIGN.get(), BlockRegistry.RUBBER_SIGN.get().asItem());
+        this.dropOther(BlockRegistry.RUBBER_WALL_HANGING_SIGN.get(), BlockRegistry.RUBBER_HANGING_SIGN.get().asItem());
+        this.add(BlockRegistry.RUBBER_DOOR.get(), this.createDoorTable(BlockRegistry.RUBBER_DOOR.get()));
+        this.dropSelf(BlockRegistry.RUBBER_TRAPDOOR.get());
         this.add(BlockRegistry.RUBBER_LEAVES.get(), block -> createLeavesDrops(block, BlockRegistry.RUBBER_SAPLING.get(), NORMAL_LEAVES_SAPLING_CHANCES));
         this.dropOther(BlockRegistry.RUBBER_LOG_GENERATED.get(), BlockRegistry.RUBBER_LOG.get());
         this.dropPottedContents(BlockRegistry.POTTED_RUBBER_SAPLING.get());
@@ -249,6 +264,21 @@ public class BrutalBlockLootTables extends BlockLootSubProvider {
                         .when(unripeConditon.invert().and(matureCondition.invert().and(deadCondition.invert())))
                         .add(LootItem.lootTableItem(pSeedsItem))
                 )
+        );
+    }
+
+    protected LootTable.Builder createCoffeeCropDrops(Block cropBlock, LootItemCondition.Builder dropGrownCropConditionAge8, LootItemCondition.Builder dropGrownCropConditionAge9) {
+        return this.applyExplosionDecay(cropBlock, LootTable.lootTable()
+                .withPool(LootPool.lootPool()
+                        .when(dropGrownCropConditionAge9)
+                        .add(LootItem.lootTableItem(ItemRegistry.COFFEE_BEANS.get())
+                                .when(LootItemRandomChanceCondition.randomChance(0.25F)))
+                )
+
+                .withPool(LootPool.lootPool()
+                        .when(dropGrownCropConditionAge8)
+                        .add(LootItem.lootTableItem(ItemRegistry.COFFEE_CHERRY.get())
+                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(2.0F, 3.0F)))))
         );
     }
 

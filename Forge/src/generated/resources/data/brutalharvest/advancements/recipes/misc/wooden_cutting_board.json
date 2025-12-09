@@ -1,0 +1,33 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "brutalharvest:wooden_cutting_board"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_wooden_pressure_plate": {
+      "conditions": {
+        "items": [
+          {
+            "tag": "minecraft:wooden_pressure_plates"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_wooden_pressure_plate",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "brutalharvest:wooden_cutting_board"
+    ]
+  },
+  "sends_telemetry_event": false
+}

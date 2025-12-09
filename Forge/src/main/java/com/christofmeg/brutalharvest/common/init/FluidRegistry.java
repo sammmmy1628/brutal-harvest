@@ -18,6 +18,11 @@ public class FluidRegistry {
     public static final ForgeFlowingFluid.Properties RAPESEED_OIL_PROPERTIES = new ForgeFlowingFluid.Properties(
             FluidTypeRegistry.RAPESEED_OIL_TYPE, SOURCE_RAPESEED_OIL, FLOWING_RAPESEED_OIL);
 
+    public static final RegistryObject<FlowingFluid> SOURCE_COFFEE = FLUIDS.register("coffee", () -> new ForgeFlowingFluid.Source(FluidRegistry.COFFEE_PROPERTIES));
+    public static final RegistryObject<FlowingFluid> FLOWING_COFFEE = FLUIDS.register("flowing_coffee", () -> new ForgeFlowingFluid.Flowing(FluidRegistry.COFFEE_PROPERTIES));
+    public static final ForgeFlowingFluid.Properties COFFEE_PROPERTIES = new ForgeFlowingFluid.Properties(
+            FluidTypeRegistry.COFFEE_TYPE, SOURCE_COFFEE, FLOWING_COFFEE);
+
     public static void init(IEventBus bus) {
         FLUIDS.register(bus);
     }

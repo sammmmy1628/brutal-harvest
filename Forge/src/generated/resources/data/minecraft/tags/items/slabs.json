@@ -1,6 +1,7 @@
 {
   "values": [
     "#brutalharvest:slabs/tillable",
-    "brutalharvest:farmland_slab"
+    "brutalharvest:farmland_slab",
+    "brutalharvest:rubber_slab"
   ]
 }

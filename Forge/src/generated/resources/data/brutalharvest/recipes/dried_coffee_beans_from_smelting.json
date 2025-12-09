@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 0.35,
+  "group": "misc",
+  "ingredient": {
+    "item": "brutalharvest:coffee_beans"
+  },
+  "result": "brutalharvest:dried_coffee_beans"
+}

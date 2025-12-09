@@ -89,7 +89,7 @@ public class MillstoneBlock extends BaseEntityBlock {
                         if (!pPlayer.isCreative()) {
                             playerStack.shrink(1);
                         }
-                        stackHandler.insertItem(0, new ItemStack(playerStack.getItem(), 1), false);
+                        stackHandler.insertItem(0, playerStack.copyWithCount(1), false);
                     }
                 }
             } else if (!pLevel.isClientSide) {
