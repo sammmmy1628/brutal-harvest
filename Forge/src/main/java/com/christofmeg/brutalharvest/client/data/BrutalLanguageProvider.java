@@ -1,14 +1,18 @@
 package com.christofmeg.brutalharvest.client.data;
 
 import com.christofmeg.brutalharvest.CommonConstants;
+import com.christofmeg.brutalharvest.common.block.WildCropBlock;
 import com.christofmeg.brutalharvest.common.init.BlockRegistry;
 import com.christofmeg.brutalharvest.common.init.EnchantmentRegistry;
 import com.christofmeg.brutalharvest.common.init.EntityTypeRegistry;
 import com.christofmeg.brutalharvest.common.init.ItemRegistry;
 import net.minecraft.data.PackOutput;
 import net.minecraftforge.common.data.LanguageProvider;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import org.codehaus.plexus.util.StringUtils;
+
+import java.util.Objects;
 
 public class BrutalLanguageProvider extends LanguageProvider {
 
@@ -36,11 +40,23 @@ public class BrutalLanguageProvider extends LanguageProvider {
                 )
             ));
 
+            BlockRegistry.BLOCKS.getEntries().stream().filter(block -> block.get() instanceof WildCropBlock)
+                    .forEach(wildCrop -> addBlock(wildCrop, StringUtils.capitaliseAllWords(
+                            Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(wildCrop.get())).getPath()
+                                    .replace('_', ' ')
+                    )));
+
             addItem(ItemRegistry.CORN_SEEDS, "Corn Seeds (Kernel)");
             addItem(ItemRegistry.CHEFS_HAT, "Chef's Hat");
             addItem(ItemRegistry.CHEFS_APRON, "Chef's Apron");
             add("block." + CommonConstants.MOD_ID + "." + "rubber_log_generated", "Rubber Log");
+
             add(BlockRegistry.POTTED_RUBBER_SAPLING.get(), "Potted Rubber Sapling");
+            add(BlockRegistry.WILD_CORN.get(), "Wild Corn");
+            add(BlockRegistry.WILD_CUCUMBER.get(), "Wild Cucumber");
+            add(BlockRegistry.WILD_RAPESEED.get(), "Wild Rapeseed");
+
+            add(BlockRegistry.RUBBER_CAULDRON.get(), "Rubber Cauldron");
 
             add("advancement" + "." + CommonConstants.MOD_ID + "." + "root" + ".desc", "Obtain some tomatoes");
             add("advancement" + "." + CommonConstants.MOD_ID + "." + "rotten_tomatoes", "Rotten Tomatoes");
@@ -74,6 +90,7 @@ public class BrutalLanguageProvider extends LanguageProvider {
 
             add("fluid_type." + CommonConstants.MOD_ID + ".rapeseed_oil", "Rapeseed Oil");
             add("fluid_type." + CommonConstants.MOD_ID + ".coffee", "Coffee");
+            add("fluid_type." + CommonConstants.MOD_ID + ".rubber", "Rubber");
 
             add("container.seedSatchel", "Seed Satchel");
             add("entity." + CommonConstants.MOD_ID + ".brutal_boat.rubber", "Rubber Boat");

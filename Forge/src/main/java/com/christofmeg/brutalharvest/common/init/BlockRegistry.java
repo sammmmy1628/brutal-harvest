@@ -3,6 +3,7 @@ package com.christofmeg.brutalharvest.common.init;
 import com.christofmeg.brutalharvest.CommonConstants;
 import com.christofmeg.brutalharvest.common.block.*;
 import com.christofmeg.brutalharvest.common.block.base.BaseCookingBlock;
+import com.christofmeg.brutalharvest.common.block.base.BaseCropBlock;
 import com.christofmeg.brutalharvest.common.block.woodtype.BrutalWoodTypes;
 import com.christofmeg.brutalharvest.common.blockentity.BrutalHangingSignBlockEntity;
 import com.christofmeg.brutalharvest.common.blockentity.BrutalSignBlockEntity;
@@ -48,6 +49,17 @@ public class BlockRegistry {
     public static final RegistryObject<Block> STRAWBERRY;
 //    public static final RegistryObject<Block> ONION;
     public static final RegistryObject<Block> BLUEBERRY;
+
+    public static final RegistryObject<Block> WILD_TOMATO;
+    public static final RegistryObject<Block> WILD_LETTUCE;
+    public static final RegistryObject<Block> WILD_COFFEE;
+    public static final RegistryObject<Block> WILD_CORN;
+    public static final RegistryObject<Block> WILD_CUCUMBER;
+    public static final RegistryObject<Block> WILD_COTTON;
+    public static final RegistryObject<Block> WILD_RAPESEED;
+    public static final RegistryObject<Block> WILD_SUGAR_BEET;
+    public static final RegistryObject<Block> WILD_STRAWBERRY;
+
     public static final RegistryObject<Block> RUBBER_SAPLING;
     public static final RegistryObject<Block> RUBBER_LOG;
     public static final RegistryObject<Block> RUBBER_WOOD;
@@ -70,12 +82,15 @@ public class BlockRegistry {
     public static final RegistryObject<DoorBlock> RUBBER_DOOR;
     public static final RegistryObject<TrapDoorBlock> RUBBER_TRAPDOOR;
 
-//    public static final RegistryObject<Block> RUBBER_CAULDRON;
     public static final RegistryObject<Block> MILLSTONE;
     public static final RegistryObject<Block> PAN;
     public static final RegistryObject<Block> POT;
     public static final RegistryObject<Block> WOODEN_CUTTING_BOARD;
     public static final RegistryObject<Block> IRON_CUTTING_BOARD;
+
+    public static final RegistryObject<Block> FAUCET;
+    public static final RegistryObject<Block> RUBBER_CAULDRON;
+    public static final RegistryObject<Block> DRIED_RUBBER_BLOCK;
 
     public static final RegistryObject<Block> FARMLAND_SLAB;
     public static final RegistryObject<Block> DIRT_SLAB;
@@ -107,6 +122,22 @@ public class BlockRegistry {
         STRAWBERRY = BLOCKS.register("strawberry", () -> new StrawberryCropBlock(cropPropeties));
 //        ONION = BLOCKS.register("onion", () -> new OnionCropBlock(cropPropeties));
         BLUEBERRY = BLOCKS.register("blueberry", () -> new BlueberryBushBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.SWEET_BERRY_BUSH).pushReaction(PushReaction.DESTROY)));
+
+        WILD_TOMATO = BLOCKS.register("wild_tomato", () -> new WildCropBlock(
+                Block.box(0.0, 0.0, 0.0, 16.0, 14.0, 16.0)));
+        WILD_LETTUCE = BLOCKS.register("wild_lettuce", () -> new WildCropBlock(
+                Block.box(0.0, 0.0, 0.0, 16.0, 12.0, 16.0)));
+        WILD_COFFEE = BLOCKS.register("wild_coffee", () -> new WildCropBlock(
+                Block.box(1.0F, 0.0F, 1.0F, 15.0F, 15.0F, 15.0F)));
+        WILD_CORN = BLOCKS.register("wild_corn", () -> new DoublePlantBlock(BlockBehaviour.Properties.copy(Blocks.TALL_GRASS)));
+        WILD_CUCUMBER = BLOCKS.register("wild_cucumber", () -> new DoublePlantBlock(BlockBehaviour.Properties.copy(Blocks.TALL_GRASS)));
+        WILD_COTTON = BLOCKS.register("wild_cotton", () -> new WildCropBlock(
+                Block.box(0.0, 0.0, 0.0, 16.0, 13.0, 16.0)));
+        WILD_RAPESEED = BLOCKS.register("wild_rapeseed", () -> new DoublePlantBlock(BlockBehaviour.Properties.copy(Blocks.TALL_GRASS)));
+        WILD_SUGAR_BEET = BLOCKS.register("wild_sugar_beet", () -> new WildCropBlock(
+                Block.box(0.0, 0.0, 0.0, 16.0, 9.0, 16.0)));
+        WILD_STRAWBERRY = BLOCKS.register("wild_strawberry", () -> new WildCropBlock(
+                Block.box(0.0, 0.0, 0.0, 16.0, 12.0, 16.0)));
 
         RUBBER_SAPLING = BLOCKS.register("rubber_sapling", () -> new SaplingBlock(new RubberTreeGrower(), BlockBehaviour.Properties.copy(Blocks.OAK_SAPLING)));
         ItemRegistry.ITEMS.register("rubber_sapling", () -> new BlockItem(RUBBER_SAPLING.get(), new Item.Properties()));
@@ -238,8 +269,13 @@ public class BlockRegistry {
         IRON_CUTTING_BOARD = BLOCKS.register("iron_cutting_board", () -> new CuttingBoardBlock(BlockBehaviour.Properties.of().noOcclusion().sound(SoundType.METAL).strength(2.0F, 4.2F)));
         ItemRegistry.ITEMS.register("iron_cutting_board", () -> new BlockItem(IRON_CUTTING_BOARD.get(), new Item.Properties()));
 
-        //        RUBBER_CAULDRON = BLOCKS.register("rubber_cauldron", () -> new LayeredCauldronBlock(BlockBehaviour.Properties.copy(Blocks.CAULDRON), LayeredCauldronBlock.RAIN, CauldronInteraction.WATER));
+        FAUCET = BLOCKS.register("faucet", () -> new FaucetBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion().randomTicks()));
+        ItemRegistry.ITEMS.register("faucet", () -> new BlockItem(FAUCET.get(), new Item.Properties()));
 
+        RUBBER_CAULDRON = BLOCKS.register("rubber_cauldron", () -> new RubberCauldronBlock(BlockBehaviour.Properties.copy(Blocks.CAULDRON)));
+
+        DRIED_RUBBER_BLOCK = BLOCKS.register("dried_rubber_block", () -> new Block(BlockBehaviour.Properties.copy(Blocks.SLIME_BLOCK)));
+        ItemRegistry.ITEMS.register("dried_rubber_block", () -> new BlockItem(DRIED_RUBBER_BLOCK.get(), new Item.Properties()));
     }
 
     private static RegistryObject<Block> block(String name, BlockBehaviour.Properties blockProperties) {

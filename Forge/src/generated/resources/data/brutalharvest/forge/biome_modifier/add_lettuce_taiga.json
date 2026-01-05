@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#minecraft:is_taiga",
+  "features": "brutalharvest:lettuce_placed",
+  "step": "vegetal_decoration"
+}

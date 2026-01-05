@@ -10,7 +10,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -191,6 +193,16 @@ public class BrutalBlockLootTables extends BlockLootSubProvider {
                         )
                 ));
 
+        this.dropOther(BlockRegistry.WILD_TOMATO.get(), ItemRegistry.TOMATO_SEEDS.get());
+        this.dropOther(BlockRegistry.WILD_LETTUCE.get(), ItemRegistry.LETTUCE_SEEDS.get());
+        this.add(BlockRegistry.WILD_CORN.get(), this.createDoubleWildCropDrops(BlockRegistry.WILD_CORN.get(), ItemRegistry.CORN_SEEDS.get()));
+        this.add(BlockRegistry.WILD_CUCUMBER.get(), this.createDoubleWildCropDrops(BlockRegistry.WILD_CUCUMBER.get(), ItemRegistry.CUCUMBER_SEEDS.get()));
+        this.dropOther(BlockRegistry.WILD_COFFEE.get(), ItemRegistry.COFFEE_BEANS.get());
+        this.dropOther(BlockRegistry.WILD_COTTON.get(), ItemRegistry.COTTON_SEEDS.get());
+        this.add(BlockRegistry.WILD_RAPESEED.get(), this.createDoubleWildCropDrops(BlockRegistry.WILD_RAPESEED.get(), ItemRegistry.RAPESEEDS.get()));
+        this.dropOther(BlockRegistry.WILD_SUGAR_BEET.get(), ItemRegistry.SUGAR_BEET_SEEDS.get());
+        this.dropOther(BlockRegistry.WILD_STRAWBERRY.get(), ItemRegistry.STRAWBERRY_SEEDS.get());
+
         this.dropSelf(BlockRegistry.RUBBER_SAPLING.get());
         this.dropSelf(BlockRegistry.RUBBER_LOG.get());
         this.dropSelf(BlockRegistry.RUBBER_WOOD.get());
@@ -210,6 +222,9 @@ public class BrutalBlockLootTables extends BlockLootSubProvider {
         this.dropSelf(BlockRegistry.RUBBER_FENCE_GATE.get());
         this.dropSelf(BlockRegistry.RUBBER_SIGN.get());
         this.dropSelf(BlockRegistry.RUBBER_HANGING_SIGN.get());
+        this.dropSelf(BlockRegistry.FAUCET.get());
+        this.dropSelf(BlockRegistry.DRIED_RUBBER_BLOCK.get());
+        this.dropOther(BlockRegistry.RUBBER_CAULDRON.get(), Items.CAULDRON);
         this.dropOther(BlockRegistry.RUBBER_WALL_SIGN.get(), BlockRegistry.RUBBER_SIGN.get().asItem());
         this.dropOther(BlockRegistry.RUBBER_WALL_HANGING_SIGN.get(), BlockRegistry.RUBBER_HANGING_SIGN.get().asItem());
         this.add(BlockRegistry.RUBBER_DOOR.get(), this.createDoorTable(BlockRegistry.RUBBER_DOOR.get()));
@@ -231,6 +246,14 @@ public class BrutalBlockLootTables extends BlockLootSubProvider {
     protected @NotNull Iterable<Block> getKnownBlocks() {
         return BlockRegistry.BLOCKS.getEntries().stream().map(RegistryObject::get)
                 ::iterator;
+    }
+
+    protected LootTable.Builder createDoubleWildCropDrops(Block block, Item drop) {
+        return this.applyExplosionDecay(block, LootTable.lootTable()
+                .withPool(LootPool.lootPool()
+                        .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
+                                .setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(DoublePlantBlock.HALF, DoubleBlockHalf.LOWER)))
+                        .add(LootItem.lootTableItem(drop))));
     }
 
     protected LootTable.Builder createGenericUnripeRottenCropDrops(Block pCropBlock, Item unripeCropItem, float minUnripeCropItem, float maxUnripeCropItem, Item pGrownCropItem, float minCropItem, float maxCropItem, Item rottenCropItem, float minRottenCropItem, float maxRottenCropItem, Item pSeedsItem, float minSeedItem, float maxSeedItem, LootItemCondition.Builder unripeConditon, LootItemCondition.Builder matureCondition, LootItemCondition.Builder deadCondition) {

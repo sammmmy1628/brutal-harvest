@@ -36,7 +36,7 @@ public record Milling(Ingredient ingredient, int spins, ItemStack itemOutput, Fl
 
     @Override
     public boolean canCraftInDimensions(int i, int i1) {
-        return false;
+        return true;
     }
 
     @Override

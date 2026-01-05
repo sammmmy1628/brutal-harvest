@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "brutalharvest:lettuce_seeds",
+    "brutalharvest:corn_seeds",
+    "brutalharvest:cotton_seeds",
+    "brutalharvest:coffee_beans",
+    "brutalharvest:rapeseeds",
+    "brutalharvest:sugar_beet_seeds"
+  ]
+}

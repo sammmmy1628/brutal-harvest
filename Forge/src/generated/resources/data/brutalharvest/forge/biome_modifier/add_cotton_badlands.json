@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#minecraft:is_badlands",
+  "features": "brutalharvest:cotton_placed",
+  "step": "vegetal_decoration"
+}

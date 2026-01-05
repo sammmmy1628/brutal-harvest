@@ -31,7 +31,7 @@ public record Cutting(Ingredient ingredient, ItemStack result) implements Recipe
 
     @Override
     public boolean canCraftInDimensions(int i, int i1) {
-        return false;
+        return true;
     }
 
     @Override

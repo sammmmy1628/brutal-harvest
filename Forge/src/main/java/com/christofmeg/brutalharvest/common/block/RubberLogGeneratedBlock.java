@@ -59,7 +59,7 @@ public class RubberLogGeneratedBlock extends HorizontalDirectionalBlock {
             ItemStack stack = player.getItemInHand(interactionHand);
             if (stack.getItem() instanceof KnifeItem) {
                 if (state.is(BlockRegistry.RUBBER_LOG_GENERATED.get()) && state.getValue(OPEN) && !state.getValue(CUT)) {
-                    level.setBlock(pos, state.setValue(CUT, true), 2);
+                    level.setBlock(pos, state.setValue(CUT, true).trySetValue(FACING, player.getDirection().getOpposite()), 2);
                     level.playSound(null, pos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS, 1.0F, 0.8F + level.random.nextFloat() * 0.4F);
                     stack.hurtAndBreak(1, player, (livingEntity) -> livingEntity.broadcastBreakEvent(interactionHand));
                 }

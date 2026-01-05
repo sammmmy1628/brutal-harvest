@@ -1,0 +1,10 @@
+{
+  "type": "brutalharvest:cutting",
+  "ingredient": {
+    "item": "brutalharvest:toast"
+  },
+  "result": {
+    "item": "brutalharvest:toast_slice",
+    "count": 3
+  }
+}

@@ -6,6 +6,7 @@ import com.christofmeg.brutalharvest.common.init.TagRegistry;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.NotNull;
@@ -193,5 +194,7 @@ public class BrutalBlockTagsProvider extends BlockTagsProvider {
         tag(BlockTags.TRAPDOORS).add(BlockRegistry.RUBBER_TRAPDOOR.get());
 
         tag(BlockTags.WOODEN_TRAPDOORS).add(BlockRegistry.RUBBER_TRAPDOOR.get());
+
+        tag(Tags.Blocks.STORAGE_BLOCKS).add(BlockRegistry.DRIED_RUBBER_BLOCK.get());
     }
 }

@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_rubber_bowl": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "brutalharvest:rubber_bowl"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "brutalharvest:dried_rubber_from_campfire_cooking"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_rubber_bowl",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "brutalharvest:dried_rubber_from_campfire_cooking"
+    ]
+  },
+  "sends_telemetry_event": false
+}

@@ -111,8 +111,11 @@ public class ScytheItem extends DiggerItem {
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand interactionHand) {
         ItemStack $$3 = player.getItemInHand(interactionHand);
-        player.startUsingItem(interactionHand);
-        return InteractionResultHolder.consume($$3);
+        if (player.isShiftKeyDown()) {
+            player.startUsingItem(interactionHand);
+            return InteractionResultHolder.consume($$3);
+        }
+        return InteractionResultHolder.pass($$3);
     }
 
     @Override

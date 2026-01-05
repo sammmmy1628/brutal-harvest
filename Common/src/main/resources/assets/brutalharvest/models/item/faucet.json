@@ -1,0 +1,40 @@
+{
+  "parent": "brutalharvest:block/faucet",
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [75, 0, 0],
+      "translation": [0, 2.5, 0.5],
+      "scale": [0.375, 0.375, 0.375]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [75, 0, 0],
+      "translation": [0, 2.5, 0.5],
+      "scale": [0.375, 0.375, 0.375]
+    },
+    "firstperson_righthand": {
+      "translation": [0, 2.5, 0.5],
+      "scale": [0.4, 0.4, 0.4]
+    },
+    "firstperson_lefthand": {
+      "translation": [0, 2.5, 0.5],
+      "scale": [0.4, 0.4, 0.4]
+    },
+    "ground": {
+      "translation": [0, 3, 0],
+      "scale": [0.5, 0.5, 0.5]
+    },
+    "gui": {
+      "rotation": [30, -135, 0],
+      "translation": [1.25, -0.5, 0],
+      "scale": [0.725, 0.725, 0.725]
+    },
+    "fixed": {
+      "rotation": [0, -90, 0],
+      "translation": [3, 0, 0]
+    },
+    "on_shelf": {
+      "rotation": [0, 90, 0],
+      "translation": [-2, 0, 0]
+    }
+  }
+}

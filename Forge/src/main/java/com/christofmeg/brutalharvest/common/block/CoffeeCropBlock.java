@@ -76,6 +76,11 @@ public class CoffeeCropBlock extends BaseCropBlock {
     }
 
     @Override
+    public VoxelShape getShapeForAge(int age) {
+        return SHAPE_BY_AGE[age];
+    }
+
+    @Override
     public @NotNull InteractionResult use(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand interactionHand, @NotNull BlockHitResult blockHitResult) {
         int age = this.getAge(state);
         boolean matureAge = age == this.getMaxAge();

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=lower": {
+      "model": "brutalharvest:block/wild_corn_lower"
+    },
+    "half=upper": {
+      "model": "brutalharvest:block/wild_corn_upper"
+    }
+  }
+}

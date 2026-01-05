@@ -103,8 +103,9 @@ public class ItemRegistry {
     public static final RegistryObject<Item> PASTA;
     public static final RegistryObject<Item> SPAGHETTI;
 
-//    public static final RegistryObject<Item> RUBBER_BUCKET;
-//    public static final RegistryObject<Item> RUBBER;
+    public static final RegistryObject<Item> RUBBER_BUCKET;
+    public static final RegistryObject<Item> RUBBER_BOWL;
+    public static final RegistryObject<Item> DRIED_RUBBER;
 
     public static final RegistryObject<Item> FLINT_KNIFE;
     public static final RegistryObject<Item> WOODEN_KNIFE;
@@ -249,8 +250,9 @@ public class ItemRegistry {
         PASTA = ITEMS.register("pasta", () -> new BrutalRemainderFoodItem(new Item.Properties().food(BrutalFoods.PASTA), Items.BOWL));
         SPAGHETTI = ITEMS.register("spaghetti", () -> new BrutalRemainderFoodItem(new Item.Properties().food(BrutalFoods.SPAGHETTI), Items.BOWL));
 
-//        RUBBER_BUCKET = ITEMS.register("rubber_bucket", () -> new Item(new Item.Properties().craftRemainder(Items.BUCKET))); //TODO implement
-//        RUBBER = ITEMS.register("rubber", () -> new Item(new Item.Properties()));
+        RUBBER_BUCKET = ITEMS.register("rubber_bucket", () -> new BucketItem(FluidRegistry.SOURCE_RUBBER, new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)));
+        RUBBER_BOWL = ITEMS.register("rubber_bowl", () -> new Item(new Item.Properties()));
+        DRIED_RUBBER = ITEMS.register("dried_rubber", () -> new Item(new Item.Properties()));
 
         FLINT_KNIFE = ITEMS.register("flint_knife", () -> new KnifeItem(BrutalTiers.FLINT, new Item.Properties()));
         WOODEN_KNIFE = ITEMS.register("wooden_knife", () -> new KnifeItem(Tiers.WOOD, new Item.Properties()));

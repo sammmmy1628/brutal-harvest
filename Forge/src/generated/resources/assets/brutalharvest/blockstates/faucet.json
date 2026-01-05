@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "brutalharvest:block/faucet",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "brutalharvest:block/faucet"
+    },
+    "facing=south": {
+      "model": "brutalharvest:block/faucet",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "brutalharvest:block/faucet",
+      "y": 270
+    }
+  }
+}

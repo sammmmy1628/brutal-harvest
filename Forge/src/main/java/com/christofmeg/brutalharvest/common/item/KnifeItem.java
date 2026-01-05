@@ -33,11 +33,13 @@ public class KnifeItem extends SwordItem {
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand interactionHand) {
         BlockState target = level.getBlockState(((BlockHitResult) player.pick(2.0F, 1.0F, false)).getBlockPos());
         ItemStack $$3 = player.getItemInHand(interactionHand);
-        if (!target.is(BlockRegistry.WOODEN_CUTTING_BOARD.get()) && !target.is(BlockRegistry.IRON_CUTTING_BOARD.get())) {
+        if (target.is(BlockRegistry.WOODEN_CUTTING_BOARD.get()) || target.is(BlockRegistry.IRON_CUTTING_BOARD.get()) || target.is(BlockRegistry.RUBBER_LOG_GENERATED.get())) {
+            return InteractionResultHolder.success($$3);
+        } else if (player.isShiftKeyDown()) {
             player.startUsingItem(interactionHand);
             return InteractionResultHolder.consume($$3);
         }
-        return InteractionResultHolder.success($$3);
+        return InteractionResultHolder.pass($$3);
     }
 
     @Override

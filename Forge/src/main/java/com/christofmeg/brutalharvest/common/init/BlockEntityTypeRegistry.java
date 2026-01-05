@@ -19,6 +19,7 @@ public class BlockEntityTypeRegistry {
     public static final RegistryObject<BlockEntityType<PotBlockEntity>> POT_BLOCK_ENTITY;
     public static final RegistryObject<BlockEntityType<BrutalSignBlockEntity>> BRUTAL_SIGN_BLOCK_ENTITY;
     public static final RegistryObject<BlockEntityType<BrutalHangingSignBlockEntity>> BRUTAL_HANGING_SIGN_BLOCK_ENTITY;
+    public static final RegistryObject<BlockEntityType<RubberCauldronBlockEntity>> RUBBER_CAULDRON_BLOCK_ENTITY;
 
     public static void init(@Nonnull IEventBus bus) {
         BLOCK_ENTITIES.register(bus);
@@ -30,6 +31,7 @@ public class BlockEntityTypeRegistry {
         POT_BLOCK_ENTITY = BLOCK_ENTITIES.register("pot", () -> BlockEntityType.Builder.of(PotBlockEntity::new, BlockRegistry.POT.get()).build(null));
         BRUTAL_SIGN_BLOCK_ENTITY = BLOCK_ENTITIES.register("brutal_sign", () -> BlockEntityType.Builder.of(BrutalSignBlockEntity::new, BlockRegistry.RUBBER_SIGN.get(), BlockRegistry.RUBBER_WALL_SIGN.get()).build(null));
         BRUTAL_HANGING_SIGN_BLOCK_ENTITY = BLOCK_ENTITIES.register("brutal_hanging_sign", () -> BlockEntityType.Builder.of(BrutalHangingSignBlockEntity::new, BlockRegistry.RUBBER_HANGING_SIGN.get(), BlockRegistry.RUBBER_WALL_HANGING_SIGN.get()).build(null));
+        RUBBER_CAULDRON_BLOCK_ENTITY = BLOCK_ENTITIES.register("rubber_cauldron", () -> BlockEntityType.Builder.of(RubberCauldronBlockEntity::new, BlockRegistry.RUBBER_CAULDRON.get()).build(null));
     }
 
 }

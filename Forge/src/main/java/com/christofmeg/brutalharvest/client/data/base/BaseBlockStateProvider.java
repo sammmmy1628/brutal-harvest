@@ -1,6 +1,7 @@
 package com.christofmeg.brutalharvest.client.data.base;
 
 import com.christofmeg.brutalharvest.CommonConstants;
+import com.christofmeg.brutalharvest.common.block.WildCropBlock;
 import com.christofmeg.brutalharvest.common.block.base.BaseDoubleCropBlock;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.PackOutput;
@@ -118,6 +119,11 @@ public class BaseBlockStateProvider extends BlockStateProvider {
             ConfiguredModel model = new ConfiguredModel(models().cross(modelName, textureLocation).renderType(CUTOUT));
             return new ConfiguredModel[]{model};
         });
+    }
+
+    public void makeWildCrop(WildCropBlock block) {
+        String name = block.getDescriptionId().replace("block.brutalharvest.", "");
+        simpleBlock(block, models().cross(name, modLoc("block/" + name)).renderType(mcLoc("cutout")));
     }
 
     public void saplingBlock(RegistryObject<Block> blockRegistryObject) {

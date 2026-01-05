@@ -1,0 +1,10 @@
+{
+  "type": "brutalharvest:cutting",
+  "ingredient": {
+    "item": "brutalharvest:lettuce"
+  },
+  "result": {
+    "item": "brutalharvest:sliced_lettuce",
+    "count": 3
+  }
+}

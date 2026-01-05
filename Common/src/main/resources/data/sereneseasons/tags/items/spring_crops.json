@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "brutalharvest:lettuce_seeds",
+    "brutalharvest:rapeseeds",
+    "brutalharvest:strawberry_seeds"
+  ]
+}

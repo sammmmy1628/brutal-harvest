@@ -108,6 +108,9 @@ public class BrutalRecipeProvider extends BaseRecipeProvider {
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.RUBBER_TRAPDOOR.get(), 2).define('P', BlockRegistry.RUBBER_PLANKS.get()).pattern("PPP").pattern("PPP").unlockedBy("has_rubber_planks", has(BlockRegistry.RUBBER_PLANKS.get())).save(consumer, modLoc(getItemName(BlockRegistry.RUBBER_TRAPDOOR.get())));
         ShapedRecipeBuilder.shaped(RecipeCategory.TRANSPORTATION, ItemRegistry.RUBBER_BOAT_ITEM.get()).define('P', BlockRegistry.RUBBER_PLANKS.get()).pattern("P P").pattern("PPP").unlockedBy("has_rubber_planks", has(BlockRegistry.RUBBER_PLANKS.get())).save(consumer, modLoc(getItemName(ItemRegistry.RUBBER_BOAT_ITEM.get())));
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockRegistry.FAUCET.get()).define('N', Items.IRON_NUGGET).define('I', Items.IRON_INGOT).pattern(" N ").pattern("III").pattern("I  ").unlockedBy("has_iron_ingot", has(Items.IRON_INGOT)).save(consumer, modLoc(getItemName(BlockRegistry.FAUCET.get())));
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockRegistry.DRIED_RUBBER_BLOCK.get()).define('R', ItemRegistry.DRIED_RUBBER.get()).pattern("RRR").pattern("RRR").pattern("RRR").unlockedBy("has_dried_rubber", has(ItemRegistry.DRIED_RUBBER.get())).save(consumer, modLoc(getItemName(BlockRegistry.DRIED_RUBBER_BLOCK.get())));
+
 /*        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemRegistry.SUSHI.get())
                 .define('K', Items.DRIED_KELP)
                 .define('R', ItemRegistry.RICE.get())
@@ -300,7 +303,9 @@ public class BrutalRecipeProvider extends BaseRecipeProvider {
         ShapelessDamageTool.shapeless(RecipeCategory.MISC, BlockRegistry.DIRT_TRACK.get()).requires(ItemTags.SHOVELS).requires(Items.COARSE_DIRT).unlockedBy("has_shovel", has(ItemTags.SHOVELS)).save(consumer, modLoc(getItemName(Blocks.COARSE_DIRT) + "_from_shovel"));
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.REDSTONE, BlockRegistry.RUBBER_BUTTON.get()).requires(BlockRegistry.RUBBER_PLANKS.get()).unlockedBy("has_rubber_planks", has(BlockRegistry.RUBBER_PLANKS.get())).save(consumer, modLoc(getItemName(BlockRegistry.RUBBER_BUTTON.get())));
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.TRANSPORTATION, ItemRegistry.RUBBER_CHEST_BOAT_ITEM.get()).requires(ItemRegistry.RUBBER_BOAT_ITEM.get()).requires(Items.CHEST).unlockedBy("has_rubber_boat", has(ItemRegistry.RUBBER_BOAT_ITEM.get())).save(consumer, modLoc(getItemName(ItemRegistry.RUBBER_CHEST_BOAT_ITEM.get())));
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ItemRegistry.RUBBER_CHEST_BOAT_ITEM.get()).requires(ItemRegistry.RUBBER_BOAT_ITEM.get()).requires(Items.CHEST).unlockedBy("has_rubber_boat", has(ItemRegistry.RUBBER_BOAT_ITEM.get())).save(consumer, modLoc(getItemName(ItemRegistry.RUBBER_CHEST_BOAT_ITEM.get())));
+
+        ShapelessWithRemainder.shapeless(RecipeCategory.MISC, ItemRegistry.RUBBER_BOWL.get()).requires(ItemRegistry.RUBBER_BUCKET.get()).requires(Items.BOWL).unlockedBy("has_rubber_bucket", has(ItemRegistry.RUBBER_BUCKET.get())).save(consumer, modLoc(getItemName(ItemRegistry.RUBBER_BOWL.get())));
     }
 
     private void addSmithingRecipes(Consumer<FinishedRecipe> consumer) {
@@ -330,6 +335,8 @@ public class BrutalRecipeProvider extends BaseRecipeProvider {
         campfire(List.of(ItemRegistry.COFFEE_BEANS.get()), RecipeCategory.MISC, ItemRegistry.DRIED_COFFEE_BEANS.get(), 0.35F, 200, "misc", consumer);
         smelting(List.of(ItemRegistry.COFFEE_BEANS.get()), RecipeCategory.MISC, ItemRegistry.DRIED_COFFEE_BEANS.get(), 0.35F, 200, "misc", consumer);
         smoking(List.of(ItemRegistry.COFFEE_BEANS.get()), RecipeCategory.MISC, ItemRegistry.DRIED_COFFEE_BEANS.get(), 0.35F, 200, "misc", consumer);
+        smelting(List.of(ItemRegistry.RUBBER_BOWL.get()), RecipeCategory.MISC, ItemRegistry.DRIED_RUBBER.get(), 0.35F, 200, "misc", consumer);
+        campfire(List.of(ItemRegistry.RUBBER_BOWL.get()), RecipeCategory.MISC, ItemRegistry.DRIED_RUBBER.get(), 0.35F, 200, "misc", consumer);
     }
 
     //TODO look at JER plantdrops category

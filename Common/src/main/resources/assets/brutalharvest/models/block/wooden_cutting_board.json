@@ -1,6 +1,7 @@
 {
 	"format_version": "1.21.6",
 	"credit": "Made with Blockbench",
+	"render_type": "minecraft:cutout",
 	"textures": {
 		"0": "brutalharvest:block/wooden_cutting_board",
 		"particle": "brutalharvest:block/wooden_cutting_board"

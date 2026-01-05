@@ -3,11 +3,12 @@ package com.christofmeg.brutalharvest.client.event;
 import com.christofmeg.brutalharvest.CommonConstants;
 import com.christofmeg.brutalharvest.client.model.ThrownKnifeModel;
 import com.christofmeg.brutalharvest.client.model.ThrownScytheModel;
+import com.christofmeg.brutalharvest.client.particle.FallingRubberParticles;
 import com.christofmeg.brutalharvest.client.renderer.*;
 import com.christofmeg.brutalharvest.client.screen.SeedSatchelScreen;
 import com.christofmeg.brutalharvest.common.block.woodtype.BrutalWoodTypes;
-import com.christofmeg.brutalharvest.common.blockentity.renderer.PanBlockEntityRenderer;
-import com.christofmeg.brutalharvest.common.blockentity.renderer.PotBlockEntityRenderer;
+import com.christofmeg.brutalharvest.client.renderer.PanBlockEntityRenderer;
+import com.christofmeg.brutalharvest.client.renderer.PotBlockEntityRenderer;
 import com.christofmeg.brutalharvest.common.init.*;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.model.BoatModel;
@@ -27,6 +28,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
+import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 @OnlyIn(Dist.CLIENT)
@@ -65,7 +67,7 @@ public class ClientSetupEvent {
                             return tag.getFloat("inPot");
                         }
                         return 0.0F;
-                    });;
+                    });
         });
     }
 
@@ -74,6 +76,7 @@ public class ClientSetupEvent {
         event.registerBlockEntityRenderer(BlockEntityTypeRegistry.POT_BLOCK_ENTITY.get(), PotBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(BlockEntityTypeRegistry.BRUTAL_SIGN_BLOCK_ENTITY.get(), SignRenderer::new);
         event.registerBlockEntityRenderer(BlockEntityTypeRegistry.BRUTAL_HANGING_SIGN_BLOCK_ENTITY.get(), HangingSignRenderer::new);
+        event.registerBlockEntityRenderer(BlockEntityTypeRegistry.RUBBER_CAULDRON_BLOCK_ENTITY.get(), RubberCauldronBlockEntityRenderer::new);
     }
 
     public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
@@ -88,5 +91,9 @@ public class ClientSetupEvent {
 
     public static void registerItemColors(final RegisterColorHandlersEvent.Item event) {
         event.register((stack, tintIndex) -> GrassColor.get(0.5D, 1.0D), BlockRegistry.GRASS_SLAB.get());
+    }
+
+    public static void registerParticleProviders(RegisterParticleProvidersEvent event) {
+        event.registerSpriteSet(ParticleTypeRegistry.FALLING_RUBBER.get(), FallingRubberParticles.Provider::new);
     }
 }

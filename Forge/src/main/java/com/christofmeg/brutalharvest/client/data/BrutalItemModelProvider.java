@@ -63,6 +63,7 @@ public class BrutalItemModelProvider extends ItemModelProvider {
         withExistingParent(getItemName(BlockRegistry.DIRT_PATH_SLAB.get()), modLoc("block/" + getItemName(BlockRegistry.DIRT_PATH_SLAB.get())));
         withExistingParent(getItemName(BlockRegistry.DIRT_TRACK_SLAB.get()), modLoc("block/" + getItemName(BlockRegistry.DIRT_TRACK_SLAB.get())));
         withExistingParent(getItemName(BlockRegistry.DIRT_TRACK.get()), modLoc("block/" + getItemName(BlockRegistry.DIRT_TRACK.get())));
+        withExistingParent(getItemName(BlockRegistry.DRIED_RUBBER_BLOCK.get()), modLoc("block/" + getItemName(BlockRegistry.DRIED_RUBBER_BLOCK.get())));
         withExistingParent(CommonConstants.MOD_ID + ":block/potted_rubber_sapling", mcLoc("block/flower_pot_cross"))
                 .texture("plant", modLoc("block/" + getItemName(BlockRegistry.RUBBER_SAPLING.get()))).renderType(mcLoc("cutout"));
         buttonInventory(CommonConstants.MOD_ID + ":block/rubber_button_inventory", modLoc("block/rubber_planks"));

@@ -42,7 +42,7 @@ public record Frying(ItemStack ingredient, int ticks, ItemStack result, Containe
 
     @Override
     public boolean canCraftInDimensions(int i, int i1) {
-        return false;
+        return true;
     }
 
     @Override

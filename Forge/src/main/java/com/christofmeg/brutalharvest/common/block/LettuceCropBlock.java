@@ -60,4 +60,8 @@ public class LettuceCropBlock extends BaseCropBlock {
         return SHAPE_BY_AGE[this.getAge(blockState)];
     }
 
+    @Override
+    public VoxelShape getShapeForAge(int age) {
+        return SHAPE_BY_AGE[age];
+    }
 }

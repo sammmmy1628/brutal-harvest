@@ -24,6 +24,7 @@ public class BrutalHarvest {
         bus.addListener(ClientSetupEvent::registerLayerDefinitions);
         bus.addListener(ClientSetupEvent::registerBlockColors);
         bus.addListener(ClientSetupEvent::registerItemColors);
+        bus.addListener(ClientSetupEvent::registerParticleProviders);
 
         bus.addListener(CommonSetupEvent::commonSetupEvent);
     }
@@ -45,15 +46,8 @@ public class BrutalHarvest {
         MenuRegistry.init(modEventBus);
         FluidTypeRegistry.init(modEventBus);
         FluidRegistry.init(modEventBus);
+        ParticleTypeRegistry.init(modEventBus);
     }
-
-    /*TODO
-     * FarmingForBlockheads data/farmingforblockheads/recipes/market/brutalharvest/tomato_seeds.json
-     * {"type":"farmingforblockheads:market","category":"farmingforblockheads:seeds","preset":"brutalharvest:seeds","result":{"item":"brutalharvest:tomato_seeds"}}
-     * + optional dependency in build.gradle file
-     */
-
-    //TODO serene seasons crops https://github.com/vectorwing/FarmersDelight/tree/1.19/src/generated/resources/data/sereneseasons/tags/items
 
     //TODO JEI recipe compatibility
 }

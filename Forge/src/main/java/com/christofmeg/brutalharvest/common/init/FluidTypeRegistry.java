@@ -15,6 +15,7 @@ public class FluidTypeRegistry {
 
     public static final RegistryObject<FluidType> RAPESEED_OIL_TYPE;
     public static final RegistryObject<FluidType> COFFEE_TYPE;
+    public static final RegistryObject<FluidType> RUBBER_TYPE;
 
     public static void init(IEventBus bus) {
         FLUID_TYPES.register(bus);
@@ -25,5 +26,7 @@ public class FluidTypeRegistry {
                 new ResourceLocation(CommonConstants.MOD_ID, "block/rapeseed_oil_still"), new ResourceLocation(CommonConstants.MOD_ID, "block/rapeseed_oil_flowing")));
         COFFEE_TYPE = FLUID_TYPES.register("coffee", () -> new BrutalFluidType(
                 new ResourceLocation(CommonConstants.MOD_ID, "block/coffee_still"), new ResourceLocation(CommonConstants.MOD_ID, "block/coffee_flowing")));
+        RUBBER_TYPE = FLUID_TYPES.register("rubber", () -> new BrutalFluidType(
+                new ResourceLocation(CommonConstants.MOD_ID,"block/rubber_still"), new ResourceLocation(CommonConstants.MOD_ID, "block/rubber_flowing")));
     }
 }

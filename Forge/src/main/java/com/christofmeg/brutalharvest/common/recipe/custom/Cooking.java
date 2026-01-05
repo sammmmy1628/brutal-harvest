@@ -91,7 +91,7 @@ public record Cooking(List<ItemStack> ingredients, int ticks, ItemStack result, 
 
     @Override
     public boolean canCraftInDimensions(int i, int i1) {
-        return false;
+        return true;
     }
 
     @Override

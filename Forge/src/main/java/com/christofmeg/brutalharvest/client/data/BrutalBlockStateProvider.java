@@ -9,6 +9,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -47,6 +48,13 @@ public class BrutalBlockStateProvider extends BaseBlockStateProvider {
     //    makeCrop(BlockRegistry.ONION.get(), OnionCropBlock.AGE);
         makeBush(BlockRegistry.BLUEBERRY.get(), BlueberryBushBlock.AGE);
 
+        BlockRegistry.BLOCKS.getEntries().stream().filter(block -> block.get() instanceof WildCropBlock)
+                        .forEach(wildCrop -> makeWildCrop((WildCropBlock) wildCrop.get()));
+
+        doubleBlock(BlockRegistry.WILD_CORN.get(), modLoc("corn_stage7_lower"), modLoc("corn_stage7_upper"));
+        doubleBlock(BlockRegistry.WILD_CUCUMBER.get(), modLoc("cucumber_stage6_lower"), modLoc("cucumber_stage6_upper"));
+        doubleBlock(BlockRegistry.WILD_RAPESEED.get(), modLoc("rapeseed_stage7_lower"), modLoc("rapeseed_stage7_upper"));
+
         saplingBlock(BlockRegistry.RUBBER_SAPLING);
         logBlock((RotatedPillarBlock) BlockRegistry.RUBBER_LOG.get());
         axisBlock((RotatedPillarBlock) BlockRegistry.RUBBER_WOOD.get(), blockTexture(BlockRegistry.RUBBER_LOG.get()), blockTexture(BlockRegistry.RUBBER_LOG.get()));
@@ -73,6 +81,11 @@ public class BrutalBlockStateProvider extends BaseBlockStateProvider {
         doorBlockWithRenderType(BlockRegistry.RUBBER_DOOR.get(), modLoc("block/rubber_door_bottom"), modLoc("block/rubber_door_top"), mcLoc("cutout"));
 
         trapdoorBlockWithRenderType(BlockRegistry.RUBBER_TRAPDOOR.get(), modLoc("block/rubber_trapdoor"), true, mcLoc("cutout"));
+
+        horizontalBlock(BlockRegistry.FAUCET.get(), new ModelFile.ExistingModelFile(modLoc("block/faucet"), this.fileHelper));
+
+        simpleBlock(BlockRegistry.RUBBER_CAULDRON.get(), models().withExistingParent("rubber_cauldron", mcLoc("block/cauldron")));
+        simpleBlock(BlockRegistry.DRIED_RUBBER_BLOCK.get(), cubeAll(BlockRegistry.DRIED_RUBBER_BLOCK.get()));
 
         for (Block block : new Block[] {BlockRegistry.WOODEN_CUTTING_BOARD.get(), BlockRegistry.IRON_CUTTING_BOARD.get()}) {
 
@@ -180,4 +193,12 @@ public class BrutalBlockStateProvider extends BaseBlockStateProvider {
         simpleBlock(wallSign, sign);
     }
 
+    private void doubleBlock(Block block, ResourceLocation lowerHalfTexture, ResourceLocation upperHalfTexture) {
+        String name = Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block)).getPath();
+        ModelFile lowerModel = models().withExistingParent(name + "_lower", lowerHalfTexture);
+        ModelFile upperModel = models().withExistingParent(name + "_upper", upperHalfTexture);
+        getVariantBuilder(block)
+                .partialState().with(DoublePlantBlock.HALF, DoubleBlockHalf.LOWER).modelForState().modelFile(lowerModel).addModel()
+                .partialState().with(DoublePlantBlock.HALF, DoubleBlockHalf.UPPER).modelForState().modelFile(upperModel).addModel();
+    }
 }
