@@ -45,7 +45,7 @@ public class BrutalItemTagsProvider extends ItemTagsProvider {
             .addTag(TagRegistry.Items.RAPESEEDS)
             .addTag(TagRegistry.Items.SUGAR_BEET_SEEDS)
             .addTag(TagRegistry.Items.STRAWBERRY_SEEDS);
-/*            .addTag(TagRegistry.Items.ONION_SEEDS)
+/*          .addTag(TagRegistry.Items.ONION_SEEDS)
             .addTag(TagRegistry.Items.CHILI_PEPPER_SEEDS)
             .addTag(TagRegistry.Items.RICE);
 
@@ -152,8 +152,8 @@ public class BrutalItemTagsProvider extends ItemTagsProvider {
         tag(TagRegistry.Items.TOAST_BLUEBERRY).add(ItemRegistry.BLUEBERRY_TOAST.get());
 
         tag(TagRegistry.Items.HONEY_JAR).add(ItemRegistry.HONEY_JAR.get());
-        tag(TagRegistry.Items.STRAWBERRY_JAM).add(ItemRegistry.STRAWBERRY_JAM.get());
-        tag(TagRegistry.Items.BLUEBERRY_JAM).add(ItemRegistry.BLUEBERRY_JAM.get());
+        tag(TagRegistry.Items.STRAWBERRY_JAM).add(ItemRegistry.STRAWBERRY_JAM_JAR.get());
+        tag(TagRegistry.Items.BLUEBERRY_JAM).add(ItemRegistry.BLUEBERRY_JAM_JAR.get());
 
         tag(TagRegistry.Items.TOAST_FRIED_EGG).add(ItemRegistry.FRIED_EGG_TOAST.get());
         tag(TagRegistry.Items.TOAST_SCRAMBLED_EGG).add(ItemRegistry.SCRAMBLED_EGG_TOAST.get());

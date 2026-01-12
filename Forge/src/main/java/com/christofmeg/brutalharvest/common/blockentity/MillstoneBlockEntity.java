@@ -4,6 +4,7 @@ import com.christofmeg.brutalharvest.common.handler.MillstoneStackHandler;
 import com.christofmeg.brutalharvest.common.init.BlockEntityTypeRegistry;
 import com.christofmeg.brutalharvest.common.init.RecipeTypeRegistry;
 import com.christofmeg.brutalharvest.common.recipe.custom.Milling;
+import com.christofmeg.brutalharvest.common.util.BrutalRecipeUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
@@ -13,6 +14,7 @@ import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.Containers;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -104,30 +106,43 @@ public class MillstoneBlockEntity extends BlockEntity implements GeoBlockEntity 
         if (milling.isPresent() && itemHandler1.isPresent() && fluidHandler1.isPresent() && this.level != null) {
             Milling milling1 = milling.get();
             MillstoneStackHandler stackHandler = (MillstoneStackHandler) itemHandler1.get();
-            FluidTank fluidTank = (FluidTank) fluidHandler1.get();
-            ItemStack resultStack = milling1.getResultItem(this.level.registryAccess());
-            FluidStack fluidResult = milling1.getResultFluid();
-            if ((stackHandler.getStackInSlot(1) == ItemStack.EMPTY || stackHandler.getStackInSlot(1).getItem() == resultStack.getItem())
-            || (fluidTank.getFluidInTank(0) == FluidStack.EMPTY || fluidTank.getFluidInTank(0) == fluidResult)) {
-                this.triggerAnim("spin_controller", "spin");
-                if (this.spins == milling1.spins()) {
-                    stackHandler.extractItem(0, 1, false);
-                    stackHandler.insertItem(1, resultStack, false);
-                    fluidTank.fill(fluidResult, IFluidHandler.FluidAction.EXECUTE);
-                    this.spins = 0;
-                } else {
-                    this.spins++;
+            if (BrutalRecipeUtils.isSufficient(stackHandler, milling1.ingredient())) {
+                FluidTank fluidTank = (FluidTank) fluidHandler1.get();
+                ItemStack resultStack = milling1.getResultItem(this.level.registryAccess());
+                FluidStack fluidResult = milling1.getResultFluid();
+                if ((stackHandler.getStackInSlot(0).isEmpty() || stackHandler.getStackInSlot(0).is(resultStack.getItem()) || resultStack.isEmpty())
+                        && (fluidTank.getFluidInTank(0).isEmpty() || fluidTank.getFluidInTank(0).isFluidStackIdentical(fluidResult)) || fluidResult.isEmpty()) {
+                    this.triggerAnim("spin_controller", "spin");
+                    if (!this.level.isClientSide) {
+                        if (this.spins == milling1.spins() - 1) {
+                            int currentCount = handler.getStackInSlot(0).getCount();
+                            short multiplier = BrutalRecipeUtils.getResultMultiplier(handler, milling1.ingredient());
+                            if (currentCount + multiplier * milling1.itemOutput().getCount() <= 64) {
+                                if (!milling1.remainder().isEmpty()) {
+                                    BlockPos pos = this.getBlockPos();
+                                    ItemStack remainderStack = milling1.remainder().copyWithCount(milling1.remainder().getCount() * multiplier);
+                                    Containers.dropItemStack(this.level, pos.getX(), pos.getY(), pos.getZ(), remainderStack);
+                                }
+                                handler.updateLevel(this.level);
+                                handler.insertItem(0, milling1.assemble(handler), false);
+                                fluidTank.fill(fluidResult, IFluidHandler.FluidAction.EXECUTE);
+                            }
+                            this.spins = 0;
+                        } else {
+                            this.spins++;
+                        }
+                        this.cooldown = 50;
+                        this.setChanged();
+                    }
                 }
-                this.cooldown = 40;
-                this.setChanged();
             }
         }
     }
 
     private Optional<Milling> getCurrentRecipe() {
         Optional<IItemHandler> itemHandlerOptional = this.getCapability(ForgeCapabilities.ITEM_HANDLER).resolve();
-        if (itemHandlerOptional.isPresent() && this.level != null) {
-            SimpleContainer container = new SimpleContainer(itemHandlerOptional.get().getStackInSlot(0));
+        if (itemHandlerOptional.isPresent() && this.level != null && !this.level.isClientSide && this.cooldown == 0) {
+            SimpleContainer container = ((MillstoneStackHandler) itemHandlerOptional.get()).asContainer();
             return this.level.getRecipeManager().getRecipeFor(RecipeTypeRegistry.MILLING_RECIPE_TYPE.get(), container, this.level);
         }
         return Optional.empty();
@@ -145,9 +160,9 @@ public class MillstoneBlockEntity extends BlockEntity implements GeoBlockEntity 
                     Level level1 = ClientUtils.getLevel();
                     BlockPos pos = this.getBlockPos();
                     this.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(iItemHandler -> {
-                        if (iItemHandler.getStackInSlot(0) != ItemStack.EMPTY) {
+                        if (!iItemHandler.getStackInSlot(1).isEmpty()) {
                             for (int i = 0; i < (int) (Math.random() * 10) + 10; i++) {
-                                level1.addParticle(new ItemParticleOption(ParticleTypes.ITEM, iItemHandler.getStackInSlot(0)),
+                                level1.addParticle(new ItemParticleOption(ParticleTypes.ITEM, iItemHandler.getStackInSlot(1)),
                                         pos.getX() + 0.5F, pos.getY() + 0.375F, pos.getZ() + 0.5F, 0.2F * (Math.random() - 0.5F), 0.3F * Math.random(), 0.2F * (Math.random() - 0.5F));
                             }
                         }
@@ -185,6 +200,7 @@ public class MillstoneBlockEntity extends BlockEntity implements GeoBlockEntity 
         }
     }
 
+    @SuppressWarnings("unused")
     public static <T extends BlockEntity> void tick(Level level, BlockPos pos, BlockState state, T t) {
         MillstoneBlockEntity blockEntity = (MillstoneBlockEntity) t;
         if (blockEntity.cooldown > 0 && !level.isClientSide) {

@@ -2,7 +2,6 @@ package com.christofmeg.brutalharvest.common.blockentity;
 
 import com.christofmeg.brutalharvest.common.handler.PanStackHandler;
 import com.christofmeg.brutalharvest.common.init.BlockEntityTypeRegistry;
-import com.christofmeg.brutalharvest.common.init.FluidRegistry;
 import com.christofmeg.brutalharvest.common.init.RecipeTypeRegistry;
 import com.christofmeg.brutalharvest.common.recipe.custom.Frying;
 import net.minecraft.core.BlockPos;
@@ -31,7 +30,7 @@ public class PanBlockEntity extends BlockEntity {
 
     private final IItemHandler itemHandler = new PanStackHandler();
     private final LazyOptional<IItemHandler> itemHandlerLazyOptional = LazyOptional.of(() -> this.itemHandler);
-    private final IFluidHandler fluidHandler = new FluidTank(250, fluidStack -> fluidStack.getFluid().isSame(FluidRegistry.SOURCE_RAPESEED_OIL.get()));
+    private final IFluidHandler fluidHandler = new FluidTank(250, fluidStack -> Frying.FryingItemsCache.isValidFluid(this.level, fluidStack.getFluid()));
     private final LazyOptional<IFluidHandler> fluidHandlerLazyOptional = LazyOptional.of(() -> this.fluidHandler);
     private int fryingProgress = 0;
     private int cooldown = 0;
@@ -108,28 +107,33 @@ public class PanBlockEntity extends BlockEntity {
 
     private Optional<Frying> getCurrentRecipe() {
         Optional<IItemHandler> itemHandlerOptional = this.getCapability(ForgeCapabilities.ITEM_HANDLER).resolve();
-        if (itemHandlerOptional.isPresent() && this.level != null) {
+        Optional<IFluidHandler> fluidHandlerOptional = this.getCapability(ForgeCapabilities.FLUID_HANDLER).resolve();
+        if (itemHandlerOptional.isPresent() && fluidHandlerOptional.isPresent() && this.level != null && !this.level.isClientSide) {
             SimpleContainer container = new SimpleContainer(itemHandlerOptional.get().getStackInSlot(1));
-            return this.level.getRecipeManager().getRecipeFor(RecipeTypeRegistry.FRYING_RECIPE_TYPE.get(), container, this.level);
+            return this.level.getRecipeManager().getAllRecipesFor(RecipeTypeRegistry.FRYING_RECIPE_TYPE.get()).stream().filter(
+                    recipe -> recipe.matches(container, this.level) && (recipe.fluidIngredient().isEmpty()
+                            || recipe.fluidIngredient().isFluidStackIdentical(((FluidTank) fluidHandlerOptional.get()).getFluid()))
+            ).findFirst();
         }
         return Optional.empty();
     }
 
+    @SuppressWarnings("unused")
     public static <T extends BlockEntity> void tick(Level level, BlockPos pos, BlockState state, T t) {
         PanBlockEntity blockEntity = (PanBlockEntity) t;
         Optional<IItemHandler> optional = blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).resolve();
         Optional<IFluidHandler> optional1 = blockEntity.getCapability(ForgeCapabilities.FLUID_HANDLER).resolve();
         if (blockEntity.fryingProgress > 0) {
             blockEntity.fryingProgress--;
-        } else if (optional.isPresent() && optional1.isPresent() && optional.get().getStackInSlot(1) != ItemStack.EMPTY && !level.isClientSide) {
-            if (blockEntity.cooldown == 0) {
+        } else if (optional.isPresent() && optional1.isPresent() && !level.isClientSide) {
+            if (blockEntity.cooldown % 4 == 0) {
                 IItemHandler iItemHandler = optional.get();
+                blockEntity.cooldown = 200;
                 blockEntity.getCurrentRecipe().ifPresent(frying -> {
-                    blockEntity.cooldown = 50;
-                    if (frying.ingredient().getCount() <= iItemHandler.getStackInSlot(1).getCount()){
-                        if (iItemHandler.getStackInSlot(0) == ItemStack.EMPTY) {
+                    if (!frying.ingredient().isEmpty() && frying.ingredient().getItems()[0].getCount() <= iItemHandler.getStackInSlot(1).getCount()) {
+                        if (iItemHandler.getStackInSlot(0).isEmpty()) {
                             ItemStack result = frying.getResultItem(level.registryAccess());
-                            int count = iItemHandler.getStackInSlot(1).getCount() / frying.ingredient().getCount();
+                            int count = !frying.ingredient().isEmpty() ? iItemHandler.getStackInSlot(1).getCount() / frying.ingredient().getItems()[0].getCount() : 1;
                             if (iItemHandler.getStackInSlot(0).getCount() + count * result.getCount() <= 64) {
                                 ((PanStackHandler) iItemHandler).updateLevel(level);
                                 iItemHandler.insertItem(0, frying.assemble(new SimpleContainer(iItemHandler.getStackInSlot(1)), level.registryAccess()), false);

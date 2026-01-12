@@ -1,0 +1,18 @@
+{
+  "type": "brutalharvest:cooking",
+  "ingredients": [
+    {
+      "item": "brutalharvest:blueberry",
+      "count": 2
+    },
+    {
+      "item": "minecraft:sugar"
+    }
+  ],
+  "time": 400,
+  "container": "jar",
+  "fluid_result": {
+    "amount": 250,
+    "fluid": "brutalharvest:blueberry_jam"
+  }
+}

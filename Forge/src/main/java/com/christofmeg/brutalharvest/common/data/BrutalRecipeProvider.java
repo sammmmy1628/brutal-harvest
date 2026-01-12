@@ -93,8 +93,8 @@ public class BrutalRecipeProvider extends BaseRecipeProvider {
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockRegistry.GRASS_SLAB.get(), 6).define('B', Blocks.GRASS_BLOCK).pattern("BBB").unlockedBy("has_dirt", has(ItemTags.DIRT)).save(consumer, modLoc(getItemName(BlockRegistry.GRASS_SLAB.get())));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blocks.GRASS_BLOCK).define('B', BlockRegistry.GRASS_SLAB.get()).pattern("B").pattern("B").unlockedBy("has_dirt", has(ItemTags.DIRT)).save(consumer, modLoc(getItemName(Blocks.GRASS_BLOCK)));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockRegistry.MILLSTONE.get()).define('B', Items.STICK).define('S', Items.SMOOTH_STONE).pattern(" B ").pattern(" S ").pattern("SSS").unlockedBy("has_smooth_stone", has(Items.SMOOTH_STONE)).save(consumer, modLoc(getItemName(BlockRegistry.MILLSTONE.get())));
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockRegistry.PAN.get()).define('C', Items.COPPER_INGOT).define('I', Items.IRON_INGOT).pattern("C C").pattern("III").unlockedBy("has_iron", has(Items.IRON_INGOT)).save(consumer, modLoc(getItemName(BlockRegistry.PAN.get())));
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockRegistry.POT.get()).define('C', Items.COPPER_INGOT).define('I', Items.IRON_INGOT).pattern("C C").pattern("I I").pattern("III").unlockedBy("has_iron", has(Items.IRON_INGOT)).save(consumer, modLoc(getItemName(BlockRegistry.POT.get())));
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockRegistry.PAN.get()).define('R', ItemRegistry.DRIED_RUBBER.get()).define('I', Items.IRON_INGOT).pattern("R R").pattern("III").unlockedBy("has_iron", has(Items.IRON_INGOT)).save(consumer, modLoc(getItemName(BlockRegistry.PAN.get())));
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockRegistry.POT.get()).define('R', ItemRegistry.DRIED_RUBBER.get()).define('I', Items.IRON_INGOT).pattern("R R").pattern("I I").pattern("III").unlockedBy("has_iron", has(Items.IRON_INGOT)).save(consumer, modLoc(getItemName(BlockRegistry.POT.get())));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockRegistry.WOODEN_CUTTING_BOARD.get()).define('P', ItemTags.WOODEN_PRESSURE_PLATES).pattern("PPP").unlockedBy("has_wooden_pressure_plate", has(ItemTags.WOODEN_PRESSURE_PLATES)).save(consumer, modLoc(getItemName(BlockRegistry.WOODEN_CUTTING_BOARD.get())));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockRegistry.IRON_CUTTING_BOARD.get()).define('P', Items.HEAVY_WEIGHTED_PRESSURE_PLATE).pattern("PPP").unlockedBy("has_heavy_pressure_plate", has(Items.HEAVY_WEIGHTED_PRESSURE_PLATE)).save(consumer, modLoc(getItemName(BlockRegistry.IRON_CUTTING_BOARD.get())));
 
@@ -222,13 +222,13 @@ public class BrutalRecipeProvider extends BaseRecipeProvider {
                 .save(consumer, modLoc(getItemName(ItemRegistry.HONEY_TOAST.get())));
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ItemRegistry.STRAWBERRY_TOAST.get())
-                .requires(ItemRegistry.STRAWBERRY_JAM.get())
+                .requires(ItemRegistry.STRAWBERRY_JAM_JAR.get())
                 .requires(ItemRegistry.TOAST_SLICE.get())
                 .unlockedBy("toast", has(ItemRegistry.TOAST.get()))
                 .save(consumer, modLoc(getItemName(ItemRegistry.STRAWBERRY_TOAST.get())));
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ItemRegistry.BLUEBERRY_TOAST.get())
-                .requires(ItemRegistry.BLUEBERRY_JAM.get())
+                .requires(ItemRegistry.BLUEBERRY_JAM_JAR.get())
                 .requires(ItemRegistry.TOAST_SLICE.get())
                 .unlockedBy("toast", has(ItemRegistry.TOAST.get()))
                 .save(consumer, modLoc(getItemName(ItemRegistry.BLUEBERRY_TOAST.get())));
@@ -283,6 +283,14 @@ public class BrutalRecipeProvider extends BaseRecipeProvider {
                 .unlockedBy("flour", has(ItemRegistry.FLOUR.get()))
                 .save(consumer, modLoc(getItemName(ItemRegistry.DOUGH.get()) + "_from_" + "water_bottle"));
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ItemRegistry.DOUGH.get()).requires(Ingredient.of(TagRegistry.Items.FLOUR), 2).requires(Tags.Items.EGGS).requires(TagRegistry.Items.BOTTLES_MILK).unlockedBy("flour", has(ItemRegistry.FLOUR.get())).save(consumer, modLoc(getItemName(ItemRegistry.DOUGH.get()) + "_from_" + "milk_bottle"));
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ItemRegistry.SPAGHETTI.get()).requires(Ingredient.of(ItemRegistry.PASTA.get())).requires(Ingredient.of(ItemRegistry.TOMATO_SAUCE.get())).unlockedBy("has_tomato_sauce", has(ItemRegistry.TOMATO_SAUCE.get())).save(consumer, modLoc(getItemName(ItemRegistry.SPAGHETTI.get())));
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ItemRegistry.CHICKEN_SANDWICH.get()).requires(ItemRegistry.TOAST_SLICE.get(), 2).requires(ItemRegistry.SLICED_LETTUCE.get()).requires(Items.COOKED_CHICKEN).unlockedBy("has_toast_slice", has(ItemRegistry.TOAST_SLICE.get())).save(consumer, modLoc(getItemName(ItemRegistry.CHICKEN_SANDWICH.get())));
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ItemRegistry.SALMON_SANDWICH.get()).requires(ItemRegistry.TOAST_SLICE.get(), 2).requires(ItemRegistry.MAYONNAISE_JAR.get()).requires(Items.COOKED_SALMON).unlockedBy("has_toast_slice", has(ItemRegistry.TOAST_SLICE.get())).save(consumer, modLoc(getItemName(ItemRegistry.SALMON_SANDWICH.get())));
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ItemRegistry.BEEF_SANDWICH.get()).requires(ItemRegistry.TOAST_SLICE.get(), 2).requires(ItemRegistry.TOMATO_SLICE.get()).requires(ItemRegistry.CORN.get()).requires(Items.COOKED_BEEF).unlockedBy("has_toast_slice", has(ItemRegistry.TOAST_SLICE.get())).save(consumer, modLoc(getItemName(ItemRegistry.BEEF_SANDWICH.get())));
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ItemRegistry.PORKCHOP_SANDWICH.get()).requires(ItemRegistry.TOAST_SLICE.get(), 2).requires(ItemRegistry.MAYONNAISE_JAR.get()).requires(Items.COOKED_PORKCHOP).unlockedBy("has_toast_slice", has(ItemRegistry.TOAST_SLICE.get())).save(consumer, modLoc(getItemName(ItemRegistry.PORKCHOP_SANDWICH.get())));
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ItemRegistry.MUTTON_SANDWICH.get()).requires(ItemRegistry.TOAST_SLICE.get(), 2).requires(ItemRegistry.SLICED_LETTUCE.get()).requires(ItemRegistry.TOMATO_SLICE.get()).requires(Items.COOKED_MUTTON).unlockedBy("has_toast_slice", has(ItemRegistry.TOAST_SLICE.get())).save(consumer, modLoc(getItemName(ItemRegistry.MUTTON_SANDWICH.get())));
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ItemRegistry.TOMATO_DOUGH.get()).requires(TagRegistry.Items.FLOUR).requires(TagRegistry.Items.TOMATO).requires(Tags.Items.EGGS).requires(TagRegistry.Items.BUCKETS_WATER).unlockedBy("flour", has(ItemRegistry.FLOUR.get())).save(consumer, modLoc(getItemName(ItemRegistry.TOMATO_DOUGH.get()) + "_from_" + "water_bucket"));
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ItemRegistry.TOMATO_DOUGH.get()).requires(TagRegistry.Items.FLOUR).requires(TagRegistry.Items.TOMATO).requires(Tags.Items.EGGS).requires(TagRegistry.Items.BUCKETS_MILK).unlockedBy("flour", has(ItemRegistry.FLOUR.get())).save(consumer, modLoc(getItemName(ItemRegistry.TOMATO_DOUGH.get()) + "_from_" + "milk_bucket"));

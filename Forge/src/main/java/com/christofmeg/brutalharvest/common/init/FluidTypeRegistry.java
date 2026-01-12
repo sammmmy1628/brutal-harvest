@@ -16,6 +16,9 @@ public class FluidTypeRegistry {
     public static final RegistryObject<FluidType> RAPESEED_OIL_TYPE;
     public static final RegistryObject<FluidType> COFFEE_TYPE;
     public static final RegistryObject<FluidType> RUBBER_TYPE;
+    public static final RegistryObject<FluidType> STIRRED_EGG_TYPE;
+    public static final RegistryObject<FluidType> BLUEBERRY_JAM_TYPE;
+    public static final RegistryObject<FluidType> STRAWBERRY_JAM_TYPE;
 
     public static void init(IEventBus bus) {
         FLUID_TYPES.register(bus);
@@ -28,5 +31,11 @@ public class FluidTypeRegistry {
                 new ResourceLocation(CommonConstants.MOD_ID, "block/coffee_still"), new ResourceLocation(CommonConstants.MOD_ID, "block/coffee_flowing")));
         RUBBER_TYPE = FLUID_TYPES.register("rubber", () -> new BrutalFluidType(
                 new ResourceLocation(CommonConstants.MOD_ID,"block/rubber_still"), new ResourceLocation(CommonConstants.MOD_ID, "block/rubber_flowing")));
+        STIRRED_EGG_TYPE = FLUID_TYPES.register("stirred_egg", () -> new BrutalFluidType(
+                new ResourceLocation(CommonConstants.MOD_ID, "block/stirred_egg_still"), new ResourceLocation(CommonConstants.MOD_ID, "block/stirred_egg_flowing")));
+        BLUEBERRY_JAM_TYPE = FLUID_TYPES.register("blueberry_jam", () -> new BrutalFluidType(
+                new ResourceLocation(CommonConstants.MOD_ID, "block/blueberry_jam_still"), new ResourceLocation(CommonConstants.MOD_ID, "block/blueberry_jam_flowing")));
+        STRAWBERRY_JAM_TYPE = FLUID_TYPES.register("strawberry_jam", () -> new BrutalFluidType(
+                new ResourceLocation(CommonConstants.MOD_ID, "block/strawberry_jam_still"), new ResourceLocation(CommonConstants.MOD_ID, "block/strawberry_jam_flowing")));
     }
 }

@@ -1,0 +1,13 @@
+{
+  "type": "brutalharvest:milling",
+  "ingredients": {
+      "item": "brutalharvest:tomato",
+      "count": 2
+  },
+  "spins": 3,
+  "container": "bowl",
+  "item_result": {
+    "item": "brutalharvest:tomato_sauce",
+    "count": 1
+  }
+}

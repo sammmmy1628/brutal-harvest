@@ -2,6 +2,8 @@ package com.christofmeg.brutalharvest.client.renderer;
 
 import com.christofmeg.brutalharvest.common.block.base.BaseCookingBlock;
 import com.christofmeg.brutalharvest.common.blockentity.PanBlockEntity;
+import com.christofmeg.brutalharvest.common.blockentity.PotBlockEntity;
+import com.christofmeg.brutalharvest.common.util.BrutalRendererUtils;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
@@ -19,15 +21,19 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.minecraftforge.items.IItemHandler;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
+@OnlyIn(Dist.CLIENT)
 public class PanBlockEntityRenderer implements BlockEntityRenderer<PanBlockEntity> {
 
     private final BlockEntityRendererProvider.Context context;
@@ -44,17 +50,17 @@ public class PanBlockEntityRenderer implements BlockEntityRenderer<PanBlockEntit
         Level level = panBlockEntity.getLevel();
         if (optional.isPresent() && optional1.isPresent() && level != null) {
             ItemStack stack = optional.get().getStackInSlot(0);
-            FluidStack fluid = optional1.get().getFluidInTank(0);
+            FluidStack fluid = ((FluidTank) optional1.get()).getFluid();
             float y = 0.625F;
             if (!fluid.isEmpty()) {
                 ResourceLocation fluidTexture = IClientFluidTypeExtensions.of(fluid.getFluid()).getStillTexture();
                 TextureAtlasSprite atlasSprite = Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(fluidTexture);
                 VertexConsumer builder = multiBufferSource.getBuffer(ItemBlockRenderTypes.getRenderLayer(fluid.getFluid().defaultFluidState()));
                 poseStack.pushPose();
-                vertex(builder, poseStack, 0.1875F, 0.5625F, 0.1875F, atlasSprite.getU0(), atlasSprite.getV0(), i, -1);
-                vertex(builder, poseStack, 0.1875F, 0.5625F, 0.8125F, atlasSprite.getU0(), atlasSprite.getV1(), i, -1);
-                vertex(builder, poseStack, 0.8125F, 0.5625F, 0.8125F, atlasSprite.getU1(), atlasSprite.getV1(), i, -1);
-                vertex(builder, poseStack, 0.8125F, 0.5625F, 0.1875F, atlasSprite.getU1(), atlasSprite.getV0(), i, -1);
+                BrutalRendererUtils.vertex(builder, poseStack, 0.1875F, 0.5625F, 0.1875F, atlasSprite.getU0(), atlasSprite.getV0(), i, -1);
+                BrutalRendererUtils.vertex(builder, poseStack, 0.1875F, 0.5625F, 0.8125F, atlasSprite.getU0(), atlasSprite.getV1(), i, -1);
+                BrutalRendererUtils.vertex(builder, poseStack, 0.8125F, 0.5625F, 0.8125F, atlasSprite.getU1(), atlasSprite.getV1(), i, -1);
+                BrutalRendererUtils.vertex(builder, poseStack, 0.8125F, 0.5625F, 0.1875F, atlasSprite.getU1(), atlasSprite.getV0(), i, -1);
                 poseStack.popPose();
             }
             if (stack == ItemStack.EMPTY) {
@@ -73,14 +79,5 @@ public class PanBlockEntityRenderer implements BlockEntityRenderer<PanBlockEntit
                 poseStack.popPose();
             }
         }
-    }
-
-    private static void vertex(VertexConsumer builder, PoseStack poseStack, float x, float y, float z, float u, float v, int light, int tint) {
-        builder.vertex(poseStack.last().pose(), x, y, z)
-                .color(tint)
-                .uv(u, v)
-                .uv2(light)
-                .normal(1.0F, 0.0F, 0.0F)
-                .endVertex();
     }
 }

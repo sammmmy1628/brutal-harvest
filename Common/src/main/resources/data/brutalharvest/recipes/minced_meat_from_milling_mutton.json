@@ -1,0 +1,12 @@
+{
+  "type": "brutalharvest:milling",
+  "ingredients": {
+      "item": "minecraft:mutton"
+  },
+  "spins": 3,
+  "container": "bowl",
+  "item_result": {
+    "item": "brutalharvest:minced_meat",
+    "count": 2
+  }
+}

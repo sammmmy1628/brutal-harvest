@@ -6,7 +6,7 @@ import com.christofmeg.brutalharvest.common.handler.PanStackHandler;
 import com.christofmeg.brutalharvest.common.init.BlockEntityTypeRegistry;
 import com.christofmeg.brutalharvest.common.init.FluidRegistry;
 import com.christofmeg.brutalharvest.common.init.ItemRegistry;
-import com.christofmeg.brutalharvest.common.recipe.custom.Containers;
+import com.christofmeg.brutalharvest.common.recipe.custom.BrutalContainers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvents;
@@ -44,6 +44,7 @@ public class PanBlock extends BaseCookingBlock {
 
     public PanBlock(Properties pProperties) {
         super(pProperties);
+        this.itemPropertyName = "onPan";
     }
 
     @Override
@@ -70,24 +71,22 @@ public class PanBlock extends BaseCookingBlock {
                     byte extracted = (byte) resultStack.getCount();
                     if (tag != null) {
                         if (tag.contains("container")) {
-                            requiredItem = Containers.byName(tag.getString("container")).getItem();
+                            requiredItem = BrutalContainers.valueOf(tag.getString("container").toUpperCase()).getItem();
                         }
                         if (playerStack.is(requiredItem)) {
                             if (!pPlayer.isCreative()) {
-                                if (playerStack.getCount() < resultStack.getCount()) {
+                                if (playerStack.getCount() < resultStack.getCount() && requiredItem != Items.AIR) {
                                     extracted = (byte) playerStack.getCount();
-                                }
-                                if (requiredItem != Items.AIR) {
                                     playerStack.shrink(extracted);
                                 }
                             }
                             if (tag.contains("onPan")) {
-                                tag.putFloat("onPan", 0.0F);
+                                tag.remove("onPan");
                             }
                             tag.remove("container");
                             if (!pLevel.isClientSide) {
-                                stackHandler.extractItem(1, extracted, false);
-                                pPlayer.addItem(resultStack);
+                                stackHandler.extractItem(0, extracted, false);
+                                pPlayer.addItem(resultStack.copyWithCount(extracted));
                                 panBlockEntity.setChanged();
                             }
                         } else {
@@ -97,18 +96,32 @@ public class PanBlock extends BaseCookingBlock {
                     return InteractionResult.SUCCESS;
                 } else if (optional1.isPresent()) {
                     FluidTank tank = (FluidTank) optional1.get();
-                    if (playerStack.is(ItemRegistry.RAPESEED_OIL_BOTTLE.get()) && pState.getValue(ON_CAMPFIRE) != OnCampfire.NONE && tank.isEmpty()) {
-                        if (!pLevel.isClientSide) {
-                            if (!pPlayer.isCreative()) {
-                                playerStack.shrink(1);
+                    if (pState.getValue(ON_CAMPFIRE) != OnCampfire.NONE && tank.isEmpty()) {
+                        if (playerStack.is(ItemRegistry.RAPESEED_OIL_BOTTLE.get())) {
+                            if (!pLevel.isClientSide) {
+                                if (!pPlayer.isCreative()) {
+                                    playerStack.shrink(1);
+                                }
+                                tank.fill(new FluidStack(FluidRegistry.SOURCE_RAPESEED_OIL.get(), 250), IFluidHandler.FluidAction.EXECUTE);
+                                pLevel.setBlockAndUpdate(pPos, pState);
+                                pLevel.playSound(null, pPos, SoundEvents.BOTTLE_EMPTY, SoundSource.BLOCKS, 1.0F, 1.0F);
+                                pPlayer.addItem(new ItemStack(Items.GLASS_BOTTLE, 1));
+                                panBlockEntity.setChanged();
                             }
-                            tank.fill(new FluidStack(FluidRegistry.SOURCE_RAPESEED_OIL.get(), 250), IFluidHandler.FluidAction.EXECUTE);
-                            pLevel.setBlockAndUpdate(pPos, pState);
-                            pLevel.playSound(null, pPos, SoundEvents.BOTTLE_EMPTY, SoundSource.BLOCKS, 1.0F, 1.0F);
-                            pPlayer.addItem(new ItemStack(Items.GLASS_BOTTLE, 1));
-                            panBlockEntity.setChanged();
+                            return InteractionResult.SUCCESS;
+                        } else if (playerStack.is(ItemRegistry.STIRRED_EGG_BOTTLE.get())) {
+                            if (!pLevel.isClientSide) {
+                                if (!pPlayer.isCreative()) {
+                                    playerStack.shrink(1);
+                                }
+                                tank.fill(new FluidStack(FluidRegistry.SOURCE_STIRRED_EGG.get(), 250), IFluidHandler.FluidAction.EXECUTE);
+                                pLevel.setBlockAndUpdate(pPos, pState);
+                                pLevel.playSound(null, pPos, SoundEvents.BOTTLE_EMPTY, SoundSource.BLOCKS, 1.0F, 1.0F);
+                                pPlayer.addItem(new ItemStack(Items.GLASS_BOTTLE, 1));
+                                panBlockEntity.setChanged();
+                            }
+                            return InteractionResult.SUCCESS;
                         }
-                        return InteractionResult.SUCCESS;
                     } else if (pPlayer.isShiftKeyDown() && stack != ItemStack.EMPTY) {
                         if (!pLevel.isClientSide) {
                             pPlayer.addItem(stack.copy());
@@ -116,7 +129,8 @@ public class PanBlock extends BaseCookingBlock {
                             panBlockEntity.setChanged();
                         }
                         return InteractionResult.SUCCESS;
-                    } else if (stack.getCount() < 6 && stackHandler.isItemValid(1, playerStack) && tank.getFluid().getFluid().isSame(FluidRegistry.SOURCE_RAPESEED_OIL.get()) && tank.getFluid().getAmount() == 250) {
+                    } else if (stack.getCount() < 6 && stackHandler.isItemValid(1, playerStack) && tank.getFluid().getAmount() == 250 &&
+                            tank.getFluid().getFluid().isSame(FluidRegistry.SOURCE_RAPESEED_OIL.get())) {
                         if (!pLevel.isClientSide) {
                             stackHandler.insertItem(1, playerStack.copyWithCount(1), false);
                             if (!pPlayer.isCreative()) {

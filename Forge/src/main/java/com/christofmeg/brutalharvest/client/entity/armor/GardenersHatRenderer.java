@@ -3,8 +3,11 @@ package com.christofmeg.brutalharvest.client.entity.armor;
 import com.christofmeg.brutalharvest.CommonConstants;
 import com.christofmeg.brutalharvest.common.item.GardenersHatItem;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import software.bernie.geckolib.model.DefaultedItemGeoModel;
 
+@OnlyIn(Dist.CLIENT)
 public class GardenersHatRenderer extends AbstractRenderer<GardenersHatItem> {
 
     public GardenersHatRenderer() {

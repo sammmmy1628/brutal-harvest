@@ -1,7 +1,7 @@
 {
   "type": "brutalharvest:cutting",
   "ingredient": {
-    "item": "brutalharvest:tomato_slice"
+    "item": "brutalharvest:tomato"
   },
   "result": {
     "item": "brutalharvest:tomato_slice",

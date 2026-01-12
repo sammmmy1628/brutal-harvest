@@ -1,0 +1,10 @@
+{
+  "type": "brutalharvest:cutting",
+  "ingredient": {
+    "item": "minecraft:potato"
+  },
+  "result": {
+    "item": "brutalharvest:potato_wedges",
+    "count": 1
+  }
+}

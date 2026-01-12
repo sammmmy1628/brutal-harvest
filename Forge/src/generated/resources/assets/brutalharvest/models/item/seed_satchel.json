@@ -4,7 +4,7 @@
     {
       "model": "brutalharvest:item/seed_satchel_filled",
       "predicate": {
-        "brutalharvest:filled": 1.0
+        "brutalharvest:is_empty": 1.0
       }
     }
   ],

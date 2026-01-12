@@ -1,12 +1,9 @@
 {
   "type": "brutalharvest:cooking",
-  "result_type": "fluid",
-  "ingredients": [
-    {
+  "ingredients": {
       "item": "brutalharvest:coffee_powder",
       "count": 5
-    }
-  ],
+  },
   "time": 400,
   "container": "bottle",
   "fluid_result": {

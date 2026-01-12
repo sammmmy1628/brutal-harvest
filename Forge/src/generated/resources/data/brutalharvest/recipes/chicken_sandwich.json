@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "brutalharvest:toast_slice"
+    },
+    {
+      "item": "brutalharvest:toast_slice"
+    },
+    {
+      "item": "brutalharvest:sliced_lettuce"
+    },
+    {
+      "item": "minecraft:cooked_chicken"
+    }
+  ],
+  "result": {
+    "item": "brutalharvest:chicken_sandwich"
+  }
+}

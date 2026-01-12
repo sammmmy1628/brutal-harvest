@@ -1,0 +1,13 @@
+{
+  "type": "brutalharvest:frying",
+  "fluid_ingredient": {
+    "fluid": "brutalharvest:stirred_egg",
+    "amount": 250
+  },
+  "time": 400,
+  "container": "bowl",
+  "result": {
+    "count": 1,
+    "item": "brutalharvest:scrambled_egg"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "brutalharvest:toast_slice"
+    },
+    {
+      "item": "brutalharvest:toast_slice"
+    },
+    {
+      "item": "brutalharvest:mayonnaise_jar"
+    },
+    {
+      "item": "minecraft:cooked_porkchop"
+    }
+  ],
+  "result": {
+    "item": "brutalharvest:porkchop_sandwich"
+  }
+}

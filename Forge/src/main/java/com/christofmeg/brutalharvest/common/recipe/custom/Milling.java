@@ -1,10 +1,11 @@
 package com.christofmeg.brutalharvest.common.recipe.custom;
 
-import com.christofmeg.brutalharvest.CommonConstants;
 import com.christofmeg.brutalharvest.common.init.RecipeSerializerRegistry;
 import com.christofmeg.brutalharvest.common.init.RecipeTypeRegistry;
+import com.christofmeg.brutalharvest.common.util.BrutalRecipeUtils;
 import com.google.gson.JsonObject;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.nbt.StringTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -15,23 +16,49 @@ import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.items.IItemHandler;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
-public record Milling(Ingredient ingredient, int spins, ItemStack itemOutput, FluidStack fluidOutput) implements Recipe<Container> {
+public record Milling(Ingredient ingredient, ResourceLocation id, int spins, ItemStack itemOutput, FluidStack fluidOutput, BrutalContainers container, ItemStack remainder) implements Recipe<Container> {
 
     @Override
     public boolean matches(@NotNull Container container, @NotNull Level level) {
-        return this.ingredient.test(container.getItem(0));
+        return BrutalRecipeUtils.areStacksMatchingNoOrder(container, this.ingredient);
     }
 
     @Override
     public @NotNull ItemStack assemble(@NotNull Container container, @NotNull RegistryAccess registryAccess) {
-        return this.itemOutput.copy();
+        ItemStack resultStack = this.itemOutput.copy();
+        resultStack.getOrCreateTag();
+        resultStack.addTagElement("container", StringTag.valueOf(this.container.getName()));
+        int smallest = 64;
+        for (int iter = 0; iter < 6; iter++) {
+            ItemStack stack = container.getItem(iter);
+            if (!stack.isEmpty()) {
+                int compare = stack.getCount() / BrutalRecipeUtils.matchingStack(stack.getItem(), this.ingredient).getCount();
+                if (compare < smallest) {
+                    smallest = compare;
+                }
+            }
+        }
+        for (int iter = 0; iter < 6; iter++) {
+            ItemStack stack = container.getItem(iter);
+            if (!stack.isEmpty()) {
+                stack.shrink(smallest * BrutalRecipeUtils.matchingStack(stack.getItem(), this.ingredient).getCount());
+            }
+        }
+        resultStack.setCount(resultStack.getCount() * smallest);
+        container.setChanged();
+        return resultStack;
+    }
+
+    public ItemStack assemble(IItemHandler handler) {
+        ItemStack resultStack = this.itemOutput.copy();
+        resultStack.getOrCreateTag();
+        resultStack.addTagElement("container", StringTag.valueOf(this.container.getName()));
+        return BrutalRecipeUtils.assembleFromIItemHandler(handler, this.ingredient, resultStack);
     }
 
     @Override
@@ -50,11 +77,7 @@ public record Milling(Ingredient ingredient, int spins, ItemStack itemOutput, Fl
 
     @Override
     public @NotNull ResourceLocation getId() {
-        if (itemOutput == ItemStack.EMPTY && fluidOutput != FluidStack.EMPTY) {
-            return new ResourceLocation(CommonConstants.MOD_ID, Objects.requireNonNull(ForgeRegistries.FLUIDS.getKey(fluidOutput.getFluid())).getPath() + "_from_milling");
-        } else {
-            return new ResourceLocation(CommonConstants.MOD_ID, Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(itemOutput.getItem())).getPath() + "_from_milling");
-        }
+        return this.id;
     }
 
     @Override
@@ -67,31 +90,17 @@ public record Milling(Ingredient ingredient, int spins, ItemStack itemOutput, Fl
         return RecipeTypeRegistry.MILLING_RECIPE_TYPE.get();
     }
 
-    public ItemStack getInputStack() {
-        return this.ingredient.getItems()[0];
-    }
-
-    public static FluidStack fluidFromJson(JsonObject json) {
-        JsonObject fluidObject = GsonHelper.getAsJsonObject(json, "fluid_result");
-        int amount = GsonHelper.getAsInt(fluidObject, "amount");
-        String fluid_name = GsonHelper.getAsString(fluidObject, "fluid");
-        Fluid fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(fluid_name));
-        if (fluid == null) {
-            throw new IllegalArgumentException(fluid_name + " is not a valid fluid name!");
-        }
-        return new FluidStack(fluid, amount);
-    }
-
     public record MillingRecipeSerializer() implements RecipeSerializer<Milling> {
 
         @Override
         public @NotNull Milling fromJson(@NotNull ResourceLocation resourceLocation, @NotNull JsonObject jsonObject) {
-            String results = GsonHelper.getAsString(jsonObject, "result_type");
-            Ingredient ingredient1 = Ingredient.fromJson(GsonHelper.getAsJsonObject(jsonObject, "ingredient"), false);
+            Ingredient ingredients1 = BrutalRecipeUtils.ingredientFromJsonWithCount(jsonObject.get("ingredients"), true);
             int spins = GsonHelper.getAsInt(jsonObject, "spins");
-            FluidStack fluid_result = results.equals("both") || results.equals("fluid") ? fluidFromJson(jsonObject) : FluidStack.EMPTY;
-            ItemStack result = results.equals("both") || results.equals("item") ? ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(jsonObject, "item_result")) : ItemStack.EMPTY;
-            return new Milling(ingredient1, spins, result, fluid_result);
+            FluidStack fluid_result = jsonObject.has("fluid_result") ? BrutalRecipeUtils.fluidFromJson(GsonHelper.getAsJsonObject(jsonObject, "fluid_result")) : FluidStack.EMPTY;
+            ItemStack result = jsonObject.has("item_result") ? ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(jsonObject, "item_result")) : ItemStack.EMPTY;
+            BrutalContainers container = BrutalContainers.valueOf(GsonHelper.getAsString(jsonObject, "container").toUpperCase());
+            ItemStack remainder = jsonObject.has("remainder") ? ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(jsonObject, "remainder")) : ItemStack.EMPTY;
+            return new Milling(ingredients1, resourceLocation, spins, result, fluid_result, container, remainder);
         }
 
         @Override
@@ -100,7 +109,9 @@ public record Milling(Ingredient ingredient, int spins, ItemStack itemOutput, Fl
             int spins = friendlyByteBuf.readInt();
             ItemStack stack = friendlyByteBuf.readItem();
             FluidStack fluid = FluidStack.readFromPacket(friendlyByteBuf);
-            return new Milling(ingredient1, spins, stack, fluid);
+            BrutalContainers container = friendlyByteBuf.readEnum(BrutalContainers.class);
+            ItemStack remainder = friendlyByteBuf.readItem();
+            return new Milling(ingredient1, resourceLocation, spins, stack, fluid, container, remainder);
         }
 
         @Override
@@ -109,12 +120,15 @@ public record Milling(Ingredient ingredient, int spins, ItemStack itemOutput, Fl
             friendlyByteBuf.writeInt(milling.spins);
             friendlyByteBuf.writeItem(milling.itemOutput);
             milling.fluidOutput.writeToPacket(friendlyByteBuf);
+            friendlyByteBuf.writeEnum(milling.container);
+            friendlyByteBuf.writeItem(milling.remainder);
         }
     }
 
     public static class MillingItemsCache {
         private static final Set<Item> ALLOWED = new HashSet<>();
         private static final Set<Fluid> ALLOWED_FLUIDS = new HashSet<>();
+        private static final Set<Item> REQUIRES_CONTAINER = new HashSet<>();
 
         public static boolean isValid(Level level, Item item) {
             if (level == null) {
@@ -122,7 +136,7 @@ public record Milling(Ingredient ingredient, int spins, ItemStack itemOutput, Fl
             }
             if (ALLOWED.isEmpty()) {
                 for (Milling recipe : level.getRecipeManager().getAllRecipesFor(RecipeTypeRegistry.MILLING_RECIPE_TYPE.get())) {
-                    ALLOWED.add(recipe.getInputStack().getItem());
+                    Arrays.stream(recipe.ingredient.getItems()).forEach(itemStack -> ALLOWED.add(itemStack.getItem()));
                 }
             }
             return ALLOWED.contains(item);
@@ -142,9 +156,24 @@ public record Milling(Ingredient ingredient, int spins, ItemStack itemOutput, Fl
             return ALLOWED_FLUIDS.contains(fluid);
         }
 
+        public static boolean requiresContainer(Level level, Item item) {
+            if (level == null) {
+                return false;
+            }
+            if (REQUIRES_CONTAINER.isEmpty()) {
+                for (Milling recipe : level.getRecipeManager().getAllRecipesFor(RecipeTypeRegistry.MILLING_RECIPE_TYPE.get())) {
+                    if (recipe.container != BrutalContainers.NONE) {
+                        REQUIRES_CONTAINER.add(recipe.itemOutput.getItem());
+                    }
+                }
+            }
+            return REQUIRES_CONTAINER.contains(item);
+        }
+
         public static void invalidate() {
             ALLOWED.clear();
             ALLOWED_FLUIDS.clear();
+            REQUIRES_CONTAINER.clear();
         }
     }
 }

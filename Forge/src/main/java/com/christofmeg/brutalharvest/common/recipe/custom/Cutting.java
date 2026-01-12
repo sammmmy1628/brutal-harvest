@@ -1,6 +1,5 @@
 package com.christofmeg.brutalharvest.common.recipe.custom;
 
-import com.christofmeg.brutalharvest.CommonConstants;
 import com.christofmeg.brutalharvest.common.init.RecipeSerializerRegistry;
 import com.christofmeg.brutalharvest.common.init.RecipeTypeRegistry;
 import com.google.gson.JsonObject;
@@ -13,12 +12,11 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
-public record Cutting(Ingredient ingredient, ItemStack result) implements Recipe<Container> {
+public record Cutting(Ingredient ingredient, ResourceLocation id, ItemStack result) implements Recipe<Container> {
     @Override
     public boolean matches(@NotNull Container container, @NotNull Level level) {
         return false;
@@ -41,7 +39,7 @@ public record Cutting(Ingredient ingredient, ItemStack result) implements Recipe
 
     @Override
     public @NotNull ResourceLocation getId() {
-        return new ResourceLocation(CommonConstants.MOD_ID, Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(this.result.getItem())).getPath() + "_from_cutting");
+        return this.id;
     }
 
     @Override
@@ -60,14 +58,14 @@ public record Cutting(Ingredient ingredient, ItemStack result) implements Recipe
         public @NotNull Cutting fromJson(@NotNull ResourceLocation resourceLocation, @NotNull JsonObject jsonObject) {
             Ingredient input = Ingredient.fromJson(GsonHelper.getAsJsonObject(jsonObject, "ingredient"));
             ItemStack stack = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(jsonObject, "result"));
-            return new Cutting(input, stack);
+            return new Cutting(input, resourceLocation, stack);
         }
 
         @Override
         public @NotNull Cutting fromNetwork(@NotNull ResourceLocation resourceLocation, @NotNull FriendlyByteBuf friendlyByteBuf) {
             Ingredient input = Ingredient.fromNetwork(friendlyByteBuf);
             ItemStack stack = friendlyByteBuf.readItem();
-            return new Cutting(input, stack);
+            return new Cutting(input, resourceLocation, stack);
         }
 
         @Override

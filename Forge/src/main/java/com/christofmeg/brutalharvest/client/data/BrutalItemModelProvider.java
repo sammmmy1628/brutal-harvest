@@ -46,9 +46,12 @@ public class BrutalItemModelProvider extends ItemModelProvider {
                 .filter(item -> (item instanceof ScytheItem))
                 .forEach(this::handHeldItem);
 
-        basicItem(ItemRegistry.SEED_SATCHEL.get()).override().predicate(modLoc("filled"), 1.0F).model(basicItem(modLoc("seed_satchel_filled"))).end();
+        basicItem(ItemRegistry.SEED_SATCHEL.get()).override().predicate(modLoc("is_empty"), 1.0F).model(basicItem(modLoc("seed_satchel_filled"))).end();
         basicItem(ItemRegistry.POPCORN.get()).override().predicate(modLoc("on_pan"), 1.0F).model(basicItem(modLoc("popcorn_on_pan"))).end();
+        basicItem(ItemRegistry.FRIED_POTATO_WEDGES.get()).override().predicate(modLoc("on_pan"), 1.0F).model(basicItem(modLoc("fried_potato_wedges_on_pan"))).end();
+        basicItem(ItemRegistry.SCRAMBLED_EGG.get()).override().predicate(modLoc("on_pan"), 1.0F).model(basicItem(modLoc("scrambled_egg_on_pan"))).end();
         basicItem(ItemRegistry.PASTA.get()).override().predicate(modLoc("in_pot"), 1.0F).model(basicItem(modLoc("pasta_in_pot"))).end();
+        basicItem(ItemRegistry.SPAGHETTI_BOLOGNESE.get()).override().predicate(modLoc("in_pot"), 1.0F).model(basicItem(modLoc("spaghetti_bolognese_in_pot"))).end();
         saplingItem(BlockRegistry.RUBBER_SAPLING);
         withExistingParent(getItemName(BlockRegistry.RUBBER_LOG.get()), modLoc("block/" + getItemName(BlockRegistry.RUBBER_LOG.get())));
         withExistingParent(getItemName(BlockRegistry.RUBBER_WOOD.get()), modLoc("block/" + getItemName(BlockRegistry.RUBBER_WOOD.get())));

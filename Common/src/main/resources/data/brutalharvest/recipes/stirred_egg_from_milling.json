@@ -1,0 +1,12 @@
+{
+  "type": "brutalharvest:milling",
+  "ingredients": {
+      "item": "minecraft:egg"
+  },
+  "spins": 3,
+  "container": "none",
+  "fluid_result": {
+    "fluid": "brutalharvest:stirred_egg",
+    "amount": 250
+  }
+}

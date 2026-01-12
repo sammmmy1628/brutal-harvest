@@ -1,0 +1,12 @@
+{
+  "type": "brutalharvest:frying",
+  "ingredient": {
+    "item": "brutalharvest:potato_wedges"
+  },
+  "time": 400,
+  "container": "bowl",
+  "result": {
+    "count": 1,
+    "item": "brutalharvest:fried_potato_wedges"
+  }
+}

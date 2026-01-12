@@ -1,0 +1,21 @@
+{
+  "type": "brutalharvest:milling",
+  "ingredients": [
+    {
+      "item": "minecraft:egg",
+      "count": 2
+    },
+    {
+      "item": "brutalharvest:rapeseed_oil_bottle"
+    }
+  ],
+  "spins": 3,
+  "container": "jar",
+  "remainder": {
+    "item": "minecraft:glass_bottle"
+  },
+  "item_result": {
+    "item": "brutalharvest:mayonnaise_jar",
+    "count": 1
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "type": "brutalharvest:cooking",
+  "ingredients": [
+    {
+      "item": "brutalharvest:pasta"
+    },
+    {
+      "item": "brutalharvest:tomato_sauce"
+    },
+    {
+      "item": "brutalharvest:minced_meat"
+    },
+    {
+      "item": "minecraft:carrot"
+    }
+  ],
+  "time": 400,
+  "remainder": {
+    "item": "bowl",
+    "count": 3
+  },
+  "container": "bowl",
+  "item_result": {
+    "count": 1,
+    "item": "brutalharvest:spaghetti_bolognese"
+  }
+}

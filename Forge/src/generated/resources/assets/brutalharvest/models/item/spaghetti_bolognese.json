@@ -1,0 +1,14 @@
+{
+  "parent": "minecraft:item/generated",
+  "overrides": [
+    {
+      "model": "brutalharvest:item/spaghetti_bolognese_in_pot",
+      "predicate": {
+        "brutalharvest:in_pot": 1.0
+      }
+    }
+  ],
+  "textures": {
+    "layer0": "brutalharvest:item/spaghetti_bolognese"
+  }
+}

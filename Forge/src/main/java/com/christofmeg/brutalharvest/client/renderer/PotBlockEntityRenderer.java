@@ -1,6 +1,7 @@
 package com.christofmeg.brutalharvest.client.renderer;
 
 import com.christofmeg.brutalharvest.common.blockentity.PotBlockEntity;
+import com.christofmeg.brutalharvest.common.util.BrutalRendererUtils;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
@@ -20,6 +21,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fluids.FluidStack;
@@ -29,6 +32,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
+@OnlyIn(Dist.CLIENT)
 public class PotBlockEntityRenderer implements BlockEntityRenderer<PotBlockEntity> {
 
     private final BlockEntityRendererProvider.Context context;
@@ -53,10 +57,10 @@ public class PotBlockEntityRenderer implements BlockEntityRenderer<PotBlockEntit
                 float y = 0.5F + 0.0004375F * fluid.getAmount();
                 VertexConsumer builder = multiBufferSource.getBuffer(ItemBlockRenderTypes.getRenderLayer(fluid.getFluid().defaultFluidState()));
                 poseStack.pushPose();
-                vertex(builder, poseStack, 0.1875F, y, 0.1875F, atlasSprite.getU0(), atlasSprite.getV0(), i, fluidTint);
-                vertex(builder, poseStack, 0.1875F, y, 0.8125F, atlasSprite.getU0(), atlasSprite.getV1(), i, fluidTint);
-                vertex(builder, poseStack, 0.8125F, y, 0.8125F, atlasSprite.getU1(), atlasSprite.getV1(), i, fluidTint);
-                vertex(builder, poseStack, 0.8125F, y, 0.1875F, atlasSprite.getU1(), atlasSprite.getV0(), i, fluidTint);
+                BrutalRendererUtils.vertex(builder, poseStack, 0.1875F, y, 0.1875F, atlasSprite.getU0(), atlasSprite.getV0(), i, fluidTint);
+                BrutalRendererUtils.vertex(builder, poseStack, 0.1875F, y, 0.8125F, atlasSprite.getU0(), atlasSprite.getV1(), i, fluidTint);
+                BrutalRendererUtils.vertex(builder, poseStack, 0.8125F, y, 0.8125F, atlasSprite.getU1(), atlasSprite.getV1(), i, fluidTint);
+                BrutalRendererUtils.vertex(builder, poseStack, 0.8125F, y, 0.1875F, atlasSprite.getU1(), atlasSprite.getV0(), i, fluidTint);
                 poseStack.popPose();
             }
             if (stack != ItemStack.EMPTY) {
@@ -70,14 +74,5 @@ public class PotBlockEntityRenderer implements BlockEntityRenderer<PotBlockEntit
                 poseStack.popPose();
             }
         }
-    }
-
-    public static void vertex(VertexConsumer builder, PoseStack poseStack, float x, float y, float z, float u, float v, int light, int tint) {
-        builder.vertex(poseStack.last().pose(), x, y, z)
-                .color(tint)
-                .uv(u, v)
-                .uv2(light)
-                .normal(1.0F, 0.0F, 0.0F)
-                .endVertex();
     }
 }

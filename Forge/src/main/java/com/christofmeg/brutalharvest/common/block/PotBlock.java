@@ -6,7 +6,7 @@ import com.christofmeg.brutalharvest.common.handler.PotStackHandler;
 import com.christofmeg.brutalharvest.common.init.BlockEntityTypeRegistry;
 import com.christofmeg.brutalharvest.common.init.FluidRegistry;
 import com.christofmeg.brutalharvest.common.init.ItemRegistry;
-import com.christofmeg.brutalharvest.common.recipe.custom.Containers;
+import com.christofmeg.brutalharvest.common.recipe.custom.BrutalContainers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvents;
@@ -24,6 +24,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -46,6 +47,7 @@ public class PotBlock extends BaseCookingBlock {
 
     public PotBlock(Properties pProperties) {
         super(pProperties);
+        this.itemPropertyName = "inPot";
     }
 
     @Override
@@ -72,26 +74,25 @@ public class PotBlock extends BaseCookingBlock {
                     byte extracted = (byte) resultStack.getCount();
                     if (tag != null) {
                         if (tag.contains("container")) {
-                            requiredItem = Containers.byName(tag.getString("container")).getItem();
+                            requiredItem = BrutalContainers.valueOf(tag.getString("container").toUpperCase()).getItem();
                         }
                         if (playerStack.is(requiredItem)) {
                             if (!pPlayer.isCreative()){
-                                if (playerStack.getCount() < resultStack.getCount()) {
+                                if (playerStack.getCount() < resultStack.getCount() && requiredItem != Items.AIR) {
                                     extracted = (byte) playerStack.getCount();
-                                }
-                                if (requiredItem != Items.AIR) {
                                     playerStack.shrink(extracted);
                                 }
                             }
                             if (tag.contains("inPot")) {
-                                tag.putFloat("inPot", 0.0F);
+                                tag.remove("inPot");
                             }
                             tag.remove("container");
                             if (!pLevel.isClientSide) {
-                                stackHandler.extractItem(1, extracted, false);
-                                pPlayer.addItem(resultStack);
+                                stackHandler.extractItem(0, extracted, false);
+                                pPlayer.addItem(resultStack.copyWithCount(extracted));
                                 potBlockEntity.setChanged();
                             }
+                            return InteractionResult.SUCCESS;
                         } else {
                             return InteractionResult.PASS;
                         }
@@ -111,18 +112,33 @@ public class PotBlock extends BaseCookingBlock {
                     return InteractionResult.SUCCESS;
                 } else if (optional1.isPresent()) {
                     FluidTank tank = (FluidTank) optional1.get();
-                    if (!tank.getFluid().isEmpty() && !tank.getFluid().getFluid().isSame(Fluids.WATER)) {
-                        if (!pLevel.isClientSide) {
-                            if (playerStack.is(Items.BUCKET)) {
+                    Fluid fluid = tank.getFluid().getFluid();
+                    if (!tank.getFluid().isEmpty() && !fluid.isSame(Fluids.WATER)) {
+                        if (playerStack.is(Items.BUCKET)) {
+                            if (!pLevel.isClientSide) {
                                 FluidUtil.tryFillContainer(playerStack, tank, 1000, pPlayer, true);
-                            } else if (tank.getFluid().getFluid().isSame(FluidRegistry.SOURCE_COFFEE.get())) {
-                                tank.drain(250, IFluidHandler.FluidAction.EXECUTE);
-                                pLevel.playSound(null, pPos, SoundEvents.BOTTLE_FILL, SoundSource.BLOCKS, 1.0F, 1.0F);
-                                pPlayer.addItem(new ItemStack(ItemRegistry.COFFEE_BOTTLE.get(), 1));
                                 potBlockEntity.setChanged();
                             }
+                            return InteractionResult.SUCCESS;
+                        } else if (fluid.isSame(FluidRegistry.SOURCE_COFFEE.get()) && playerStack.is(Items.GLASS_BOTTLE)) {
+                            if (!pLevel.isClientSide) {
+                                fillContainerWithFluid(tank, ItemRegistry.COFFEE_BOTTLE.get(), pLevel, pPlayer, pPos);
+                                potBlockEntity.setChanged();
+                            }
+                            return InteractionResult.SUCCESS;
+                        } else if (fluid.isSame(FluidRegistry.SOURCE_BLUEBERRY_JAM.get()) && playerStack.is(ItemRegistry.JAR.get())) {
+                            if (!pLevel.isClientSide) {
+                                fillContainerWithFluid(tank, ItemRegistry.BLUEBERRY_JAM_JAR.get(), pLevel, pPlayer, pPos);
+                                potBlockEntity.setChanged();
+                            }
+                            return InteractionResult.SUCCESS;
+                        }  else if (fluid.isSame(FluidRegistry.SOURCE_STRAWBERRY_JAM.get()) && playerStack.is(ItemRegistry.JAR.get())) {
+                            if (!pLevel.isClientSide) {
+                                fillContainerWithFluid(tank, ItemRegistry.STRAWBERRY_JAM_JAR.get(), pLevel, pPlayer, pPos);
+                                potBlockEntity.setChanged();
+                            }
+                            return InteractionResult.SUCCESS;
                         }
-                        return InteractionResult.SUCCESS;
                     }
                     if (playerStack.is(Items.WATER_BUCKET) && pLevel.getBlockState(pPos).getValue(ON_CAMPFIRE) != OnCampfire.NONE && tank.isEmpty()) {
                         if (!pLevel.isClientSide) {
@@ -136,7 +152,8 @@ public class PotBlock extends BaseCookingBlock {
                             potBlockEntity.setChanged();
                             }
                         return InteractionResult.sidedSuccess(pLevel.isClientSide);
-                    } if (slot != -1 && stackHandler.isItemValid(slot, playerStack) && tank.getFluid().getFluid().isSame(Fluids.WATER) && tank.getFluid().getAmount() == 1000) {
+                    }
+                    if (slot != -1 && stackHandler.isItemValid(slot, playerStack) && tank.getFluid().getFluid().isSame(Fluids.WATER) && tank.getFluid().getAmount() == 1000) {
                         if (!pLevel.isClientSide) {
                             stackHandler.insertItem(slot, playerStack.copyWithCount(1), false);
                             if (!pPlayer.isCreative()) {
@@ -162,5 +179,11 @@ public class PotBlock extends BaseCookingBlock {
     @Override
     public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(@NotNull Level pLevel, @NotNull BlockState pState, @NotNull BlockEntityType<T> pBlockEntityType) {
         return pBlockEntityType == BlockEntityTypeRegistry.POT_BLOCK_ENTITY.get() && !pLevel.isClientSide ? PotBlockEntity::tick : null;
+    }
+
+    private static void fillContainerWithFluid(FluidTank tank, Item filledContainer, Level level, Player player, BlockPos pos) {
+        tank.drain(250, IFluidHandler.FluidAction.EXECUTE);
+        level.playSound(null, pos, SoundEvents.BOTTLE_FILL, SoundSource.BLOCKS, 1.0F, 1.0F);
+        player.addItem(new ItemStack(filledContainer, 1));
     }
 }

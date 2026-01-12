@@ -28,6 +28,21 @@ public class FluidRegistry {
     public static final ForgeFlowingFluid.Properties RUBBER_PROPERTIES = new ForgeFlowingFluid.Properties(
             FluidTypeRegistry.RUBBER_TYPE, SOURCE_RUBBER, FLOWING_RUBBER);
 
+    public static final RegistryObject<FlowingFluid> SOURCE_STIRRED_EGG = FLUIDS.register("stirred_egg", () -> new ForgeFlowingFluid.Source(FluidRegistry.STIRRED_EGG_PROPERTIES));
+    public static final RegistryObject<FlowingFluid> FLOWING_STIRRED_EGG = FLUIDS.register("flowing_stirred_egg", () -> new ForgeFlowingFluid.Flowing(FluidRegistry.STIRRED_EGG_PROPERTIES));
+    public static final ForgeFlowingFluid.Properties STIRRED_EGG_PROPERTIES = new ForgeFlowingFluid.Properties(
+            FluidTypeRegistry.STIRRED_EGG_TYPE, SOURCE_STIRRED_EGG, FLOWING_STIRRED_EGG);
+
+    public static final RegistryObject<FlowingFluid> SOURCE_BLUEBERRY_JAM = FLUIDS.register("blueberry_jam", () -> new ForgeFlowingFluid.Source(FluidRegistry.BLUEBERRY_JAM_PROPERTIES));
+    public static final RegistryObject<FlowingFluid> FLOWING_BLUEBERRY_JAM = FLUIDS.register("flowing_blueberry_jam", () -> new ForgeFlowingFluid.Flowing(FluidRegistry.BLUEBERRY_JAM_PROPERTIES));
+    public static final ForgeFlowingFluid.Properties BLUEBERRY_JAM_PROPERTIES = new ForgeFlowingFluid.Properties(
+            FluidTypeRegistry.BLUEBERRY_JAM_TYPE, SOURCE_BLUEBERRY_JAM, FLOWING_BLUEBERRY_JAM);
+
+    public static final RegistryObject<FlowingFluid> SOURCE_STRAWBERRY_JAM = FLUIDS.register("strawberry_jam", () -> new ForgeFlowingFluid.Source(FluidRegistry.STRAWBERRY_JAM_PROPERTIES));
+    public static final RegistryObject<FlowingFluid> FLOWING_STRAWBERRY_JAM = FLUIDS.register("flowing_strawberry_jam", () -> new ForgeFlowingFluid.Flowing(FluidRegistry.STRAWBERRY_JAM_PROPERTIES));
+    public static final ForgeFlowingFluid.Properties STRAWBERRY_JAM_PROPERTIES = new ForgeFlowingFluid.Properties(
+            FluidTypeRegistry.STRAWBERRY_JAM_TYPE, SOURCE_STRAWBERRY_JAM, FLOWING_STRAWBERRY_JAM);
+
     public static void init(IEventBus bus) {
         FLUIDS.register(bus);
     }

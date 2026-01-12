@@ -1,10 +1,10 @@
 {
   "type": "brutalharvest:milling",
-  "result_type": "item",
-  "ingredient": {
-    "item": "minecraft:blaze_rod"
+  "ingredients": {
+      "item": "minecraft:blaze_rod"
   },
   "spins": 3,
+  "container": "none",
   "item_result": {
     "item": "minecraft:blaze_powder",
     "count": 4

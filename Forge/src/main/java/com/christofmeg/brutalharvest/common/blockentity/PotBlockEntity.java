@@ -4,11 +4,13 @@ import com.christofmeg.brutalharvest.common.handler.PotStackHandler;
 import com.christofmeg.brutalharvest.common.init.BlockEntityTypeRegistry;
 import com.christofmeg.brutalharvest.common.init.RecipeTypeRegistry;
 import com.christofmeg.brutalharvest.common.recipe.custom.Cooking;
+import com.christofmeg.brutalharvest.common.util.BrutalRecipeUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.Containers;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -109,31 +111,36 @@ public class PotBlockEntity extends BlockEntity {
 
     private Optional<Cooking> getCurrentRecipe() {
         Optional<IItemHandler> itemHandlerOptional = this.getCapability(ForgeCapabilities.ITEM_HANDLER).resolve();
-        if (itemHandlerOptional.isPresent() && this.level != null) {
+        if (itemHandlerOptional.isPresent() && this.level != null && !this.level.isClientSide) {
             SimpleContainer container = ((PotStackHandler) itemHandlerOptional.get()).asContainer();
             return this.level.getRecipeManager().getRecipeFor(RecipeTypeRegistry.COOKING_RECIPE_TYPE.get(), container, this.level);
         }
         return Optional.empty();
     }
 
+    @SuppressWarnings("unused")
     public static <T extends BlockEntity> void tick(Level level, BlockPos pos, BlockState state, T t) {
         PotBlockEntity blockEntity = (PotBlockEntity) t;
         Optional<IItemHandler> optional = blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).resolve();
         Optional<IFluidHandler> optional1 = blockEntity.getCapability(ForgeCapabilities.FLUID_HANDLER).resolve();
         if (blockEntity.cookingProgress > 0) {
             blockEntity.cookingProgress--;
-        } else if (optional.isPresent() && optional1.isPresent() && ((PotStackHandler) optional.get()).isEmpty() && !level.isClientSide) {
-            if (blockEntity.cooldown == 0) {
+        } else if (optional.isPresent() && optional1.isPresent() && !((PotStackHandler) optional.get()).isEmpty() && !level.isClientSide) {
+            if (blockEntity.cooldown % 4 == 0) {
+                blockEntity.cooldown = 200;
                 IItemHandler iItemHandler = optional.get();
                 blockEntity.getCurrentRecipe().ifPresent(cooking -> {
-                    blockEntity.cooldown = 50;
-                    if (cooking.isSufficient(iItemHandler)){
-                        if (cooking.getResultItem(level.registryAccess()) != ItemStack.EMPTY) {
+                    if (BrutalRecipeUtils.isSufficient(iItemHandler, cooking.ingredient())){
+                        short multiplier = BrutalRecipeUtils.getResultMultiplier(iItemHandler, cooking.ingredient());
+                        if (!cooking.remainder().isEmpty()) {
+                            Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), cooking.remainder().copyWithCount(cooking.remainder().getCount() * multiplier));
+                        }
+                        if (!cooking.getResultItem(level.registryAccess()).isEmpty()) {
                             if (iItemHandler.getStackInSlot(0) == ItemStack.EMPTY ||
                                     iItemHandler.getStackInSlot(1).getItem() == cooking.getResultItem(level.registryAccess()).getItem()) {
                                 ItemStack result = cooking.getResultItem(level.registryAccess());
-                                int count = iItemHandler.getStackInSlot(0).getCount();
-                                if (iItemHandler.getStackInSlot(0).getCount() + count + result.getCount() <= 64) {
+                                int currentCount = iItemHandler.getStackInSlot(0).getCount();
+                                if (currentCount + multiplier * result.getCount() <= 64) {
                                     ((PotStackHandler) iItemHandler).updateLevel(level);
                                     iItemHandler.insertItem(0, cooking.assemble(iItemHandler), false);
                                 }
@@ -141,7 +148,7 @@ public class PotBlockEntity extends BlockEntity {
                         }
                         FluidTank tank = (FluidTank) optional1.get();
                         tank.drain(1000, IFluidHandler.FluidAction.EXECUTE);
-                        if (cooking.getResultFluid() != FluidStack.EMPTY && cooking.isSufficient(iItemHandler)) {
+                        if (cooking.getResultFluid() != FluidStack.EMPTY && BrutalRecipeUtils.isSufficient(iItemHandler, cooking.ingredient())) {
                             tank.fill(cooking.assembleFluid(iItemHandler, cooking.getResultItem(level.registryAccess()).isEmpty()), IFluidHandler.FluidAction.EXECUTE);
                         }
                         blockEntity.setChanged();

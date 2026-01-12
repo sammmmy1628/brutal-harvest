@@ -1,10 +1,8 @@
 package com.christofmeg.brutalharvest.common.recipe.custom;
 
-import com.christofmeg.brutalharvest.CommonConstants;
 import com.christofmeg.brutalharvest.common.init.RecipeSerializerRegistry;
 import com.christofmeg.brutalharvest.common.init.RecipeTypeRegistry;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
+import com.christofmeg.brutalharvest.common.util.BrutalRecipeUtils;
 import com.google.gson.JsonObject;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.StringTag;
@@ -19,24 +17,16 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
 
-public record Cooking(List<ItemStack> ingredients, int ticks, ItemStack result, FluidStack fluidResult, Containers container) implements Recipe<Container> {
+public record Cooking(Ingredient ingredient, ResourceLocation id, int ticks, ItemStack result, FluidStack fluidResult, BrutalContainers container, ItemStack remainder) implements Recipe<Container> {
 
     @Override
     public boolean matches(@NotNull Container container, @NotNull Level level) {
-        for (ItemStack ingredient : this.ingredients) {
-            for (byte iter = 0; iter < container.getContainerSize(); iter++) {
-                if (!ingredient.is(container.getItem(iter).getItem()) && !container.getItem(iter).isEmpty()) {
-                    return false;
-                }
-            }
-        }
-        return true;
+        return BrutalRecipeUtils.areStacksMatchingNoOrder(container, this.ingredient);
     }
 
     @Override
@@ -48,7 +38,7 @@ public record Cooking(List<ItemStack> ingredients, int ticks, ItemStack result, 
         for (int iter = 0; iter < 6; iter++) {
             ItemStack stack = container.getItem(iter);
             if (!stack.isEmpty()) {
-                int compare = stack.getCount() / this.matchingStack(stack.getItem()).getCount();
+                int compare = stack.getCount() / BrutalRecipeUtils.matchingStack(stack.getItem(), this.ingredient).getCount();
                 if (compare < smallest) {
                     smallest = compare;
                 }
@@ -57,7 +47,7 @@ public record Cooking(List<ItemStack> ingredients, int ticks, ItemStack result, 
         for (int iter = 0; iter < 6; iter++) {
             ItemStack stack = container.getItem(iter);
             if (!stack.isEmpty()) {
-                stack.shrink(smallest * this.matchingStack(stack.getItem()).getCount());
+                stack.shrink(smallest * BrutalRecipeUtils.matchingStack(stack.getItem(), this.ingredient).getCount());
             }
         }
         resultStack.setCount(resultStack.getCount() * smallest);
@@ -69,24 +59,7 @@ public record Cooking(List<ItemStack> ingredients, int ticks, ItemStack result, 
         ItemStack resultStack = result.copy();
         resultStack.getOrCreateTag();
         resultStack.addTagElement("container", StringTag.valueOf(this.container.getName()));
-        int smallest = 64;
-        for (int iter = 1; iter < 7; iter++) {
-            ItemStack stack = handler.getStackInSlot(iter);
-            if (!stack.isEmpty()) {
-                int compare = stack.getCount() / this.matchingStack(stack.getItem()).getCount();
-                if (compare < smallest) {
-                    smallest = compare;
-                }
-            }
-        }
-        for (int iter = 1; iter < 7; iter++) {
-            ItemStack stack = handler.getStackInSlot(iter);
-            if (!stack.isEmpty()) {
-                stack.shrink(smallest * this.matchingStack(stack.getItem()).getCount());
-            }
-        }
-        resultStack.setCount(resultStack.getCount() * smallest);
-        return resultStack;
+        return BrutalRecipeUtils.assembleFromIItemHandler(handler, this.ingredient, resultStack);
     }
 
     @Override
@@ -109,39 +82,16 @@ public record Cooking(List<ItemStack> ingredients, int ticks, ItemStack result, 
             for (int iter = 1; iter < 7; iter++) {
                 ItemStack stack = handler.getStackInSlot(iter);
                 if (!stack.isEmpty()) {
-                    stack.shrink(this.matchingStack(stack.getItem()).getCount());
+                    stack.shrink(BrutalRecipeUtils.matchingStack(stack.getItem(), this.ingredient).getCount());
                 }
             }
         }
         return fluidStack;
     }
 
-    public boolean isSufficient(IItemHandler handler) {
-        for (int iter = 1; iter < 7; iter++) {
-            ItemStack stack =  handler.getStackInSlot(iter);
-            if (stack.getCount() < this.matchingStack(stack.getItem()).getCount()) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private ItemStack matchingStack(Item matching) {
-        for (ItemStack stack : this.ingredients) {
-            if (stack.is(matching) && !stack.isEmpty()) {
-                return stack;
-            }
-        }
-        return ItemStack.EMPTY;
-    }
-
     @Override
     public @NotNull ResourceLocation getId() {
-        if (result == ItemStack.EMPTY && fluidResult != FluidStack.EMPTY) {
-            return new ResourceLocation(CommonConstants.MOD_ID, Objects.requireNonNull(ForgeRegistries.FLUIDS.getKey(fluidResult.getFluid())).getPath() + "_from_cooking");
-        } else {
-            return new ResourceLocation(CommonConstants.MOD_ID, Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(result.getItem())).getPath() + "_from_cooking");
-        }
+        return this.id;
     }
 
     @Override
@@ -158,41 +108,34 @@ public record Cooking(List<ItemStack> ingredients, int ticks, ItemStack result, 
 
         @Override
         public @NotNull Cooking fromJson(@NotNull ResourceLocation resourceLocation, @NotNull JsonObject jsonObject) {
-            String type = GsonHelper.getAsString(jsonObject, "result_type");
-            List<ItemStack> input = new ArrayList<>();
-            JsonArray array = GsonHelper.getAsJsonArray(jsonObject, "ingredients");
-            for (JsonElement element : array) {
-                input.add(ShapedRecipe.itemStackFromJson(element.getAsJsonObject()));
-            }
+            Ingredient ingredient1 = BrutalRecipeUtils.ingredientFromJsonWithCount(jsonObject.get("ingredients"), true);
             int i = GsonHelper.getAsInt(jsonObject, "time");
-            ItemStack stack = type.equals("both") || type.equals("item") ? ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(jsonObject, "item_result")) : ItemStack.EMPTY;
-            FluidStack fluid = type.equals("both") || type.equals("fluid") ? Milling.fluidFromJson(jsonObject) : FluidStack.EMPTY;
-            Containers container = Containers.byName(GsonHelper.getAsString(jsonObject, "container"));
-            return new Cooking(input, i, stack, fluid, container);
+            ItemStack stack = jsonObject.has("item_result") ? ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(jsonObject, "item_result")) : ItemStack.EMPTY;
+            FluidStack fluid = jsonObject.has("fluid_result") ? BrutalRecipeUtils.fluidFromJson(GsonHelper.getAsJsonObject(jsonObject, "fluid_result")) : FluidStack.EMPTY;
+            BrutalContainers container = BrutalContainers.valueOf(GsonHelper.getAsString(jsonObject, "container").toUpperCase());
+            ItemStack remainder = jsonObject.has("remainder") ? ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(jsonObject, "remainder")) : ItemStack.EMPTY;
+            return new Cooking(ingredient1, resourceLocation, i, stack, fluid, container, remainder);
         }
 
         @Override
         public @NotNull Cooking fromNetwork(@NotNull ResourceLocation resourceLocation, @NotNull FriendlyByteBuf friendlyByteBuf) {
             int i = friendlyByteBuf.readInt();
-            List<ItemStack> input = new ArrayList<>();
-            for (short iter = 0; iter < 6; iter++) {
-                input.add(friendlyByteBuf.readItem());
-            }
+            Ingredient ingredient1 = Ingredient.fromNetwork(friendlyByteBuf);
             ItemStack itemStack = friendlyByteBuf.readItem();
             FluidStack fluid = FluidStack.readFromPacket(friendlyByteBuf);
-            Containers container = friendlyByteBuf.readEnum(Containers.class);
-            return new Cooking(input, i, itemStack, fluid, container);
+            BrutalContainers container = friendlyByteBuf.readEnum(BrutalContainers.class);
+            ItemStack remainder = friendlyByteBuf.readItem();
+            return new Cooking(ingredient1, resourceLocation, i, itemStack, fluid, container, remainder);
         }
 
         @Override
         public void toNetwork(@NotNull FriendlyByteBuf friendlyByteBuf, @NotNull Cooking cooking) {
-            for (ItemStack stack : cooking.ingredients) {
-                friendlyByteBuf.writeItemStack(stack, false);
-            }
+            cooking.ingredient.toNetwork(friendlyByteBuf);
             friendlyByteBuf.writeInt(cooking.ticks);
             friendlyByteBuf.writeItem(cooking.result);
             friendlyByteBuf.writeFluidStack(cooking.fluidResult);
             friendlyByteBuf.writeEnum(cooking.container);
+            friendlyByteBuf.writeItem(cooking.remainder);
         }
     }
 
@@ -200,6 +143,7 @@ public record Cooking(List<ItemStack> ingredients, int ticks, ItemStack result, 
         private static final Set<Item> ALLOWED = new HashSet<>();
         private static final Set<Fluid> FLUIDS = new HashSet<>();
         private static final Set<Item> RESULTS = new HashSet<>();
+        private static final Set<Item> REQUIRES_CONTAINER = new HashSet<>();
 
         public static boolean isValid(Level level, Item item) {
             if (level == null) {
@@ -207,7 +151,7 @@ public record Cooking(List<ItemStack> ingredients, int ticks, ItemStack result, 
             }
             if (ALLOWED.isEmpty()) {
                 for (Cooking recipe : level.getRecipeManager().getAllRecipesFor(RecipeTypeRegistry.COOKING_RECIPE_TYPE.get())) {
-                    recipe.ingredients.forEach(itemStack -> ALLOWED.add(itemStack.getItem()));
+                    Arrays.stream(recipe.ingredient.getItems()).forEach(itemStack -> ALLOWED.add(itemStack.getItem()));
                     FLUIDS.add(recipe.fluidResult.getFluid());
                 }
             }
@@ -220,7 +164,7 @@ public record Cooking(List<ItemStack> ingredients, int ticks, ItemStack result, 
             }
             if (FLUIDS.isEmpty()) {
                 for (Cooking recipe : level.getRecipeManager().getAllRecipesFor(RecipeTypeRegistry.COOKING_RECIPE_TYPE.get())) {
-                    recipe.ingredients.forEach(itemStack -> ALLOWED.add(itemStack.getItem()));
+                    Arrays.stream(recipe.ingredient.getItems()).forEach(itemStack -> ALLOWED.add(itemStack.getItem()));
                     FLUIDS.add(recipe.fluidResult.getFluid());
                 }
             }
@@ -239,10 +183,25 @@ public record Cooking(List<ItemStack> ingredients, int ticks, ItemStack result, 
             return RESULTS.contains(item);
         }
 
+        public static boolean requiresContainer(Level level, Item item) {
+            if (level == null) {
+                return false;
+            }
+            if (REQUIRES_CONTAINER.isEmpty()) {
+                for (Cooking recipe : level.getRecipeManager().getAllRecipesFor(RecipeTypeRegistry.COOKING_RECIPE_TYPE.get())) {
+                    if (recipe.container != BrutalContainers.NONE) {
+                        REQUIRES_CONTAINER.add(recipe.result.getItem());
+                    }
+                }
+            }
+            return REQUIRES_CONTAINER.contains(item);
+        }
+
         public static void invalidate() {
             ALLOWED.clear();
             FLUIDS.clear();
             RESULTS.clear();
+            REQUIRES_CONTAINER.clear();
         }
     }
 }

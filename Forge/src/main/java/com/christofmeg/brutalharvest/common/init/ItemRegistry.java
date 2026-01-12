@@ -73,7 +73,14 @@ public class ItemRegistry {
 //    public static final RegistryObject<Item> RICE;
 //    public static final RegistryObject<Item> RICE_SEEDS;
 
+    public static final RegistryObject<Item> BEEF_SANDWICH;
+    public static final RegistryObject<Item> CHICKEN_SANDWICH;
+    public static final RegistryObject<Item> MUTTON_SANDWICH;
+    public static final RegistryObject<Item> PORKCHOP_SANDWICH;
+    public static final RegistryObject<Item> SALMON_SANDWICH;
+
     public static final RegistryObject<Item> FRIED_EGG;
+    public static final RegistryObject<Item> STIRRED_EGG_BOTTLE;
     public static final RegistryObject<Item> SCRAMBLED_EGG;
     public static final RegistryObject<Item> BOILED_EGG;
 
@@ -81,9 +88,10 @@ public class ItemRegistry {
     public static final RegistryObject<Item> STRAWBERRY_TOAST;
     public static final RegistryObject<Item> BLUEBERRY_TOAST;
 
+    public static final RegistryObject<Item> MAYONNAISE_JAR;
     public static final RegistryObject<Item> HONEY_JAR;
-    public static final RegistryObject<Item> STRAWBERRY_JAM;
-    public static final RegistryObject<Item> BLUEBERRY_JAM;
+    public static final RegistryObject<Item> STRAWBERRY_JAM_JAR;
+    public static final RegistryObject<Item> BLUEBERRY_JAM_JAR;
 
     public static final RegistryObject<Item> FRIED_EGG_TOAST;
     public static final RegistryObject<Item> SCRAMBLED_EGG_TOAST;
@@ -99,9 +107,15 @@ public class ItemRegistry {
     public static final RegistryObject<Item> DOUGH;
     public static final RegistryObject<Item> TOMATO_DOUGH;
 
+    public static final RegistryObject<Item> TOMATO_SAUCE;
+    public static final RegistryObject<Item> MINCED_MEAT;
     public static final RegistryObject<Item> UNCOOKED_PASTA;
     public static final RegistryObject<Item> PASTA;
     public static final RegistryObject<Item> SPAGHETTI;
+    public static final RegistryObject<Item> SPAGHETTI_BOLOGNESE;
+
+    public static final RegistryObject<Item> POTATO_WEDGES;
+    public static final RegistryObject<Item> FRIED_POTATO_WEDGES;
 
     public static final RegistryObject<Item> RUBBER_BUCKET;
     public static final RegistryObject<Item> RUBBER_BOWL;
@@ -217,8 +231,15 @@ public class ItemRegistry {
 //        RICE = ITEMS.register("rice", () -> new Item(new Item.Properties()));
 //        RICE_SEEDS = ITEMS.register("rice_seeds", () -> new ItemNameBlockItem(BlockRegistry.SUGAR_BEET.get(), new Item.Properties()));
 
+        BEEF_SANDWICH = ITEMS.register("beef_sandwich", () -> new Item(new Item.Properties().food(BrutalFoods.BEEF_SANDWICH)));
+        CHICKEN_SANDWICH = ITEMS.register("chicken_sandwich", () -> new Item(new Item.Properties().food(BrutalFoods.CHICKEN_SANDWICH)));
+        MUTTON_SANDWICH = ITEMS.register("mutton_sandwich", () -> new Item(new Item.Properties().food(BrutalFoods.MUTTON_SANDWICH)));
+        PORKCHOP_SANDWICH = ITEMS.register("porkchop_sandwich", () -> new Item(new Item.Properties().food(BrutalFoods.PORKCHOP_SANDWICH)));
+        SALMON_SANDWICH = ITEMS.register("salmon_sandwich", () -> new Item(new Item.Properties().food(BrutalFoods.SALMON_SANDWICH)));
+
         FRIED_EGG = ITEMS.register("fried_egg", () -> new Item(new Item.Properties().food(BrutalFoods.FRIED_EGG)));
-        SCRAMBLED_EGG = ITEMS.register("scrambled_egg", () -> new Item(new Item.Properties().food(BrutalFoods.SCRAMBLED_EGG)));
+        STIRRED_EGG_BOTTLE = ITEMS.register("stirred_egg_bottle", () -> new BottleItem(new Item.Properties()));
+        SCRAMBLED_EGG = ITEMS.register("scrambled_egg", () -> new BrutalRemainderFoodItem(new Item.Properties().food(BrutalFoods.SCRAMBLED_EGG).craftRemainder(Items.BOWL), Items.BOWL));
         BOILED_EGG = ITEMS.register("boiled_egg", () -> new Item(new Item.Properties().food(BrutalFoods.BOILED_EGG)));
 
         HONEY_TOAST = ITEMS.register("honey_toast", () -> new Item(new Item.Properties().food(BrutalFoods.HONEY_TOAST)));
@@ -228,9 +249,10 @@ public class ItemRegistry {
         SEED_SATCHEL = ITEMS.register("seed_satchel", () -> new SeedSatchelItem(new Item.Properties().stacksTo(1)));
         JAR = ITEMS.register("jar", () -> new Item(new Item.Properties()));
 
+        MAYONNAISE_JAR = ITEMS.register("mayonnaise_jar", () -> new Item(new Item.Properties().craftRemainder(ItemRegistry.JAR.get())));
         HONEY_JAR = ITEMS.register("honey_jar", () -> new Item(new Item.Properties().food(BrutalFoods.HONEY_JAR).craftRemainder(ItemRegistry.JAR.get())));
-        STRAWBERRY_JAM = ITEMS.register("strawberry_jam", () -> new Item(new Item.Properties().food(BrutalFoods.STRAWBERRY_JAM).craftRemainder(ItemRegistry.JAR.get())));
-        BLUEBERRY_JAM = ITEMS.register("blueberry_jam", () -> new Item(new Item.Properties().food(BrutalFoods.BLUEBERRY_JAM).craftRemainder(ItemRegistry.JAR.get())));
+        STRAWBERRY_JAM_JAR = ITEMS.register("strawberry_jam_jar", () -> new Item(new Item.Properties().food(BrutalFoods.STRAWBERRY_JAM).craftRemainder(ItemRegistry.JAR.get())));
+        BLUEBERRY_JAM_JAR = ITEMS.register("blueberry_jam_jar", () -> new Item(new Item.Properties().food(BrutalFoods.BLUEBERRY_JAM).craftRemainder(ItemRegistry.JAR.get())));
 
         FRIED_EGG_TOAST = ITEMS.register("fried_egg_toast", () -> new Item(new Item.Properties().food(BrutalFoods.FRIED_EGG_TOAST)));
         SCRAMBLED_EGG_TOAST = ITEMS.register("scrambled_egg_toast", () -> new Item(new Item.Properties().food(BrutalFoods.SCRAMBLED_EGG_TOAST)));
@@ -246,9 +268,15 @@ public class ItemRegistry {
         DOUGH = ITEMS.register("dough", () -> new Item(new Item.Properties()));
         TOMATO_DOUGH = ITEMS.register("tomato_dough", () -> new Item(new Item.Properties()));
 
+        TOMATO_SAUCE = ITEMS.register("tomato_sauce", () -> new Item(new Item.Properties().craftRemainder(Items.BOWL)));
+        MINCED_MEAT = ITEMS.register("minced_meat", () -> new Item(new Item.Properties().craftRemainder(Items.BOWL)));
         UNCOOKED_PASTA = ITEMS.register("uncooked_pasta", () -> new Item(new Item.Properties()));
         PASTA = ITEMS.register("pasta", () -> new BrutalRemainderFoodItem(new Item.Properties().food(BrutalFoods.PASTA), Items.BOWL));
         SPAGHETTI = ITEMS.register("spaghetti", () -> new BrutalRemainderFoodItem(new Item.Properties().food(BrutalFoods.SPAGHETTI), Items.BOWL));
+        SPAGHETTI_BOLOGNESE = ITEMS.register("spaghetti_bolognese", () -> new BrutalRemainderFoodItem(new Item.Properties().food(BrutalFoods.SPAGHETTI_BOLOGNESE), Items.BOWL));
+
+        POTATO_WEDGES = ITEMS.register("potato_wedges", () -> new Item(new Item.Properties().food(BrutalFoods.POTATO_WEDGES)));
+        FRIED_POTATO_WEDGES = ITEMS.register("fried_potato_wedges", () -> new BrutalRemainderFoodItem(new Item.Properties().food(BrutalFoods.FRIED_POTATO_WEDGES), Items.BOWL));
 
         RUBBER_BUCKET = ITEMS.register("rubber_bucket", () -> new BucketItem(FluidRegistry.SOURCE_RUBBER, new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)));
         RUBBER_BOWL = ITEMS.register("rubber_bowl", () -> new Item(new Item.Properties()));

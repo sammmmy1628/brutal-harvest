@@ -2,9 +2,10 @@ package com.christofmeg.brutalharvest.common.block.base;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.Containers;
-import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
@@ -14,6 +15,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.items.IItemHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -21,6 +23,7 @@ public abstract class BaseCookingBlock extends BaseEntityBlock {
 
     public static final Property<Direction> FACING = HorizontalDirectionalBlock.FACING;
     public static final EnumProperty<OnCampfire> ON_CAMPFIRE = EnumProperty.create("on_campfire", OnCampfire.class);
+    protected String itemPropertyName;
 
     protected BaseCookingBlock(Properties pProperties) {
         super(pProperties);
@@ -60,7 +63,7 @@ public abstract class BaseCookingBlock extends BaseEntityBlock {
         BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
         if (blockEntity != null) {
             blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(iItemHandler ->
-                    Containers.dropContents(pLevel, pPos, new SimpleContainer(iItemHandler.getStackInSlot(0), iItemHandler.getStackInSlot(1))));
+                    dropValidContents(pLevel, pPos, iItemHandler, this.itemPropertyName));
         }
         super.onRemove(pState, pLevel, pPos, pNewState, pMovedByPiston);
     }
@@ -85,6 +88,16 @@ public abstract class BaseCookingBlock extends BaseEntityBlock {
 
         public Block getBlock() {
             return this.block;
+        }
+    }
+
+    protected static void dropValidContents(Level level, BlockPos pos, IItemHandler inventory, String propertyName) {
+        for(int $$5 = 0; $$5 < inventory.getSlots(); ++$$5) {
+            ItemStack stack = inventory.getStackInSlot($$5);
+            CompoundTag tag = stack.getTag();
+            if (tag == null || !tag.contains(propertyName)) {
+                Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), stack);
+            }
         }
     }
 }

@@ -1,6 +1,5 @@
 package com.christofmeg.brutalharvest.common.handler;
 
-import com.christofmeg.brutalharvest.common.init.ItemRegistry;
 import com.christofmeg.brutalharvest.common.recipe.custom.Frying;
 import net.minecraft.nbt.FloatTag;
 import net.minecraft.world.item.ItemStack;
@@ -34,7 +33,7 @@ public class PanStackHandler extends ItemStackHandler {
     protected void onContentsChanged(int slot) {
         super.onContentsChanged(slot);
         ItemStack stack = this.getStackInSlot(0);
-        if (slot == 0 && stack.is(ItemRegistry.POPCORN.get())) {
+        if (slot == 0 && (Frying.FryingItemsCache.requiresContainer(this.level, stack.getItem()))) {
             stack.getOrCreateTag();
             stack.addTagElement("onPan", FloatTag.valueOf(1.0F));
         }

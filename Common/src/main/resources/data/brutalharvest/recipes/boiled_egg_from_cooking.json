@@ -1,11 +1,8 @@
 {
   "type": "brutalharvest:cooking",
-  "result_type": "item",
-  "ingredients": [
-    {
+  "ingredients": {
       "item": "minecraft:egg"
-    }
-  ],
+  },
   "time": 400,
   "container": "none",
   "item_result": {

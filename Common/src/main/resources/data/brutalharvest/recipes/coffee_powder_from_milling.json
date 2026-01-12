@@ -1,10 +1,10 @@
 {
   "type": "brutalharvest:milling",
-  "result_type": "item",
-  "ingredient": {
-    "item": "brutalharvest:dried_coffee_beans"
+  "ingredients": {
+      "item": "brutalharvest:dried_coffee_beans"
   },
   "spins": 3,
+  "container": "none",
   "item_result": {
     "item": "brutalharvest:coffee_powder",
     "count": 1

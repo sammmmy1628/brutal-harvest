@@ -23,6 +23,7 @@ import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.GrassColor;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -30,6 +31,8 @@ import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+
+import java.util.Locale;
 
 @OnlyIn(Dist.CLIENT)
 public class ClientSetupEvent {
@@ -44,30 +47,12 @@ public class ClientSetupEvent {
             EntityRenderers.register(EntityTypeRegistry.BRUTAL_CHEST_BOAT_ENTITY.get(), context -> new BrutalBoatRenderer(context, true));
             BlockEntityRenderers.register(BlockEntityTypeRegistry.MILLSTONE_BLOCK_ENTITY.get(), MillstoneBlockEntityRenderer::new);
             MenuScreens.register(MenuRegistry.SEED_SATCHEL_MENU_TYPE.get(), SeedSatchelScreen::new);
-            ItemProperties.register(ItemRegistry.SEED_SATCHEL.get(), new ResourceLocation(CommonConstants.MOD_ID, "filled"),
-                    (stack, level, living, id) -> {
-                        CompoundTag tag = stack.getTag();
-                        if (tag != null && tag.contains("isEmpty")) {
-                            return tag.getFloat("isEmpty");
-                        }
-                        return 0.0F;
-                    });
-            ItemProperties.register(ItemRegistry.POPCORN.get(), new ResourceLocation(CommonConstants.MOD_ID, "on_pan"),
-                    (stack, level, living, id) -> {
-                        CompoundTag tag = stack.getTag();
-                        if (tag != null && tag.contains("onPan")) {
-                            return tag.getFloat("onPan");
-                        }
-                        return 0.0F;
-                    });
-            ItemProperties.register(ItemRegistry.PASTA.get(), new ResourceLocation(CommonConstants.MOD_ID, "in_pot"),
-                    (stack, level, living, id) -> {
-                        CompoundTag tag = stack.getTag();
-                        if (tag != null && tag.contains("inPot")) {
-                            return tag.getFloat("inPot");
-                        }
-                        return 0.0F;
-                    });
+            registerSimpleItemProperty(ItemRegistry.SEED_SATCHEL.get(), new ResourceLocation(CommonConstants.MOD_ID, "is_empty"));
+            registerSimpleItemProperty(ItemRegistry.PASTA.get(), new ResourceLocation(CommonConstants.MOD_ID, "in_pot"));
+            registerSimpleItemProperty(ItemRegistry.SPAGHETTI_BOLOGNESE.get(), new ResourceLocation(CommonConstants.MOD_ID, "in_pot"));
+            registerSimpleItemProperty(ItemRegistry.POPCORN.get(), new ResourceLocation(CommonConstants.MOD_ID, "on_pan"));
+            registerSimpleItemProperty(ItemRegistry.FRIED_POTATO_WEDGES.get(), new ResourceLocation(CommonConstants.MOD_ID, "on_pan"));
+            registerSimpleItemProperty(ItemRegistry.SCRAMBLED_EGG.get(), new ResourceLocation(CommonConstants.MOD_ID, "on_pan"));
         });
     }
 
@@ -95,5 +80,22 @@ public class ClientSetupEvent {
 
     public static void registerParticleProviders(RegisterParticleProvidersEvent event) {
         event.registerSpriteSet(ParticleTypeRegistry.FALLING_RUBBER.get(), FallingRubberParticles.Provider::new);
+    }
+
+    private static void registerSimpleItemProperty(Item item, ResourceLocation predicatePath) {
+        String[] words = predicatePath.getPath().split("_");
+        String propertyName = words[0] + capitaliseFirst(words[1]);
+        ItemProperties.register(item, predicatePath,
+                (stack, level, living, id) -> {
+                    CompoundTag tag = stack.getTag();
+                    if (tag != null && tag.contains(propertyName)) {
+                        return tag.getFloat(propertyName);
+                    }
+                    return 0.0F;
+                });
+    }
+
+    private static String capitaliseFirst(String lowerCaseWord) {
+        return lowerCaseWord.substring(0, 1).toUpperCase(Locale.ENGLISH) + lowerCaseWord.substring(1);
     }
 }

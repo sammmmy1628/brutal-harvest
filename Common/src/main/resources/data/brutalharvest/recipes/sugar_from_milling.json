@@ -1,10 +1,10 @@
 {
   "type": "brutalharvest:milling",
-  "result_type": "item",
-  "ingredient": {
-    "item": "minecraft:sugar_cane"
+  "ingredients": {
+      "item": "minecraft:sugar_cane"
   },
   "spins": 3,
+  "container": "none",
   "item_result": {
     "item": "minecraft:sugar",
     "count": 2
