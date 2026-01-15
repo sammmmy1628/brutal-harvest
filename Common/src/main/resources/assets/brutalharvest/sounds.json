@@ -4,5 +4,21 @@
     "sounds": [
       "brutalharvest:tomato_splat"
     ]
+  },
+  "pan_frying": {
+    "subtitles": "sounds.brutalharvest.pan_frying",
+    "sounds": [
+      "brutalharvest:pan_frying1",
+      "brutalharvest:pan_frying2",
+      "brutalharvest:pan_frying3"
+    ]
+  },
+  "pot_boiling": {
+    "subtitles": "sounds.brutalharvest.pot_boiling",
+    "sounds": [
+      "brutalharvest:pot_boiling1",
+      "brutalharvest:pot_boiling2",
+      "brutalharvest:pot_boiling3"
+    ]
   }
 }

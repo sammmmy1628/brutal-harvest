@@ -183,5 +183,7 @@
   "recipe.brutalharvest.cutting": "Cutting",
   "recipe.brutalharvest.frying": "Frying",
   "recipe.brutalharvest.milling": "Milling",
+  "sounds.brutalharvest.pan_frying": "Pan Frying",
+  "sounds.brutalharvest.pot_boiling": "Pot Boiling",
   "sounds.brutalharvest.tomato_splat": "Tomato Splat"
 }

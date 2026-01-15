@@ -73,6 +73,8 @@ public class BrutalLanguageProvider extends LanguageProvider {
             add("advancement" + "." + CommonConstants.MOD_ID + "." + "corn" + ".desc", "Obtain some corn");
 
             add("sounds." + CommonConstants.MOD_ID + "." + "tomato_splat", "Tomato Splat");
+            add("sounds." + CommonConstants.MOD_ID + "." + "pan_frying", "Pan Frying");
+            add("sounds." + CommonConstants.MOD_ID + "." + "pot_boiling", "Pot Boiling");
 
             EnchantmentRegistry.ENCHANTMENTS.getEntries().stream().map(RegistryObject::get)
                 .forEach(enchantment -> addEnchantment(() -> enchantment,

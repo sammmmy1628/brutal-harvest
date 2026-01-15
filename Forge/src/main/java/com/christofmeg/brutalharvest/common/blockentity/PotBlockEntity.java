@@ -3,6 +3,7 @@ package com.christofmeg.brutalharvest.common.blockentity;
 import com.christofmeg.brutalharvest.common.handler.PotStackHandler;
 import com.christofmeg.brutalharvest.common.init.BlockEntityTypeRegistry;
 import com.christofmeg.brutalharvest.common.init.RecipeTypeRegistry;
+import com.christofmeg.brutalharvest.common.init.SoundRegistry;
 import com.christofmeg.brutalharvest.common.recipe.custom.Cooking;
 import com.christofmeg.brutalharvest.common.util.BrutalRecipeUtils;
 import net.minecraft.core.BlockPos;
@@ -10,6 +11,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Containers;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
@@ -125,6 +127,9 @@ public class PotBlockEntity extends BlockEntity {
         Optional<IFluidHandler> optional1 = blockEntity.getCapability(ForgeCapabilities.FLUID_HANDLER).resolve();
         if (blockEntity.cookingProgress > 0) {
             blockEntity.cookingProgress--;
+            if (blockEntity.cookingProgress % 5 == 0) {
+                level.playSound(null, pos, SoundRegistry.POT_BOILING.get(), SoundSource.BLOCKS, 0.2F, 1.0F);
+            }
         } else if (optional.isPresent() && optional1.isPresent() && !((PotStackHandler) optional.get()).isEmpty() && !level.isClientSide) {
             if (blockEntity.cooldown % 40 == 0) {
                 blockEntity.cooldown = 200;
@@ -151,6 +156,7 @@ public class PotBlockEntity extends BlockEntity {
                         if (cooking.getResultFluid() != FluidStack.EMPTY && BrutalRecipeUtils.isSufficient(iItemHandler, cooking.ingredient())) {
                             tank.fill(cooking.assembleFluid(iItemHandler, cooking.getResultItem(level.registryAccess()).isEmpty()), IFluidHandler.FluidAction.EXECUTE);
                         }
+                        level.playSound(null, pos, SoundRegistry.POT_BOILING.get(), SoundSource.BLOCKS, 2.0F, 1.5F);
                         blockEntity.setChanged();
                     }
                 });

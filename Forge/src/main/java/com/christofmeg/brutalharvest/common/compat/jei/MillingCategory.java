@@ -4,15 +4,31 @@ import com.christofmeg.brutalharvest.common.compat.jei.base.BaseBrutalRecipeCate
 import com.christofmeg.brutalharvest.common.init.BlockRegistry;
 import com.christofmeg.brutalharvest.common.recipe.custom.Milling;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
+import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
+import mezz.jei.api.gui.widgets.IRecipeExtrasBuilder;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import org.jetbrains.annotations.NotNull;
 
 public class MillingCategory extends BaseBrutalRecipeCategory<Milling> {
 
     protected MillingCategory(IGuiHelper helper) {
         super(helper, JEIBrutalPlugin.MILLING_RECIPE_TYPE, BlockRegistry.MILLSTONE.get());
+    }
+
+    @Override
+    public void draw(@NotNull Milling recipe, @NotNull IRecipeSlotsView recipeSlotsView, @NotNull GuiGraphics guiGraphics, double mouseX, double mouseY) {
+        super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
+        guiGraphics.drawString(Minecraft.getInstance().font, String.valueOf(recipe.spins()), this.getCentralX() + 15, this.getCentralY() - 25, 0x111111, false);
+    }
+
+    @Override
+    public void createRecipeExtras(@NotNull IRecipeExtrasBuilder builder, @NotNull Milling recipe, @NotNull IFocusGroup focuses) {
+        super.createRecipeExtras(builder, recipe, focuses);
+        builder.addDrawable(this.RMBIcon, this.getCentralX() + 25, this.getCentralY() - 30);
     }
 
     @Override

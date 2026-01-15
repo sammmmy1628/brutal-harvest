@@ -5,6 +5,7 @@ import com.christofmeg.brutalharvest.common.init.BlockRegistry;
 import com.christofmeg.brutalharvest.common.init.TagRegistry;
 import com.christofmeg.brutalharvest.common.recipe.custom.Cutting;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
+import mezz.jei.api.gui.widgets.IRecipeExtrasBuilder;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
@@ -21,6 +22,12 @@ public class CuttingCategory extends BaseBrutalRecipeCategory<Cutting> {
 
     protected CuttingCategory(IGuiHelper helper) {
         super(helper, JEIBrutalPlugin.CUTTING_RECIPE_TYPE, BlockRegistry.WOODEN_CUTTING_BOARD.get());
+    }
+
+    @Override
+    public void createRecipeExtras(@NotNull IRecipeExtrasBuilder builder, @NotNull Cutting recipe, @NotNull IFocusGroup focuses) {
+        super.createRecipeExtras(builder, recipe, focuses);
+        builder.addDrawable(this.RMBIcon, this.getCentralX() + 25, this.getCentralY() - 30);
     }
 
     @Override

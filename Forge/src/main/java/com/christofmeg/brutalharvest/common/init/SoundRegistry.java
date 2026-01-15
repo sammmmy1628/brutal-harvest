@@ -14,6 +14,9 @@ public class SoundRegistry {
 
     public static final RegistryObject<SoundEvent> TOMATO_SPLAT = registerSoundEvents("tomato_splat");
 
+    public static final RegistryObject<SoundEvent> POT_BOILING = registerSoundEvents("pot_boiling");
+    public static final RegistryObject<SoundEvent> PAN_FRYING = registerSoundEvents("pan_frying");
+
     private static RegistryObject<SoundEvent> registerSoundEvents(String name) {
         return SOUND_EVENTS.register(name, () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(CommonConstants.MOD_ID, name)));
     }

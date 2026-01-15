@@ -1,0 +1,10 @@
+{
+  "type": "brutalharvest:cutting",
+  "ingredient": {
+    "item": "brutalharvest:cucumber"
+  },
+  "result": {
+    "item": "brutalharvest:cucumber_slice",
+    "count": 5
+  }
+}

@@ -11,6 +11,7 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.AbstractRecipeCategory;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -24,11 +25,13 @@ public abstract class BaseBrutalRecipeCategory<T extends Recipe<Container>> exte
 
     protected final IDrawable arrowEmptyIcon;
     protected final IDrawable arrowFullIcon;
+    protected final IDrawable RMBIcon;
 
     protected BaseBrutalRecipeCategory(IGuiHelper helper, RecipeType<T> recipeType, Block craftingStation) {
         super(recipeType, Component.translatable("recipe." + CommonConstants.MOD_ID + "." + recipeType.getUid().getPath()), helper.createDrawableItemLike(craftingStation), 216, 81);
         this.arrowEmptyIcon = helper.getRecipeArrow();
         this.arrowFullIcon = helper.getRecipeArrowFilled();
+        this.RMBIcon = helper.createDrawable(new ResourceLocation("minecraft", "textures/gui/toasts.png"), 241, 21, 9, 18);
     }
 
     @Override
