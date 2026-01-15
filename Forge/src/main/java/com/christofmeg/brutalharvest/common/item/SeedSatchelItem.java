@@ -1,5 +1,6 @@
 package com.christofmeg.brutalharvest.common.item;
 
+import com.christofmeg.brutalharvest.CommonConstants;
 import com.christofmeg.brutalharvest.common.menu.SeedSatchelMenu;
 import com.christofmeg.brutalharvest.common.provider.SeedSatchelCapabilityProvider;
 import net.minecraft.nbt.CompoundTag;
@@ -27,7 +28,7 @@ public class SeedSatchelItem extends Item {
         ItemStack stack = pPlayer.getItemInHand(pUsedHand);
         pPlayer.startUsingItem(pUsedHand);
         pPlayer.openMenu(new SimpleMenuProvider((containerId, inventory, player) -> new SeedSatchelMenu(
-                containerId, inventory, stack), Component.translatable("container.seedSatchel")));
+                containerId, inventory, stack), Component.translatable("container." + CommonConstants.MOD_ID + ".seedSatchel")));
         return InteractionResultHolder.success(stack);
     }
 

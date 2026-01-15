@@ -54,7 +54,7 @@
   "block.brutalharvest.wild_sugar_beet": "Wild Sugar Beet",
   "block.brutalharvest.wild_tomato": "Wild Tomato",
   "block.brutalharvest.wooden_cutting_board": "Wooden Cutting Board",
-  "container.seedSatchel": "Seed Satchel",
+  "container.brutalharvest.seedSatchel": "Seed Satchel",
   "enchantment.brutalharvest.boomerang": "Boomerang",
   "enchantment.brutalharvest.boomerang.desc": "Allows the Scythe to automatically return after being thrown",
   "enchantment.brutalharvest.launch": "Launch",
@@ -179,5 +179,9 @@
   "item.brutalharvest.wooden_knife": "Wooden Knife",
   "item.brutalharvest.yellow_fabric": "Yellow Fabric",
   "itemGroup.brutalharvest": "Brutal Harvest",
+  "recipe.brutalharvest.cooking": "Cooking",
+  "recipe.brutalharvest.cutting": "Cutting",
+  "recipe.brutalharvest.frying": "Frying",
+  "recipe.brutalharvest.milling": "Milling",
   "sounds.brutalharvest.tomato_splat": "Tomato Splat"
 }

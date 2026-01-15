@@ -126,7 +126,7 @@ public class PotBlockEntity extends BlockEntity {
         if (blockEntity.cookingProgress > 0) {
             blockEntity.cookingProgress--;
         } else if (optional.isPresent() && optional1.isPresent() && !((PotStackHandler) optional.get()).isEmpty() && !level.isClientSide) {
-            if (blockEntity.cooldown % 4 == 0) {
+            if (blockEntity.cooldown % 40 == 0) {
                 blockEntity.cooldown = 200;
                 IItemHandler iItemHandler = optional.get();
                 blockEntity.getCurrentRecipe().ifPresent(cooking -> {

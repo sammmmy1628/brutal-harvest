@@ -126,7 +126,7 @@ public class PanBlockEntity extends BlockEntity {
         if (blockEntity.fryingProgress > 0) {
             blockEntity.fryingProgress--;
         } else if (optional.isPresent() && optional1.isPresent() && !level.isClientSide) {
-            if (blockEntity.cooldown % 4 == 0) {
+            if (blockEntity.cooldown % 40 == 0) {
                 IItemHandler iItemHandler = optional.get();
                 blockEntity.cooldown = 200;
                 blockEntity.getCurrentRecipe().ifPresent(frying -> {

@@ -94,6 +94,7 @@ dependencies {
     // JEI
     if (project.hasProperty('jei_version')) {
         if (project.hasProperty('enable_jei') && project.enable_jei.toBoolean()) {
+            compileOnly(fg.deobf("mezz.jei:jei-${forge_minecraft_version}-forge:${jei_version}"))
             runtimeOnly(fg.deobf("mezz.jei:jei-${forge_minecraft_version}-forge:${jei_version}"))
     //        runtimeOnly fg.deobf("curse.maven:just-enough-resources-jer-240630:5057220") //TODO look into adding village loot to JER pages
         }

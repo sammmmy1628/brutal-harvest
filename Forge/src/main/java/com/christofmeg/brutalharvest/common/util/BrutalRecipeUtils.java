@@ -126,4 +126,27 @@ public class BrutalRecipeUtils {
         }
         return smallest;
     }
+
+    public static List<List<ItemStack>> getSortedIngredients(Ingredient ingredient) {
+        List<List<ItemStack>> sortedIngredients = new ArrayList<>();
+        List<ItemStack> oneTypeItems = new ArrayList<>();
+        ItemStack compareItemStack = ingredient.getItems()[0];
+        for (ItemStack ingredientStack : ingredient.getItems()) {
+            if (!ingredientStack.is(compareItemStack.getItem())) {
+                sortedIngredients.add(oneTypeItems);
+                oneTypeItems = new ArrayList<>();
+            }
+            if (!ingredientStack.isEmpty()) {
+                oneTypeItems.add(ingredientStack.copy());
+            }
+            compareItemStack = ingredientStack;
+        }
+        if (!oneTypeItems.contains(compareItemStack) && !compareItemStack.isEmpty()) {
+            oneTypeItems.add(compareItemStack.copy());
+        }
+        if (!oneTypeItems.isEmpty()) {
+            sortedIngredients.add(oneTypeItems);
+        }
+        return sortedIngredients;
+    }
 }

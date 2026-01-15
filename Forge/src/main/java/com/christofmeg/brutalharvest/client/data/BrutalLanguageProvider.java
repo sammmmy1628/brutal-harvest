@@ -95,9 +95,14 @@ public class BrutalLanguageProvider extends LanguageProvider {
             add("fluid_type." + CommonConstants.MOD_ID + ".blueberry_jam", "Blueberry Jam");
             add("fluid_type." + CommonConstants.MOD_ID + ".strawberry_jam", "Strawberry Jam");
 
-            add("container.seedSatchel", "Seed Satchel");
+            add("container." + CommonConstants.MOD_ID + ".seedSatchel", "Seed Satchel");
             add("entity." + CommonConstants.MOD_ID + ".brutal_boat.rubber", "Rubber Boat");
             add("entity." + CommonConstants.MOD_ID + ".brutal_chest_boat.rubber", "Rubber Boat with Chest");
+
+            add("recipe." + CommonConstants.MOD_ID + ".milling", "Milling");
+            add("recipe." + CommonConstants.MOD_ID + ".frying", "Frying");
+            add("recipe." + CommonConstants.MOD_ID + ".cooking", "Cooking");
+            add("recipe." + CommonConstants.MOD_ID + ".cutting", "Cutting");
         }
     }
 
