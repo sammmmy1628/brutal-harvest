@@ -80,10 +80,7 @@ public class PanBlock extends BaseCookingBlock {
                                     playerStack.shrink(extracted);
                                 }
                             }
-                            if (tag.contains("onPan")) {
-                                tag.remove("onPan");
-                            }
-                            tag.remove("container");
+                            resultStack.setTag(null);
                             if (!pLevel.isClientSide) {
                                 stackHandler.extractItem(0, extracted, false);
                                 pPlayer.addItem(resultStack.copyWithCount(extracted));
@@ -103,7 +100,6 @@ public class PanBlock extends BaseCookingBlock {
                                     playerStack.shrink(1);
                                 }
                                 tank.fill(new FluidStack(FluidRegistry.SOURCE_RAPESEED_OIL.get(), 250), IFluidHandler.FluidAction.EXECUTE);
-                                pLevel.setBlockAndUpdate(pPos, pState);
                                 pLevel.playSound(null, pPos, SoundEvents.BOTTLE_EMPTY, SoundSource.BLOCKS, 1.0F, 1.0F);
                                 pPlayer.addItem(new ItemStack(Items.GLASS_BOTTLE, 1));
                                 panBlockEntity.setChanged();
@@ -115,14 +111,21 @@ public class PanBlock extends BaseCookingBlock {
                                     playerStack.shrink(1);
                                 }
                                 tank.fill(new FluidStack(FluidRegistry.SOURCE_STIRRED_EGG.get(), 250), IFluidHandler.FluidAction.EXECUTE);
-                                pLevel.setBlockAndUpdate(pPos, pState);
                                 pLevel.playSound(null, pPos, SoundEvents.BOTTLE_EMPTY, SoundSource.BLOCKS, 1.0F, 1.0F);
                                 pPlayer.addItem(new ItemStack(Items.GLASS_BOTTLE, 1));
                                 panBlockEntity.setChanged();
                             }
                             return InteractionResult.SUCCESS;
                         }
-                    } else if (pPlayer.isShiftKeyDown() && stack != ItemStack.EMPTY) {
+                    } else if (playerStack.is(Items.GLASS_BOTTLE) && tank.getFluid().getFluid().isSame(FluidRegistry.SOURCE_RAPESEED_OIL.get())) {
+                        if (!pPlayer.isCreative()) {
+                            playerStack.shrink(1);
+                        }
+                        tank.drain(250, IFluidHandler.FluidAction.EXECUTE);
+                        pLevel.playSound(null, pPos, SoundEvents.BOTTLE_FILL, SoundSource.BLOCKS, 1.0F, 1.0F);
+                        pPlayer.addItem(new ItemStack(ItemRegistry.RAPESEED_OIL_BOTTLE.get(), 1));
+                        panBlockEntity.setChanged();
+                    } else if (pPlayer.isShiftKeyDown() && !stack.isEmpty()) {
                         if (!pLevel.isClientSide) {
                             pPlayer.addItem(stack.copy());
                             stackHandler.extractItem(1, stack.getCount(), false);

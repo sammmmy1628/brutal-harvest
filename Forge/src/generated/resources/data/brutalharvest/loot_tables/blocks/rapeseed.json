@@ -39,7 +39,7 @@
               "function": "minecraft:set_count"
             }
           ],
-          "name": "brutalharvest:rapeseeds"
+          "name": "brutalharvest:rapeseed_beans"
         },
         {
           "type": "minecraft:item",
@@ -50,7 +50,7 @@
               "function": "minecraft:set_count"
             }
           ],
-          "name": "brutalharvest:rapeseeds",
+          "name": "brutalharvest:rapeseed_beans",
           "weight": 3
         }
       ],
@@ -88,7 +88,7 @@
               "condition": "minecraft:random_chance"
             }
           ],
-          "name": "brutalharvest:rapeseeds"
+          "name": "brutalharvest:rapeseed_beans"
         }
       ],
       "rolls": 1.0
@@ -149,7 +149,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "brutalharvest:rapeseeds"
+          "name": "brutalharvest:rapeseed_beans"
         }
       ],
       "rolls": 1.0

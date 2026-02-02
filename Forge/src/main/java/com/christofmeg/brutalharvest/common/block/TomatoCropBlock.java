@@ -27,15 +27,15 @@ public class TomatoCropBlock extends BaseCropBlock {
 
     public static final IntegerProperty AGE = IntegerProperty.create("age", 0, 8);
     private static final VoxelShape[] SHAPE_BY_AGE = new VoxelShape[] {
-            Block.box(0.0, 0.0, 0.0, 16.0, 4.0, 16.0),
-            Block.box(0.0, 0.0, 0.0, 16.0, 8.0, 16.0),
-            Block.box(0.0, 0.0, 0.0, 16.0, 11.0, 16.0),
-            Block.box(0.0, 0.0, 0.0, 16.0, 13.0, 16.0),
+            Block.box(0.0, 0.0, 0.0, 16.0, 5.0, 16.0),
+            Block.box(0.0, 0.0, 0.0, 16.0, 9.0, 16.0),
+            Block.box(0.0, 0.0, 0.0, 16.0, 12.0, 16.0),
             Block.box(0.0, 0.0, 0.0, 16.0, 14.0, 16.0),
-            Block.box(0.0, 0.0, 0.0, 16.0, 14.0, 16.0),
-            Block.box(0.0, 0.0, 0.0, 16.0, 14.0, 16.0),
-            Block.box(0.0, 0.0, 0.0, 16.0, 14.0, 16.0),
-            Block.box(0.0, 0.0, 0.0, 16.0, 14.0, 16.0)
+            Block.box(0.0, 0.0, 0.0, 16.0, 16.0, 16.0),
+            Block.box(0.0, 0.0, 0.0, 16.0, 16.0, 16.0),
+            Block.box(0.0, 0.0, 0.0, 16.0, 16.0, 16.0),
+            Block.box(0.0, 0.0, 0.0, 16.0, 16.0, 16.0),
+            Block.box(0.0, 0.0, 0.0, 16.0, 16.0, 16.0)
     };
 
     public TomatoCropBlock(Properties properties) {

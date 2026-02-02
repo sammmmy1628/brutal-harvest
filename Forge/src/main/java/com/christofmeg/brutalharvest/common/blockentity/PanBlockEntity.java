@@ -113,8 +113,8 @@ public class PanBlockEntity extends BlockEntity {
         if (itemHandlerOptional.isPresent() && fluidHandlerOptional.isPresent() && this.level != null && !this.level.isClientSide) {
             SimpleContainer container = new SimpleContainer(itemHandlerOptional.get().getStackInSlot(1));
             return this.level.getRecipeManager().getAllRecipesFor(RecipeTypeRegistry.FRYING_RECIPE_TYPE.get()).stream().filter(
-                    recipe -> recipe.matches(container, this.level) && (recipe.fluidIngredient().isEmpty()
-                            || recipe.fluidIngredient().isFluidStackIdentical(((FluidTank) fluidHandlerOptional.get()).getFluid()))
+                    recipe -> recipe.matches(container, this.level) &&
+                            recipe.fluidIngredient().isFluidStackIdentical(((FluidTank) fluidHandlerOptional.get()).getFluid())
             ).findFirst();
         }
         return Optional.empty();
@@ -133,9 +133,10 @@ public class PanBlockEntity extends BlockEntity {
         } else if (optional.isPresent() && optional1.isPresent() && !level.isClientSide) {
             if (blockEntity.cooldown % 40 == 0) {
                 IItemHandler iItemHandler = optional.get();
+                FluidTank fluidTank = (FluidTank) optional1.get();
                 blockEntity.cooldown = 200;
                 blockEntity.getCurrentRecipe().ifPresent(frying -> {
-                    if (!frying.ingredient().isEmpty() && frying.ingredient().getItems()[0].getCount() <= iItemHandler.getStackInSlot(1).getCount()) {
+                    if (!frying.ingredient().isEmpty() && frying.ingredient().getItems()[0].getCount() <= iItemHandler.getStackInSlot(1).getCount() || frying.ingredient().isEmpty()) {
                         if (iItemHandler.getStackInSlot(0).isEmpty()) {
                             ItemStack result = frying.getResultItem(level.registryAccess());
                             int count = !frying.ingredient().isEmpty() ? iItemHandler.getStackInSlot(1).getCount() / frying.ingredient().getItems()[0].getCount() : 1;
@@ -144,7 +145,9 @@ public class PanBlockEntity extends BlockEntity {
                                 iItemHandler.insertItem(0, frying.assemble(new SimpleContainer(iItemHandler.getStackInSlot(1)), level.registryAccess()), false);
                             }
                         }
-                        optional1.get().drain(250, IFluidHandler.FluidAction.EXECUTE);
+                        if (!fluidTank.isEmpty()) {
+                            fluidTank.drain(250, IFluidHandler.FluidAction.EXECUTE);
+                        }
                         level.playSound(null, pos, SoundRegistry.PAN_FRYING.get(), SoundSource.BLOCKS, 2.0F, 1.5F);
                         blockEntity.setChanged();
                     }

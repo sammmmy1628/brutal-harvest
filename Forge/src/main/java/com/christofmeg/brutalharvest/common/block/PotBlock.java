@@ -11,6 +11,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -28,8 +29,10 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.fluids.FluidActionResult;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -43,7 +46,7 @@ import java.util.Optional;
 public class PotBlock extends BaseCookingBlock {
 
     private static final VoxelShape SHAPE = Block.box(1, 0, 1, 15, 9, 15);
-    private static final VoxelShape SHAPE_ON_CAMPFIRE = Block.box(0, 0, 0, 16, 16, 16);
+    private static final VoxelShape SHAPE_ON_CAMPFIRE = Shapes.block();
 
     public PotBlock(Properties pProperties) {
         super(pProperties);
@@ -83,10 +86,7 @@ public class PotBlock extends BaseCookingBlock {
                                     playerStack.shrink(extracted);
                                 }
                             }
-                            if (tag.contains("inPot")) {
-                                tag.remove("inPot");
-                            }
-                            tag.remove("container");
+                            resultStack.setTag(null);
                             if (!pLevel.isClientSide) {
                                 stackHandler.extractItem(0, extracted, false);
                                 pPlayer.addItem(resultStack.copyWithCount(extracted));
@@ -113,10 +113,11 @@ public class PotBlock extends BaseCookingBlock {
                 } else if (optional1.isPresent()) {
                     FluidTank tank = (FluidTank) optional1.get();
                     Fluid fluid = tank.getFluid().getFluid();
-                    if (!tank.getFluid().isEmpty() && !fluid.isSame(Fluids.WATER)) {
+                    if (!tank.getFluid().isEmpty()) {
                         if (playerStack.is(Items.BUCKET)) {
                             if (!pLevel.isClientSide) {
-                                FluidUtil.tryFillContainer(playerStack, tank, 1000, pPlayer, true);
+                                FluidActionResult result = FluidUtil.tryFillContainer(playerStack, tank, 1000, pPlayer, true);
+                                pPlayer.addItem(result.getResult());
                                 potBlockEntity.setChanged();
                             }
                             return InteractionResult.SUCCESS;
@@ -153,7 +154,7 @@ public class PotBlock extends BaseCookingBlock {
                             }
                         return InteractionResult.sidedSuccess(pLevel.isClientSide);
                     }
-                    if (slot != -1 && stackHandler.isItemValid(slot, playerStack) && tank.getFluid().getFluid().isSame(Fluids.WATER) && tank.getFluid().getAmount() == 1000) {
+                    if (slot != -1 && stackHandler.isItemValid(slot, playerStack) && pState.getValue(ON_CAMPFIRE) != OnCampfire.NONE) {
                         if (!pLevel.isClientSide) {
                             stackHandler.insertItem(slot, playerStack.copyWithCount(1), false);
                             if (!pPlayer.isCreative()) {

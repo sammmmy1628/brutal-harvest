@@ -113,9 +113,13 @@ public class PotBlockEntity extends BlockEntity {
 
     private Optional<Cooking> getCurrentRecipe() {
         Optional<IItemHandler> itemHandlerOptional = this.getCapability(ForgeCapabilities.ITEM_HANDLER).resolve();
-        if (itemHandlerOptional.isPresent() && this.level != null && !this.level.isClientSide) {
+        Optional<IFluidHandler> fluidHandlerOptional = this.getCapability(ForgeCapabilities.FLUID_HANDLER).resolve();
+        if (itemHandlerOptional.isPresent() && fluidHandlerOptional.isPresent() && this.level != null && !this.level.isClientSide) {
             SimpleContainer container = ((PotStackHandler) itemHandlerOptional.get()).asContainer();
-            return this.level.getRecipeManager().getRecipeFor(RecipeTypeRegistry.COOKING_RECIPE_TYPE.get(), container, this.level);
+            return this.level.getRecipeManager().getAllRecipesFor(RecipeTypeRegistry.COOKING_RECIPE_TYPE.get()).stream()
+                    .filter(cooking -> cooking.matches(container, this.level) &&
+                            cooking.fluidIngredient().isFluidStackIdentical(((FluidTank) fluidHandlerOptional.get()).getFluid())
+                    ).findFirst();
         }
         return Optional.empty();
     }
@@ -128,14 +132,14 @@ public class PotBlockEntity extends BlockEntity {
         if (blockEntity.cookingProgress > 0) {
             blockEntity.cookingProgress--;
             if (blockEntity.cookingProgress % 5 == 0) {
-                level.playSound(null, pos, SoundRegistry.POT_BOILING.get(), SoundSource.BLOCKS, 0.2F, 1.0F);
+                level.playSound(null, pos, SoundRegistry.POT_BOILING.get(), SoundSource.BLOCKS, 0.4F, 1.0F);
             }
         } else if (optional.isPresent() && optional1.isPresent() && !((PotStackHandler) optional.get()).isEmpty() && !level.isClientSide) {
             if (blockEntity.cooldown % 40 == 0) {
                 blockEntity.cooldown = 200;
                 IItemHandler iItemHandler = optional.get();
                 blockEntity.getCurrentRecipe().ifPresent(cooking -> {
-                    if (BrutalRecipeUtils.isSufficient(iItemHandler, cooking.ingredient())){
+                    if (cooking.ingredient().isEmpty() || BrutalRecipeUtils.isSufficient(iItemHandler, cooking.ingredient())){
                         short multiplier = BrutalRecipeUtils.getResultMultiplier(iItemHandler, cooking.ingredient());
                         if (!cooking.remainder().isEmpty()) {
                             Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), cooking.remainder().copyWithCount(cooking.remainder().getCount() * multiplier));
@@ -156,7 +160,7 @@ public class PotBlockEntity extends BlockEntity {
                         if (cooking.getResultFluid() != FluidStack.EMPTY && BrutalRecipeUtils.isSufficient(iItemHandler, cooking.ingredient())) {
                             tank.fill(cooking.assembleFluid(iItemHandler, cooking.getResultItem(level.registryAccess()).isEmpty()), IFluidHandler.FluidAction.EXECUTE);
                         }
-                        level.playSound(null, pos, SoundRegistry.POT_BOILING.get(), SoundSource.BLOCKS, 2.0F, 1.5F);
+                        level.playSound(null, pos, SoundRegistry.POT_BOILING.get(), SoundSource.BLOCKS, 4.0F, 1.5F);
                         blockEntity.setChanged();
                     }
                 });

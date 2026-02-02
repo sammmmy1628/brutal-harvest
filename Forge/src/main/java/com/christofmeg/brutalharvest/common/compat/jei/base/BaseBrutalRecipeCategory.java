@@ -60,10 +60,10 @@ public abstract class BaseBrutalRecipeCategory<T extends Recipe<Container>> exte
         return 0;
     }
 
-    protected final void drawMultipleIngredients(IRecipeLayoutBuilder builder, Ingredient ingredient) {
+    protected final void drawMultipleIngredients(IRecipeLayoutBuilder builder, Ingredient ingredient, int startOffset) {
         List<List<ItemStack>> ingredients = BrutalRecipeUtils.getSortedIngredients(ingredient);
         for (short iter = 0; iter < ingredients.size(); iter++) {
-            int x = this.getCentralX() - 45;
+            int x = this.getCentralX() - startOffset;
             int y = this.getCentralY();
             if (iter % 3 == 0) {
                 y += 20 * (iter / 3);

@@ -36,6 +36,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.fluids.FluidActionResult;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -118,7 +119,8 @@ public class MillstoneBlock extends BaseEntityBlock {
                                 pPlayer.addItem(new ItemStack(ItemRegistry.STIRRED_EGG_BOTTLE.get(), 1));
                             }
                         } else if (fluidStack.getAmount() == 1000 && playerStack.is(Items.BUCKET)) {
-                            FluidUtil.tryFillContainer(playerStack, tank, 1000, pPlayer, true);
+                            FluidActionResult fluidActionResult = FluidUtil.tryFillContainer(playerStack, tank, 1000, pPlayer, true);
+                            pPlayer.addItem(fluidActionResult.getResult());
                         }
                         blockEntity.setChanged();
                         return InteractionResult.SUCCESS;

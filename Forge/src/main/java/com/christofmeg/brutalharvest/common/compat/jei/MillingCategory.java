@@ -33,7 +33,7 @@ public class MillingCategory extends BaseBrutalRecipeCategory<Milling> {
 
     @Override
     public void setRecipe(@NotNull IRecipeLayoutBuilder iRecipeLayoutBuilder, @NotNull Milling milling, @NotNull IFocusGroup iFocusGroup) {
-        drawMultipleIngredients(iRecipeLayoutBuilder, milling.ingredient());
+        drawMultipleIngredients(iRecipeLayoutBuilder, milling.ingredient(), 45);
         iRecipeLayoutBuilder.addSlot(RecipeIngredientRole.OUTPUT, this.getCentralX() + 45, this.getCentralY()).addItemStack(milling.getResultItem(null));
         iRecipeLayoutBuilder.addSlot(RecipeIngredientRole.OUTPUT, this.getCentralX() + 65, this.getCentralY()).addFluidStack(milling.fluidOutput().getFluid(), milling.fluidOutput().getAmount());
         iRecipeLayoutBuilder.addSlot(RecipeIngredientRole.OUTPUT, this.getCentralX() + 85, this.getCentralY()).addItemStack(milling.remainder());

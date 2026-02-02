@@ -1,48 +1,138 @@
 {
   "variants": {
-    "facing=east,on_campfire=campfire": {
-      "model": "brutalharvest:block/pan_on_campfire"
+    "campfire_facing=east,facing=east,on_campfire=campfire": {
+      "model": "brutalharvest:block/pan_on_campfire0"
+    },
+    "campfire_facing=east,facing=east,on_campfire=soul_campfire": {
+      "model": "brutalharvest:block/pan_on_soul_campfire0"
+    },
+    "campfire_facing=east,facing=north,on_campfire=campfire": {
+      "model": "brutalharvest:block/pan_on_campfire1",
+      "y": 270
+    },
+    "campfire_facing=east,facing=north,on_campfire=soul_campfire": {
+      "model": "brutalharvest:block/pan_on_soul_campfire1",
+      "y": 270
+    },
+    "campfire_facing=east,facing=south,on_campfire=campfire": {
+      "model": "brutalharvest:block/pan_on_campfire1",
+      "y": 90
+    },
+    "campfire_facing=east,facing=south,on_campfire=soul_campfire": {
+      "model": "brutalharvest:block/pan_on_soul_campfire1",
+      "y": 90
+    },
+    "campfire_facing=east,facing=west,on_campfire=campfire": {
+      "model": "brutalharvest:block/pan_on_campfire0",
+      "y": 180
+    },
+    "campfire_facing=east,facing=west,on_campfire=soul_campfire": {
+      "model": "brutalharvest:block/pan_on_soul_campfire0",
+      "y": 180
+    },
+    "campfire_facing=north,facing=east,on_campfire=campfire": {
+      "model": "brutalharvest:block/pan_on_campfire1"
+    },
+    "campfire_facing=north,facing=east,on_campfire=soul_campfire": {
+      "model": "brutalharvest:block/pan_on_soul_campfire1"
+    },
+    "campfire_facing=north,facing=north,on_campfire=campfire": {
+      "model": "brutalharvest:block/pan_on_campfire0",
+      "y": 270
+    },
+    "campfire_facing=north,facing=north,on_campfire=soul_campfire": {
+      "model": "brutalharvest:block/pan_on_soul_campfire0",
+      "y": 270
+    },
+    "campfire_facing=north,facing=south,on_campfire=campfire": {
+      "model": "brutalharvest:block/pan_on_campfire0",
+      "y": 90
+    },
+    "campfire_facing=north,facing=south,on_campfire=soul_campfire": {
+      "model": "brutalharvest:block/pan_on_soul_campfire0",
+      "y": 90
+    },
+    "campfire_facing=north,facing=west,on_campfire=campfire": {
+      "model": "brutalharvest:block/pan_on_campfire1",
+      "y": 180
+    },
+    "campfire_facing=north,facing=west,on_campfire=soul_campfire": {
+      "model": "brutalharvest:block/pan_on_soul_campfire1",
+      "y": 180
+    },
+    "campfire_facing=south,facing=east,on_campfire=campfire": {
+      "model": "brutalharvest:block/pan_on_campfire1"
+    },
+    "campfire_facing=south,facing=east,on_campfire=soul_campfire": {
+      "model": "brutalharvest:block/pan_on_soul_campfire1"
+    },
+    "campfire_facing=south,facing=north,on_campfire=campfire": {
+      "model": "brutalharvest:block/pan_on_campfire0",
+      "y": 270
+    },
+    "campfire_facing=south,facing=north,on_campfire=soul_campfire": {
+      "model": "brutalharvest:block/pan_on_soul_campfire0",
+      "y": 270
+    },
+    "campfire_facing=south,facing=south,on_campfire=campfire": {
+      "model": "brutalharvest:block/pan_on_campfire0",
+      "y": 90
+    },
+    "campfire_facing=south,facing=south,on_campfire=soul_campfire": {
+      "model": "brutalharvest:block/pan_on_soul_campfire0",
+      "y": 90
+    },
+    "campfire_facing=south,facing=west,on_campfire=campfire": {
+      "model": "brutalharvest:block/pan_on_campfire1",
+      "y": 180
+    },
+    "campfire_facing=south,facing=west,on_campfire=soul_campfire": {
+      "model": "brutalharvest:block/pan_on_soul_campfire1",
+      "y": 180
+    },
+    "campfire_facing=west,facing=east,on_campfire=campfire": {
+      "model": "brutalharvest:block/pan_on_campfire0"
+    },
+    "campfire_facing=west,facing=east,on_campfire=soul_campfire": {
+      "model": "brutalharvest:block/pan_on_soul_campfire0"
+    },
+    "campfire_facing=west,facing=north,on_campfire=campfire": {
+      "model": "brutalharvest:block/pan_on_campfire1",
+      "y": 270
+    },
+    "campfire_facing=west,facing=north,on_campfire=soul_campfire": {
+      "model": "brutalharvest:block/pan_on_soul_campfire1",
+      "y": 270
+    },
+    "campfire_facing=west,facing=south,on_campfire=campfire": {
+      "model": "brutalharvest:block/pan_on_campfire1",
+      "y": 90
+    },
+    "campfire_facing=west,facing=south,on_campfire=soul_campfire": {
+      "model": "brutalharvest:block/pan_on_soul_campfire1",
+      "y": 90
+    },
+    "campfire_facing=west,facing=west,on_campfire=campfire": {
+      "model": "brutalharvest:block/pan_on_campfire0",
+      "y": 180
+    },
+    "campfire_facing=west,facing=west,on_campfire=soul_campfire": {
+      "model": "brutalharvest:block/pan_on_soul_campfire0",
+      "y": 180
     },
     "facing=east,on_campfire=none": {
       "model": "brutalharvest:block/pan"
-    },
-    "facing=east,on_campfire=soul_campfire": {
-      "model": "brutalharvest:block/pan_on_soul_campfire"
-    },
-    "facing=north,on_campfire=campfire": {
-      "model": "brutalharvest:block/pan_on_campfire",
-      "y": 270
     },
     "facing=north,on_campfire=none": {
       "model": "brutalharvest:block/pan",
       "y": 270
     },
-    "facing=north,on_campfire=soul_campfire": {
-      "model": "brutalharvest:block/pan_on_soul_campfire",
-      "y": 270
-    },
-    "facing=south,on_campfire=campfire": {
-      "model": "brutalharvest:block/pan_on_campfire",
-      "y": 90
-    },
     "facing=south,on_campfire=none": {
       "model": "brutalharvest:block/pan",
       "y": 90
     },
-    "facing=south,on_campfire=soul_campfire": {
-      "model": "brutalharvest:block/pan_on_soul_campfire",
-      "y": 90
-    },
-    "facing=west,on_campfire=campfire": {
-      "model": "brutalharvest:block/pan_on_campfire",
-      "y": 180
-    },
     "facing=west,on_campfire=none": {
       "model": "brutalharvest:block/pan",
-      "y": 180
-    },
-    "facing=west,on_campfire=soul_campfire": {
-      "model": "brutalharvest:block/pan_on_soul_campfire",
       "y": 180
     }
   }

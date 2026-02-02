@@ -3,7 +3,10 @@ package com.christofmeg.brutalharvest.common.block;
 import com.christofmeg.brutalharvest.common.init.TagRegistry;
 import com.christofmeg.brutalharvest.common.recipe.custom.Cutting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -11,6 +14,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.RenderShape;
@@ -41,7 +46,6 @@ public class CuttingBoardBlock extends Block {
         ItemStack playerStackMain = pPlayer.getItemInHand(InteractionHand.MAIN_HAND);
         ItemStack playerStackOff = pPlayer.getItemInHand(InteractionHand.OFF_HAND);
         if (playerStackMain.is(TagRegistry.Items.KNIVES) && Cutting.CuttingItemsCache.isValid(pLevel, playerStackOff.getItem())) {
-            pPlayer.playSound(SoundEvents.PLAYER_ATTACK_SWEEP);
             if (!pLevel.isClientSide) {
                 if (!pPlayer.isCreative()) {
                     if (playerStackMain.isDamageableItem()) {
@@ -54,6 +58,15 @@ public class CuttingBoardBlock extends Block {
             return InteractionResult.sidedSuccess(pLevel.isClientSide);
         }
         return InteractionResult.PASS;
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public void tick(@NotNull BlockState pState, @NotNull ServerLevel pLevel, @NotNull BlockPos pPos, @NotNull RandomSource pRandom) {
+        super.tick(pState, pLevel, pPos, pRandom);
+        if (!pState.canSurvive(pLevel, pPos)) {
+            pLevel.destroyBlock(pPos, true);
+        }
     }
 
     @SuppressWarnings("deprecation")
@@ -76,5 +89,20 @@ public class CuttingBoardBlock extends Block {
     @Override
     public @Nullable BlockState getStateForPlacement(@NotNull BlockPlaceContext pContext) {
         return this.defaultBlockState().setValue(FACING, pContext.getHorizontalDirection());
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public boolean canSurvive(@NotNull BlockState pState, @NotNull LevelReader pLevel, @NotNull BlockPos pPos) {
+        return super.canSurvive(pState, pLevel, pPos) && !pLevel.getBlockState(pPos.below()).isAir();
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public @NotNull BlockState updateShape(@NotNull BlockState pState, @NotNull Direction pDirection, @NotNull BlockState pNeighborState, @NotNull LevelAccessor pLevel, @NotNull BlockPos pPos, @NotNull BlockPos pNeighborPos) {
+        if (!pState.canSurvive(pLevel, pPos)) {
+            pLevel.scheduleTick(pPos, this, 1);
+        }
+        return super.updateShape(pState, pDirection, pNeighborState, pLevel, pPos, pNeighborPos);
     }
 }

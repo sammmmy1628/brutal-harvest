@@ -51,7 +51,6 @@ public class PanBlockEntityRenderer implements BlockEntityRenderer<PanBlockEntit
         if (optional.isPresent() && optional1.isPresent() && level != null) {
             ItemStack stack = optional.get().getStackInSlot(0);
             FluidStack fluid = ((FluidTank) optional1.get()).getFluid();
-            float y = 0.625F;
             if (!fluid.isEmpty()) {
                 ResourceLocation fluidTexture = IClientFluidTypeExtensions.of(fluid.getFluid()).getStillTexture();
                 TextureAtlasSprite atlasSprite = Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(fluidTexture);
@@ -63,14 +62,13 @@ public class PanBlockEntityRenderer implements BlockEntityRenderer<PanBlockEntit
                 BrutalRendererUtils.vertex(builder, poseStack, 0.8125F, 0.5625F, 0.1875F, atlasSprite.getU1(), atlasSprite.getV0(), i, -1);
                 poseStack.popPose();
             }
-            if (stack == ItemStack.EMPTY) {
+            if (stack.isEmpty()) {
                 stack = optional.get().getStackInSlot(1);
-                y = 0.5625F;
             }
-            if (stack != ItemStack.EMPTY) {
+            if (!stack.isEmpty()) {
                 int rot = (int) panBlockEntity.getBlockState().getValue(BaseCookingBlock.FACING).toYRot();
                 poseStack.pushPose();
-                poseStack.translate(0.5F, y, 0.5F);
+                poseStack.translate(0.5F, 0.5625F, 0.5F);
                 poseStack.scale(0.65F, 0.65F, 0.65F);
                 poseStack.mulPose(Axis.XP.rotationDegrees(90.0F).mul(Axis.ZP.rotationDegrees(rot)));
                 this.context.getItemRenderer().renderStatic(stack, ItemDisplayContext.FIXED,

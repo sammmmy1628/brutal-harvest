@@ -1,0 +1,21 @@
+{
+  "type": "brutalharvest:cooking",
+  "ingredients": [
+    {
+      "item": "brutalharvest:pasta"
+    },
+    {
+      "item": "brutalharvest:tomato_sauce"
+    }
+  ],
+  "time": 400,
+  "remainder": {
+    "item": "bowl",
+    "count": 2
+  },
+  "container": "bowl",
+  "item_result": {
+    "count": 1,
+    "item": "brutalharvest:spaghetti_napoli"
+  }
+}

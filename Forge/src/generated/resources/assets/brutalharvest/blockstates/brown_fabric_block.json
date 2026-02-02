@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "brutalharvest:block/brown_fabric_block",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "brutalharvest:block/brown_fabric_block"
+    },
+    "facing=south": {
+      "model": "brutalharvest:block/brown_fabric_block",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "brutalharvest:block/brown_fabric_block",
+      "y": 270
+    }
+  }
+}

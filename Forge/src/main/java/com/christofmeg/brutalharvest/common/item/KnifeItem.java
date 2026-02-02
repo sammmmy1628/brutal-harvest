@@ -4,6 +4,8 @@ import com.christofmeg.brutalharvest.common.entity.ThrownKnifeEntity;
 import com.christofmeg.brutalharvest.common.init.AdvancementRegistry;
 import com.christofmeg.brutalharvest.common.init.BlockRegistry;
 import com.christofmeg.brutalharvest.common.init.EnchantmentRegistry;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.IntTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -33,8 +35,18 @@ public class KnifeItem extends SwordItem {
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand interactionHand) {
         BlockState target = level.getBlockState(((BlockHitResult) player.pick(2.0F, 1.0F, false)).getBlockPos());
         ItemStack $$3 = player.getItemInHand(interactionHand);
+        CompoundTag tag = $$3.getTag();
         if (target.is(BlockRegistry.WOODEN_CUTTING_BOARD.get()) || target.is(BlockRegistry.IRON_CUTTING_BOARD.get()) || target.is(BlockRegistry.RUBBER_LOG_GENERATED.get())) {
-            return InteractionResultHolder.success($$3);
+            if (tag == null || (tag.contains("cooldown") && tag.getInt("cooldown") == 0)) {
+                if (!target.is(BlockRegistry.RUBBER_LOG_GENERATED.get())) {
+                    if (tag != null) {
+                        tag.putInt("cooldown", 10);
+                    } else {
+                        $$3.addTagElement("cooldown", IntTag.valueOf(10));
+                    }
+                }
+                return InteractionResultHolder.success($$3);
+            }
         } else if (player.isShiftKeyDown()) {
             player.startUsingItem(interactionHand);
             return InteractionResultHolder.consume($$3);
@@ -74,6 +86,20 @@ public class KnifeItem extends SwordItem {
                     }
                 }
             }
+        }
+    }
+
+    @Override
+    public void onInventoryTick(ItemStack stack, Level level, Player player, int slotIndex, int selectedIndex) {
+        super.onInventoryTick(stack, level, player, slotIndex, selectedIndex);
+        CompoundTag tag = stack.getTag();
+        if (tag != null) {
+            int cooldown = tag.getInt("cooldown");
+            cooldown -= 1;
+            if (cooldown < 0) {
+                cooldown = 0;
+            }
+            tag.putInt("cooldown", cooldown);
         }
     }
 

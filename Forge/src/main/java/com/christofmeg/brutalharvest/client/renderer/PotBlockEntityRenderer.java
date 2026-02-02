@@ -1,5 +1,6 @@
 package com.christofmeg.brutalharvest.client.renderer;
 
+import com.christofmeg.brutalharvest.common.block.base.BaseCookingBlock;
 import com.christofmeg.brutalharvest.common.blockentity.PotBlockEntity;
 import com.christofmeg.brutalharvest.common.util.BrutalRendererUtils;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -47,8 +48,9 @@ public class PotBlockEntityRenderer implements BlockEntityRenderer<PotBlockEntit
         Optional<IFluidHandler> optional1 = potBlockEntity.getCapability(ForgeCapabilities.FLUID_HANDLER).resolve();
         BlockPos pos = potBlockEntity.getBlockPos();
         Level level = potBlockEntity.getLevel();
+        float rot = potBlockEntity.getBlockState().getValue(BaseCookingBlock.FACING).toYRot();
         if (optional.isPresent() && optional1.isPresent() && level != null) {
-            ItemStack stack = optional.get().getStackInSlot(0);
+            IItemHandler iItemHandler = optional.get();
             FluidStack fluid = optional1.get().getFluidInTank(0);
             if (!fluid.isEmpty()) {
                 ResourceLocation fluidTexture = IClientFluidTypeExtensions.of(fluid.getFluid()).getStillTexture();
@@ -63,15 +65,18 @@ public class PotBlockEntityRenderer implements BlockEntityRenderer<PotBlockEntit
                 BrutalRendererUtils.vertex(builder, poseStack, 0.8125F, y, 0.1875F, atlasSprite.getU1(), atlasSprite.getV0(), i, fluidTint);
                 poseStack.popPose();
             }
-            if (stack != ItemStack.EMPTY) {
-                poseStack.pushPose();
-                poseStack.translate(0.5F, 0.5625F, 0.5F);
-                poseStack.scale(0.65F, 0.65F, 0.65F);
-                poseStack.mulPose(Axis.XP.rotationDegrees(90.0F));
-                this.context.getItemRenderer().renderStatic(stack, ItemDisplayContext.FIXED,
-                        LightTexture.pack(level.getBrightness(LightLayer.BLOCK, pos.above()), level.getBrightness(LightLayer.SKY, pos.above())),
-                        i1, poseStack, multiBufferSource, level, (int) potBlockEntity.getBlockState().getSeed(pos));
-                poseStack.popPose();
+            for (int slot = 0; slot < iItemHandler.getSlots(); slot++) {
+                ItemStack stack = iItemHandler.getStackInSlot(slot);
+                if (!stack.isEmpty()) {
+                    poseStack.pushPose();
+                    poseStack.translate(0.5F, 0.5625F + 0.0625F * slot, 0.5F);
+                    poseStack.scale(0.65F, 0.65F, 0.65F);
+                    poseStack.mulPose(Axis.XP.rotationDegrees(90.0F).mul(Axis.ZP.rotationDegrees(rot)));
+                    this.context.getItemRenderer().renderStatic(stack, ItemDisplayContext.FIXED,
+                            LightTexture.pack(level.getBrightness(LightLayer.BLOCK, pos.above()), level.getBrightness(LightLayer.SKY, pos.above())),
+                            i1, poseStack, multiBufferSource, level, (int) potBlockEntity.getBlockState().getSeed(pos));
+                    poseStack.popPose();
+                }
             }
         }
     }

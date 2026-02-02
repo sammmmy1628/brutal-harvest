@@ -46,18 +46,18 @@ public class RubberCauldronBlock extends BaseEntityBlock {
         RubberCauldronBlockEntity blockEntity = (RubberCauldronBlockEntity) pLevel.getBlockEntity(pPos);
         if (blockEntity != null) {
             Optional<IFluidHandler> optional = blockEntity.getCapability(ForgeCapabilities.FLUID_HANDLER).resolve();
-            if ((playerStack.is(Items.BUCKET) || playerStack.is(Items.BOWL)) && optional.isPresent()) {
+            if (playerStack.is(Items.BOWL) && optional.isPresent()) {
                 if (((FluidTank) optional.get()).getFluid().getAmount() == 1000) {
                     if (!pLevel.isClientSide) {
-                        optional.get().drain(1000, IFluidHandler.FluidAction.EXECUTE);
-                        if (playerStack.is(Items.BUCKET)) {
-                            pPlayer.addItem(new ItemStack(ItemRegistry.RUBBER_BUCKET.get(), 1));
-                        } else if (playerStack.is(Items.BOWL)) {
+                        optional.get().drain(333, IFluidHandler.FluidAction.EXECUTE);
+                        if (playerStack.is(Items.BOWL)) {
                             pPlayer.addItem(new ItemStack(ItemRegistry.RUBBER_BOWL.get(), 1));
                         }
                         playerStack.shrink(1);
                         blockEntity.setChanged();
-                        pLevel.setBlock(pPos, Blocks.CAULDRON.defaultBlockState(), Block.UPDATE_ALL);
+                        if (((FluidTank) optional.get()).isEmpty()) {
+                            pLevel.setBlock(pPos, Blocks.CAULDRON.defaultBlockState(), Block.UPDATE_ALL);
+                        }
                     }
                     return InteractionResult.SUCCESS;
                 }

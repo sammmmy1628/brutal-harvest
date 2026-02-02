@@ -111,13 +111,12 @@ public class ItemRegistry {
     public static final RegistryObject<Item> MINCED_MEAT;
     public static final RegistryObject<Item> UNCOOKED_PASTA;
     public static final RegistryObject<Item> PASTA;
-    public static final RegistryObject<Item> SPAGHETTI;
+    public static final RegistryObject<Item> SPAGHETTI_NAPOLI;
     public static final RegistryObject<Item> SPAGHETTI_BOLOGNESE;
 
     public static final RegistryObject<Item> POTATO_WEDGES;
     public static final RegistryObject<Item> FRIED_POTATO_WEDGES;
 
-    public static final RegistryObject<Item> RUBBER_BUCKET;
     public static final RegistryObject<Item> RUBBER_BOWL;
     public static final RegistryObject<Item> DRIED_RUBBER;
 
@@ -272,13 +271,12 @@ public class ItemRegistry {
         MINCED_MEAT = ITEMS.register("minced_meat", () -> new Item(new Item.Properties().craftRemainder(Items.BOWL)));
         UNCOOKED_PASTA = ITEMS.register("uncooked_pasta", () -> new Item(new Item.Properties()));
         PASTA = ITEMS.register("pasta", () -> new BrutalRemainderFoodItem(new Item.Properties().food(BrutalFoods.PASTA), Items.BOWL));
-        SPAGHETTI = ITEMS.register("spaghetti", () -> new BrutalRemainderFoodItem(new Item.Properties().food(BrutalFoods.SPAGHETTI), Items.BOWL));
+        SPAGHETTI_NAPOLI = ITEMS.register("spaghetti_napoli", () -> new BrutalRemainderFoodItem(new Item.Properties().food(BrutalFoods.SPAGHETTI), Items.BOWL));
         SPAGHETTI_BOLOGNESE = ITEMS.register("spaghetti_bolognese", () -> new BrutalRemainderFoodItem(new Item.Properties().food(BrutalFoods.SPAGHETTI_BOLOGNESE), Items.BOWL));
 
         POTATO_WEDGES = ITEMS.register("potato_wedges", () -> new Item(new Item.Properties().food(BrutalFoods.POTATO_WEDGES)));
         FRIED_POTATO_WEDGES = ITEMS.register("fried_potato_wedges", () -> new BrutalRemainderFoodItem(new Item.Properties().food(BrutalFoods.FRIED_POTATO_WEDGES), Items.BOWL));
-
-        RUBBER_BUCKET = ITEMS.register("rubber_bucket", () -> new BucketItem(FluidRegistry.SOURCE_RUBBER, new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)));
+        
         RUBBER_BOWL = ITEMS.register("rubber_bowl", () -> new Item(new Item.Properties()));
         DRIED_RUBBER = ITEMS.register("dried_rubber", () -> new Item(new Item.Properties()));
 

@@ -8,6 +8,7 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CampfireBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
@@ -27,15 +28,16 @@ public class CookingBlockItem extends BlockItem {
         Block block = this.getBlock();
         BlockState toPlace = Objects.requireNonNull(block.getStateForPlacement(pContext));
         if (clicked.is(Blocks.CAMPFIRE)) {
-            toPlace = toPlace.setValue(BaseCookingBlock.ON_CAMPFIRE, BaseCookingBlock.OnCampfire.CAMPFIRE);
+            toPlace = toPlace.setValue(BaseCookingBlock.ON_CAMPFIRE, BaseCookingBlock.OnCampfire.CAMPFIRE)
+                    .setValue(BaseCookingBlock.CAMPFIRE_FACING, clicked.getValue(CampfireBlock.FACING));
             level.setBlock(placePos, toPlace, Block.UPDATE_ALL);
             return InteractionResult.sidedSuccess(level.isClientSide);
         } else if (clicked.is(Blocks.SOUL_CAMPFIRE)) {
-            toPlace = toPlace.setValue(BaseCookingBlock.ON_CAMPFIRE, BaseCookingBlock.OnCampfire.SOUL_CAMPFIRE);
+            toPlace = toPlace.setValue(BaseCookingBlock.ON_CAMPFIRE, BaseCookingBlock.OnCampfire.SOUL_CAMPFIRE)
+                    .setValue(BaseCookingBlock.CAMPFIRE_FACING, clicked.getValue(CampfireBlock.FACING));
             level.setBlock(placePos, toPlace, Block.UPDATE_ALL);
             return InteractionResult.sidedSuccess(level.isClientSide);
-        } else {
-            return super.place(pContext);
         }
+        return super.place(pContext);
     }
 }

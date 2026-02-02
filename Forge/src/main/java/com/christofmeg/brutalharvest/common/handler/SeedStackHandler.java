@@ -23,18 +23,13 @@ public class SeedStackHandler extends ItemStackHandler {
 
     @Override
     protected void onContentsChanged(int slot) {
-        CompoundTag tag = this.stack.getTag();
-        if (tag != null) {
-            tag.putFloat("isEmpty", this.stacks.stream().noneMatch(stack -> stack != ItemStack.EMPTY) ? 0.0F : 1.0F);
-            this.stack.save(tag);
-        }
-    }
-
-    @Override
-    protected void onLoad() {
-        CompoundTag tag = this.stack.getTag();
-        if (tag == null) {
-            this.stack.addTagElement("isEmpty", FloatTag.valueOf(this.stacks.stream().noneMatch(stack -> stack != ItemStack.EMPTY) ? 0.0F : 1.0F));
+        if (slot == 0) {
+            CompoundTag tag = this.stack.getTag();
+            if (tag != null) {
+                tag.putFloat("isEmpty", this.stacks.stream().allMatch(ItemStack::isEmpty) ? 0.0F : 1.0F);
+            } else {
+                this.stack.addTagElement("isEmpty", FloatTag.valueOf(this.stacks.stream().allMatch(ItemStack::isEmpty) ? 0.0F : 1.0F));
+            }
         }
     }
 }

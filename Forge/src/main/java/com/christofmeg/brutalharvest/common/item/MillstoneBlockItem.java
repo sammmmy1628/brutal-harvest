@@ -14,7 +14,7 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.function.Consumer;
 
-public class MillstoneBlockItem extends BlockItem implements GeoItem, IClientItemExtensions {
+public class MillstoneBlockItem extends BlockItem implements GeoItem {
 
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 

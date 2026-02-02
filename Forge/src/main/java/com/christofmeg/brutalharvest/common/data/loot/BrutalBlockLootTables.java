@@ -1,6 +1,7 @@
 package com.christofmeg.brutalharvest.common.data.loot;
 
 import com.christofmeg.brutalharvest.common.block.*;
+import com.christofmeg.brutalharvest.common.block.base.BaseCookingBlock;
 import com.christofmeg.brutalharvest.common.init.BlockRegistry;
 import com.christofmeg.brutalharvest.common.init.ItemRegistry;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
@@ -24,6 +25,7 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 
@@ -119,7 +121,7 @@ public class BrutalBlockLootTables extends BlockLootSubProvider {
 
         this.add(BlockRegistry.SUGAR_BEET.get(), createGenericCropDrops(
                 BlockRegistry.SUGAR_BEET.get(),
-                ItemRegistry.SUGAR_BEET.get(), 1.0F, 3.0F,
+                ItemRegistry.SUGAR_BEET.get(), 1.0F, 1.0F,
                 ItemRegistry.SUGAR_BEET_SEEDS.get(), 2.0F, 3.0F,
                 LootItemBlockStatePropertyCondition
                         .hasBlockStateProperties(BlockRegistry.SUGAR_BEET.get())
@@ -143,7 +145,7 @@ public class BrutalBlockLootTables extends BlockLootSubProvider {
 
         this.add(BlockRegistry.RAPESEED.get(), createRapeseedCropDrops(
                 BlockRegistry.RAPESEED.get(),
-                ItemRegistry.RAPESEEDS.get(),
+                ItemRegistry.RAPESEED_BEANS.get(),
                 LootItemBlockStatePropertyCondition
                         .hasBlockStateProperties(BlockRegistry.RAPESEED.get())
                         .setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(CornCropBlock.AGE, 6))
@@ -193,6 +195,8 @@ public class BrutalBlockLootTables extends BlockLootSubProvider {
                         )
                 ));
 
+        ForgeRegistries.BLOCKS.getValues().stream().filter(block -> block instanceof FabricBlock).forEach(this::dropSelf);
+
         this.dropOther(BlockRegistry.WILD_TOMATO.get(), ItemRegistry.TOMATO_SEEDS.get());
         this.dropOther(BlockRegistry.WILD_LETTUCE.get(), ItemRegistry.LETTUCE_SEEDS.get());
         this.add(BlockRegistry.WILD_CORN.get(), this.createDoubleWildCropDrops(BlockRegistry.WILD_CORN.get(), ItemRegistry.CORN_SEEDS.get()));
@@ -210,8 +214,6 @@ public class BrutalBlockLootTables extends BlockLootSubProvider {
         this.dropSelf(BlockRegistry.STRIPPED_RUBBER_WOOD.get());
         this.dropSelf(BlockRegistry.RUBBER_PLANKS.get());
         this.dropSelf(BlockRegistry.MILLSTONE.get());
-        this.dropSelf(BlockRegistry.PAN.get());
-        this.dropSelf(BlockRegistry.POT.get());
         this.dropSelf(BlockRegistry.WOODEN_CUTTING_BOARD.get());
         this.dropSelf(BlockRegistry.IRON_CUTTING_BOARD.get());
         this.dropSelf(BlockRegistry.RUBBER_SLAB.get());
@@ -232,6 +234,8 @@ public class BrutalBlockLootTables extends BlockLootSubProvider {
         this.add(BlockRegistry.RUBBER_LEAVES.get(), block -> createLeavesDrops(block, BlockRegistry.RUBBER_SAPLING.get(), NORMAL_LEAVES_SAPLING_CHANCES));
         this.dropOther(BlockRegistry.RUBBER_LOG_GENERATED.get(), BlockRegistry.RUBBER_LOG.get());
         this.dropPottedContents(BlockRegistry.POTTED_RUBBER_SAPLING.get());
+        this.add(BlockRegistry.PAN.get(), createCookingBlockDrops(BlockRegistry.PAN.get()));
+        this.add(BlockRegistry.POT.get(), createCookingBlockDrops(BlockRegistry.POT.get()));
 
         this.add(BlockRegistry.FARMLAND_SLAB.get(), createSlabSilkTouchDrops(BlockRegistry.FARMLAND_SLAB.get(), BlockRegistry.DIRT_SLAB.get()));
         this.add(BlockRegistry.DIRT_SLAB.get(), this.createSlabItemTable(BlockRegistry.DIRT_SLAB.get()));
@@ -246,6 +250,27 @@ public class BrutalBlockLootTables extends BlockLootSubProvider {
     protected @NotNull Iterable<Block> getKnownBlocks() {
         return BlockRegistry.BLOCKS.getEntries().stream().map(RegistryObject::get)
                 ::iterator;
+    }
+
+    protected LootTable.Builder createCookingBlockDrops(Block block) {
+        return this.applyExplosionDecay(block, LootTable.lootTable()
+                .withPool(LootPool.lootPool()
+                        .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
+                                .setProperties(
+                                        StatePropertiesPredicate.Builder.properties().hasProperty(BaseCookingBlock.ON_CAMPFIRE, BaseCookingBlock.OnCampfire.CAMPFIRE)
+                                )
+                                .or(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block).setProperties(
+                                        StatePropertiesPredicate.Builder.properties().hasProperty(BaseCookingBlock.ON_CAMPFIRE, BaseCookingBlock.OnCampfire.SOUL_CAMPFIRE))
+                                )
+                        )
+                        .add(LootItem.lootTableItem(Items.CHARCOAL)
+                            .apply(SetItemCountFunction.setCount(ConstantValue.exactly(2.0F)))
+                        )
+                )
+                .withPool(LootPool.lootPool()
+                        .add(LootItem.lootTableItem(block))
+                )
+        );
     }
 
     protected LootTable.Builder createDoubleWildCropDrops(Block block, Item drop) {

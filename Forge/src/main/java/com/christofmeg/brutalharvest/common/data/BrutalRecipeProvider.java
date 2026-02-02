@@ -1,5 +1,6 @@
 package com.christofmeg.brutalharvest.common.data;
 
+import com.christofmeg.brutalharvest.common.block.FabricBlock;
 import com.christofmeg.brutalharvest.common.data.base.BaseRecipeProvider;
 import com.christofmeg.brutalharvest.common.data.builder.ShapelessDamageTool;
 import com.christofmeg.brutalharvest.common.data.builder.ShapelessDamageToolWithRemainder;
@@ -11,6 +12,7 @@ import com.christofmeg.brutalharvest.common.util.NBTIngredient;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.PotionUtils;
@@ -18,9 +20,11 @@ import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 public class BrutalRecipeProvider extends BaseRecipeProvider {
@@ -111,6 +115,14 @@ public class BrutalRecipeProvider extends BaseRecipeProvider {
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockRegistry.FAUCET.get()).define('N', Items.IRON_NUGGET).define('I', Items.IRON_INGOT).pattern(" N ").pattern("III").pattern("I  ").unlockedBy("has_iron_ingot", has(Items.IRON_INGOT)).save(consumer, modLoc(getItemName(BlockRegistry.FAUCET.get())));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockRegistry.DRIED_RUBBER_BLOCK.get()).define('R', ItemRegistry.DRIED_RUBBER.get()).pattern("RRR").pattern("RRR").pattern("RRR").unlockedBy("has_dried_rubber", has(ItemRegistry.DRIED_RUBBER.get())).save(consumer, modLoc(getItemName(BlockRegistry.DRIED_RUBBER_BLOCK.get())));
 
+        ForgeRegistries.BLOCKS.getValues().stream().filter(block -> block instanceof FabricBlock).forEach(block -> {
+            String itemName = Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block)).getPath().replace("_block", "");
+            Item item = ForgeRegistries.ITEMS.getValue(modLoc(itemName));
+            if (item != null) {
+                ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, block).pattern("FFF").pattern("FFF").pattern("FFF").define('F', item).unlockedBy("has_" + itemName, has(item)).save(consumer);
+            }
+        });
+
 /*        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemRegistry.SUSHI.get())
                 .define('K', Items.DRIED_KELP)
                 .define('R', ItemRegistry.RICE.get())
@@ -168,6 +180,11 @@ public class BrutalRecipeProvider extends BaseRecipeProvider {
                 .requires(ItemRegistry.STRAWBERRY.get())
                 .unlockedBy("strawberry_seeds", has(ItemRegistry.STRAWBERRY_SEEDS.get()))
                 .save(consumer, modLoc("strawberry_seeds_from_strawberry"));
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ItemRegistry.RAPESEEDS.get())
+                .requires(ItemRegistry.RAPESEED_BEANS.get())
+                .unlockedBy("has_rapeseed_beans", has(ItemRegistry.RAPESEED_BEANS.get()))
+                .save(consumer);
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ItemRegistry.PICKLE.get())
                 .requires(ItemRegistry.CUCUMBER.get())
@@ -250,6 +267,11 @@ public class BrutalRecipeProvider extends BaseRecipeProvider {
         fabricRecipeBuilder(ItemRegistry.WHITE_FABRIC.get(), Tags.Items.DYES_WHITE, consumer);
         fabricRecipeBuilder(ItemRegistry.YELLOW_FABRIC.get(), Tags.Items.DYES_YELLOW, consumer);
 
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Items.CREEPER_BANNER_PATTERN).requires(ItemRegistry.FABRIC.get()).requires(Items.CREEPER_HEAD).unlockedBy("has_fabric", has(ItemRegistry.FABRIC.get())).save(consumer, modLoc("creeper_head_pattern_from_fabric"));
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Items.SKULL_BANNER_PATTERN).requires(ItemRegistry.FABRIC.get()).requires(Items.WITHER_SKELETON_SKULL).unlockedBy("has_fabric", has(ItemRegistry.FABRIC.get())).save(consumer, modLoc("skull_pattern_from_fabric"));
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Items.FLOWER_BANNER_PATTERN).requires(ItemRegistry.FABRIC.get()).requires(Items.OXEYE_DAISY).unlockedBy("has_fabric", has(ItemRegistry.FABRIC.get())).save(consumer, modLoc("flower_pattern_from_fabric"));
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Items.MOJANG_BANNER_PATTERN).requires(ItemRegistry.FABRIC.get()).requires(Items.ENCHANTED_GOLDEN_APPLE).unlockedBy("has_fabric", has(ItemRegistry.FABRIC.get())).save(consumer, modLoc("mojang_pattern_from_fabric"));
+
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ItemRegistry.FABRIC.get())
                 .requires(ItemRegistry.COTTON.get())
                 .requires(ItemRegistry.COTTON.get())
@@ -284,7 +306,7 @@ public class BrutalRecipeProvider extends BaseRecipeProvider {
                 .save(consumer, modLoc(getItemName(ItemRegistry.DOUGH.get()) + "_from_" + "water_bottle"));
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ItemRegistry.DOUGH.get()).requires(Ingredient.of(TagRegistry.Items.FLOUR), 2).requires(Tags.Items.EGGS).requires(TagRegistry.Items.BOTTLES_MILK).unlockedBy("flour", has(ItemRegistry.FLOUR.get())).save(consumer, modLoc(getItemName(ItemRegistry.DOUGH.get()) + "_from_" + "milk_bottle"));
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ItemRegistry.SPAGHETTI.get()).requires(Ingredient.of(ItemRegistry.PASTA.get())).requires(Ingredient.of(ItemRegistry.TOMATO_SAUCE.get())).unlockedBy("has_tomato_sauce", has(ItemRegistry.TOMATO_SAUCE.get())).save(consumer, modLoc(getItemName(ItemRegistry.SPAGHETTI.get())));
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, Items.BREAD).requires(ItemRegistry.DOUGH.get()).unlockedBy("has_dough", has(ItemRegistry.DOUGH.get())).save(consumer, modLoc("bread_from_dough"));
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ItemRegistry.CHICKEN_SANDWICH.get()).requires(ItemRegistry.TOAST_SLICE.get(), 2).requires(ItemRegistry.SLICED_LETTUCE.get()).requires(Items.COOKED_CHICKEN).unlockedBy("has_toast_slice", has(ItemRegistry.TOAST_SLICE.get())).save(consumer, modLoc(getItemName(ItemRegistry.CHICKEN_SANDWICH.get())));
         ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ItemRegistry.SALMON_SANDWICH.get()).requires(ItemRegistry.TOAST_SLICE.get(), 2).requires(ItemRegistry.MAYONNAISE_JAR.get()).requires(Items.COOKED_SALMON).unlockedBy("has_toast_slice", has(ItemRegistry.TOAST_SLICE.get())).save(consumer, modLoc(getItemName(ItemRegistry.SALMON_SANDWICH.get())));
@@ -312,8 +334,6 @@ public class BrutalRecipeProvider extends BaseRecipeProvider {
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.REDSTONE, BlockRegistry.RUBBER_BUTTON.get()).requires(BlockRegistry.RUBBER_PLANKS.get()).unlockedBy("has_rubber_planks", has(BlockRegistry.RUBBER_PLANKS.get())).save(consumer, modLoc(getItemName(BlockRegistry.RUBBER_BUTTON.get())));
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ItemRegistry.RUBBER_CHEST_BOAT_ITEM.get()).requires(ItemRegistry.RUBBER_BOAT_ITEM.get()).requires(Items.CHEST).unlockedBy("has_rubber_boat", has(ItemRegistry.RUBBER_BOAT_ITEM.get())).save(consumer, modLoc(getItemName(ItemRegistry.RUBBER_CHEST_BOAT_ITEM.get())));
-
-        ShapelessWithRemainder.shapeless(RecipeCategory.MISC, ItemRegistry.RUBBER_BOWL.get()).requires(ItemRegistry.RUBBER_BUCKET.get()).requires(Items.BOWL).unlockedBy("has_rubber_bucket", has(ItemRegistry.RUBBER_BUCKET.get())).save(consumer, modLoc(getItemName(ItemRegistry.RUBBER_BOWL.get())));
     }
 
     private void addSmithingRecipes(Consumer<FinishedRecipe> consumer) {

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "brutalharvest:rapeseed_beans"
+    }
+  ],
+  "result": {
+    "item": "brutalharvest:rapeseeds"
+  }
+}

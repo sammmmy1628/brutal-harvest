@@ -1,6 +1,7 @@
 package com.christofmeg.brutalharvest.client.data;
 
 import com.christofmeg.brutalharvest.CommonConstants;
+import com.christofmeg.brutalharvest.common.block.FabricBlock;
 import com.christofmeg.brutalharvest.common.init.BlockRegistry;
 import com.christofmeg.brutalharvest.common.init.ItemRegistry;
 import com.christofmeg.brutalharvest.common.item.ScytheItem;
@@ -45,6 +46,10 @@ public class BrutalItemModelProvider extends ItemModelProvider {
         ItemRegistry.ITEMS.getEntries().stream().map(RegistryObject::get)
                 .filter(item -> (item instanceof ScytheItem))
                 .forEach(this::handHeldItem);
+
+        ItemRegistry.ITEMS.getEntries().stream().map(RegistryObject::get)
+                .filter(item -> item instanceof BlockItem && ((BlockItem) item).getBlock() instanceof FabricBlock)
+                .forEach(item -> this.withExistingParent(getItemName(item), modLoc("block/" + getItemName(item))));
 
         basicItem(ItemRegistry.SEED_SATCHEL.get()).override().predicate(modLoc("is_empty"), 1.0F).model(basicItem(modLoc("seed_satchel_filled"))).end();
         basicItem(ItemRegistry.POPCORN.get()).override().predicate(modLoc("on_pan"), 1.0F).model(basicItem(modLoc("popcorn_on_pan"))).end();

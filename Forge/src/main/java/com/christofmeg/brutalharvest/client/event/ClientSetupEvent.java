@@ -86,7 +86,7 @@ public class ClientSetupEvent {
         String[] words = predicatePath.getPath().split("_");
         String propertyName = words[0] + capitaliseFirst(words[1]);
         ItemProperties.register(item, predicatePath,
-                (stack, level, living, id) -> {
+                (stack, level, living, seed) -> {
                     CompoundTag tag = stack.getTag();
                     if (tag != null && tag.contains(propertyName)) {
                         return tag.getFloat(propertyName);

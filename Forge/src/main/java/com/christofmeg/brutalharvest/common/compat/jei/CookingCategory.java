@@ -20,7 +20,12 @@ public class CookingCategory extends BaseBrutalRecipeCategory<Cooking> {
 
     @Override
     public void setRecipe(@NotNull IRecipeLayoutBuilder iRecipeLayoutBuilder, @NotNull Cooking cooking, @NotNull IFocusGroup iFocusGroup) {
-        drawMultipleIngredients(iRecipeLayoutBuilder, cooking.ingredient());
+        short startDrawingOffset = 45;
+        if (!cooking.fluidIngredient().isEmpty()) {
+            iRecipeLayoutBuilder.addSlot(RecipeIngredientRole.INPUT, this.getCentralX() - 45, this.getCentralY()).addFluidStack(cooking.fluidIngredient().getFluid(), cooking.fluidIngredient().getAmount());
+            startDrawingOffset = 65;
+        }
+        drawMultipleIngredients(iRecipeLayoutBuilder, cooking.ingredient(), startDrawingOffset);
         iRecipeLayoutBuilder.addSlot(RecipeIngredientRole.OUTPUT, this.getCentralX() + 45, this.getCentralY()).addItemStack(cooking.getResultItem(null));
         iRecipeLayoutBuilder.addSlot(RecipeIngredientRole.OUTPUT, this.getCentralX() + 65, this.getCentralY()).addFluidStack(cooking.fluidResult().getFluid(), cooking.fluidResult().getAmount());
         iRecipeLayoutBuilder.addSlot(RecipeIngredientRole.OUTPUT, this.getCentralX() + 85, this.getCentralY()).addItemStack(cooking.remainder());

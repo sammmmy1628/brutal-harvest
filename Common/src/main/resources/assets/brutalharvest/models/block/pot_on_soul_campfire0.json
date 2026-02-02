@@ -1,0 +1,7 @@
+{
+	"parent": "brutalharvest:block/pot_on_campfire0",
+	"textures": {
+		"lit_log": "block/soul_campfire_log_lit",
+		"fire": "brutalharvest:block/pot_on_soul_campfire_fire"
+	}
+}

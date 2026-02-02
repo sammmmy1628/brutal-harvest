@@ -12,6 +12,7 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraftforge.client.model.generators.ModelFile;
+import net.minecraftforge.client.model.generators.VariantBlockStateBuilder;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
@@ -104,14 +105,20 @@ public class BrutalBlockStateProvider extends BaseBlockStateProvider {
             String name = Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block)).getPath();
 
             ModelFile model = new ModelFile.ExistingModelFile(modLoc("block/" + name), this.fileHelper);
-            ModelFile model_on_campfire = new ModelFile.ExistingModelFile(modLoc("block/" + name + "_on_campfire"), this.fileHelper);
-            ModelFile model_on_soul_campfire = new ModelFile.ExistingModelFile(modLoc("block/" + name + "_on_soul_campfire"), this.fileHelper);
+            VariantBlockStateBuilder builder = getVariantBuilder(block);
             for (Direction direction : HorizontalDirectionalBlock.FACING.getPossibleValues()) {
                 int rot = (int) direction.getClockWise().toYRot();
-                getVariantBuilder(block)
-                        .partialState().with(BaseCookingBlock.ON_CAMPFIRE, BaseCookingBlock.OnCampfire.NONE).with(BaseCookingBlock.FACING, direction).modelForState().rotationY(rot).modelFile(model).addModel()
-                        .partialState().with(BaseCookingBlock.ON_CAMPFIRE, BaseCookingBlock.OnCampfire.CAMPFIRE).with(BaseCookingBlock.FACING, direction).modelForState().rotationY(rot).modelFile(model_on_campfire).addModel()
-                        .partialState().with(BaseCookingBlock.ON_CAMPFIRE, BaseCookingBlock.OnCampfire.SOUL_CAMPFIRE).with(BaseCookingBlock.FACING, direction).modelForState().rotationY(rot).modelFile(model_on_soul_campfire).addModel();
+                builder.partialState().with(BaseCookingBlock.ON_CAMPFIRE, BaseCookingBlock.OnCampfire.NONE).with(BaseCookingBlock.FACING, direction).modelForState().rotationY(rot).modelFile(model).addModel();
+                for (Direction campfireDirection : CampfireBlock.FACING.getPossibleValues()) {
+                    int modelNumber = Math.abs(direction.get2DDataValue() % 2 - campfireDirection.get2DDataValue() % 2);
+                    ModelFile model_on_campfire = new ModelFile.ExistingModelFile(modLoc("block/" + name + "_on_campfire" + modelNumber), this.fileHelper);
+                    ModelFile model_on_soul_campfire = new ModelFile.ExistingModelFile(modLoc("block/" + name + "_on_soul_campfire" + modelNumber), this.fileHelper);
+                    builder.partialState()
+                            .with(BaseCookingBlock.ON_CAMPFIRE, BaseCookingBlock.OnCampfire.CAMPFIRE).with(BaseCookingBlock.FACING, direction).with(BaseCookingBlock.CAMPFIRE_FACING, campfireDirection)
+                                .modelForState().rotationY(rot).modelFile(model_on_campfire).addModel()
+                            .partialState().with(BaseCookingBlock.ON_CAMPFIRE, BaseCookingBlock.OnCampfire.SOUL_CAMPFIRE).with(BaseCookingBlock.FACING, direction).with(BaseCookingBlock.CAMPFIRE_FACING, campfireDirection)
+                                .modelForState().rotationY(rot).modelFile(model_on_soul_campfire).addModel();
+                }
             }
         }
 
@@ -184,6 +191,18 @@ public class BrutalBlockStateProvider extends BaseBlockStateProvider {
             .partialState().with(RubberLogGeneratedBlock.OPEN, true).with(RubberLogGeneratedBlock.CUT, true).with(RubberLogGeneratedBlock.FACING, Direction.SOUTH).modelForState().modelFile(cut).rotationY(180).addModel()
             .partialState().with(RubberLogGeneratedBlock.OPEN, true).with(RubberLogGeneratedBlock.CUT, true).with(RubberLogGeneratedBlock.FACING, Direction.EAST).modelForState().modelFile(cut).rotationY(90).addModel()
             .partialState().with(RubberLogGeneratedBlock.OPEN, true).with(RubberLogGeneratedBlock.CUT, true).with(RubberLogGeneratedBlock.FACING, Direction.WEST).modelForState().modelFile(cut).rotationY(270).addModel();
+
+        ForgeRegistries.BLOCKS.getValues().stream().filter(block -> block instanceof FabricBlock)
+                .forEach(block -> {
+                    String name = Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block)).getPath();
+                    ModelFile model = models().withExistingParent(name, modLoc("template_fabric_block"))
+                            .texture("particle", modLoc("block/" + name + "_side"))
+                            .texture("front", modLoc("block/" + name + "_front"))
+                            .texture("side", modLoc("block/" + name + "_side"))
+                            .texture("top", modLoc("block/" + name + "_top"))
+                            .texture("rear", modLoc("block/" + name + "_rear"));
+                    horizontalBlock(block, model);
+                });
         
     }
 

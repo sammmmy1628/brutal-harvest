@@ -1,13 +1,51 @@
 {
   "type": "minecraft:block",
+  "functions": [
+    {
+      "function": "minecraft:explosion_decay"
+    }
+  ],
   "pools": [
     {
       "bonus_rolls": 0.0,
       "conditions": [
         {
-          "condition": "minecraft:survives_explosion"
+          "condition": "minecraft:any_of",
+          "terms": [
+            {
+              "block": "brutalharvest:pot",
+              "condition": "minecraft:block_state_property",
+              "properties": {
+                "on_campfire": "campfire"
+              }
+            },
+            {
+              "block": "brutalharvest:pot",
+              "condition": "minecraft:block_state_property",
+              "properties": {
+                "on_campfire": "soul_campfire"
+              }
+            }
+          ]
         }
       ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": 2.0,
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "minecraft:charcoal"
+        }
+      ],
+      "rolls": 1.0
+    },
+    {
+      "bonus_rolls": 0.0,
       "entries": [
         {
           "type": "minecraft:item",

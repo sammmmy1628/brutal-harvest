@@ -1,0 +1,10 @@
+{
+  "parent": "brutalharvest:block/template_fabric_block",
+  "textures": {
+    "front": "brutalharvest:block/purple_fabric_block_front",
+    "particle": "brutalharvest:block/purple_fabric_block_side",
+    "rear": "brutalharvest:block/purple_fabric_block_rear",
+    "side": "brutalharvest:block/purple_fabric_block_side",
+    "top": "brutalharvest:block/purple_fabric_block_top"
+  }
+}

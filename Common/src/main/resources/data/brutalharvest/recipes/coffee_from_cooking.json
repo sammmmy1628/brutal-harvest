@@ -4,6 +4,10 @@
       "item": "brutalharvest:coffee_powder",
       "count": 5
   },
+  "fluid_ingredient": {
+    "fluid": "minecraft:water",
+    "amount": 1000
+  },
   "time": 400,
   "container": "bottle",
   "fluid_result": {

@@ -22,11 +22,11 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 
 
-public record Cooking(Ingredient ingredient, ResourceLocation id, int ticks, ItemStack result, FluidStack fluidResult, BrutalContainers container, ItemStack remainder) implements Recipe<Container> {
+public record Cooking(Ingredient ingredient, FluidStack fluidIngredient, ResourceLocation id, int ticks, ItemStack result, FluidStack fluidResult, BrutalContainers container, ItemStack remainder) implements Recipe<Container> {
 
     @Override
     public boolean matches(@NotNull Container container, @NotNull Level level) {
-        return BrutalRecipeUtils.areStacksMatchingNoOrder(container, this.ingredient);
+        return BrutalRecipeUtils.areStacksMatchingNoOrder(container, this.ingredient) || (this.ingredient.isEmpty() && !this.fluidIngredient.isEmpty());
     }
 
     @Override
@@ -109,29 +109,32 @@ public record Cooking(Ingredient ingredient, ResourceLocation id, int ticks, Ite
         @Override
         public @NotNull Cooking fromJson(@NotNull ResourceLocation resourceLocation, @NotNull JsonObject jsonObject) {
             Ingredient ingredient1 = BrutalRecipeUtils.ingredientFromJsonWithCount(jsonObject.get("ingredients"), true);
+            FluidStack fluidIngredient1 = jsonObject.has("fluid_ingredient") ? BrutalRecipeUtils.fluidFromJson(GsonHelper.getAsJsonObject(jsonObject, "fluid_ingredient")) : FluidStack.EMPTY;
             int i = GsonHelper.getAsInt(jsonObject, "time");
             ItemStack stack = jsonObject.has("item_result") ? ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(jsonObject, "item_result")) : ItemStack.EMPTY;
             FluidStack fluid = jsonObject.has("fluid_result") ? BrutalRecipeUtils.fluidFromJson(GsonHelper.getAsJsonObject(jsonObject, "fluid_result")) : FluidStack.EMPTY;
             BrutalContainers container = BrutalContainers.valueOf(GsonHelper.getAsString(jsonObject, "container").toUpperCase());
             ItemStack remainder = jsonObject.has("remainder") ? ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(jsonObject, "remainder")) : ItemStack.EMPTY;
-            return new Cooking(ingredient1, resourceLocation, i, stack, fluid, container, remainder);
+            return new Cooking(ingredient1, fluidIngredient1, resourceLocation, i, stack, fluid, container, remainder);
         }
 
         @Override
         public @NotNull Cooking fromNetwork(@NotNull ResourceLocation resourceLocation, @NotNull FriendlyByteBuf friendlyByteBuf) {
             int i = friendlyByteBuf.readInt();
             Ingredient ingredient1 = Ingredient.fromNetwork(friendlyByteBuf);
+            FluidStack fluidIngredient1 = FluidStack.readFromPacket(friendlyByteBuf);
             ItemStack itemStack = friendlyByteBuf.readItem();
             FluidStack fluid = FluidStack.readFromPacket(friendlyByteBuf);
             BrutalContainers container = friendlyByteBuf.readEnum(BrutalContainers.class);
             ItemStack remainder = friendlyByteBuf.readItem();
-            return new Cooking(ingredient1, resourceLocation, i, itemStack, fluid, container, remainder);
+            return new Cooking(ingredient1, fluidIngredient1, resourceLocation, i, itemStack, fluid, container, remainder);
         }
 
         @Override
         public void toNetwork(@NotNull FriendlyByteBuf friendlyByteBuf, @NotNull Cooking cooking) {
-            cooking.ingredient.toNetwork(friendlyByteBuf);
             friendlyByteBuf.writeInt(cooking.ticks);
+            cooking.ingredient.toNetwork(friendlyByteBuf);
+            friendlyByteBuf.writeFluidStack(cooking.fluidIngredient);
             friendlyByteBuf.writeItem(cooking.result);
             friendlyByteBuf.writeFluidStack(cooking.fluidResult);
             friendlyByteBuf.writeEnum(cooking.container);

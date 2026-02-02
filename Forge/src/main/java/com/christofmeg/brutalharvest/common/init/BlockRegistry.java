@@ -3,7 +3,6 @@ package com.christofmeg.brutalharvest.common.init;
 import com.christofmeg.brutalharvest.CommonConstants;
 import com.christofmeg.brutalharvest.common.block.*;
 import com.christofmeg.brutalharvest.common.block.base.BaseCookingBlock;
-import com.christofmeg.brutalharvest.common.block.base.BaseCropBlock;
 import com.christofmeg.brutalharvest.common.block.woodtype.BrutalWoodTypes;
 import com.christofmeg.brutalharvest.common.blockentity.BrutalHangingSignBlockEntity;
 import com.christofmeg.brutalharvest.common.blockentity.BrutalSignBlockEntity;
@@ -81,6 +80,25 @@ public class BlockRegistry {
     public static final RegistryObject<WallHangingSignBlock> RUBBER_WALL_HANGING_SIGN;
     public static final RegistryObject<DoorBlock> RUBBER_DOOR;
     public static final RegistryObject<TrapDoorBlock> RUBBER_TRAPDOOR;
+
+    public static final RegistryObject<Block> FABRIC_BLOCK;
+
+    public static final RegistryObject<Block> BLUE_FABRIC_BLOCK;
+    public static final RegistryObject<Block> BROWN_FABRIC_BLOCK;
+    public static final RegistryObject<Block> BLACK_FABRIC_BLOCK;
+    public static final RegistryObject<Block> CYAN_FABRIC_BLOCK;
+    public static final RegistryObject<Block> GRAY_FABRIC_BLOCK;
+    public static final RegistryObject<Block> GREEN_FABRIC_BLOCK;
+    public static final RegistryObject<Block> LIGHT_BLUE_FABRIC_BLOCK;
+    public static final RegistryObject<Block> LIGHT_GRAY_FABRIC_BLOCK;
+    public static final RegistryObject<Block> LIME_FABRIC_BLOCK;
+    public static final RegistryObject<Block> MAGENTA_FABRIC_BLOCK;
+    public static final RegistryObject<Block> ORANGE_FABRIC_BLOCK;
+    public static final RegistryObject<Block> PINK_FABRIC_BLOCK;
+    public static final RegistryObject<Block> PURPLE_FABRIC_BLOCK;
+    public static final RegistryObject<Block> RED_FABRIC_BLOCK;
+    public static final RegistryObject<Block> YELLOW_FABRIC_BLOCK;
+    public static final RegistryObject<Block> WHITE_FABRIC_BLOCK;
 
     public static final RegistryObject<Block> MILLSTONE;
     public static final RegistryObject<Block> PAN;
@@ -257,10 +275,10 @@ public class BlockRegistry {
         MILLSTONE = BLOCKS.register("millstone", () -> new MillstoneBlock(BlockBehaviour.Properties.of().noOcclusion().requiresCorrectToolForDrops().sound(SoundType.STONE).strength(2.0F, 6.0F)));
         ItemRegistry.ITEMS.register("millstone", () -> new MillstoneBlockItem(new Item.Properties()));
 
-        PAN = BLOCKS.register("pan", () -> new PanBlock(BlockBehaviour.Properties.of().noOcclusion().requiresCorrectToolForDrops().sound(SoundType.METAL).strength(1.25F, 4.2F).lightLevel(state -> state.getValue(BaseCookingBlock.ON_CAMPFIRE) != BaseCookingBlock.OnCampfire.NONE ? 15 : 0)));
+        PAN = BLOCKS.register("pan", () -> new PanBlock(BlockBehaviour.Properties.of().noOcclusion().requiresCorrectToolForDrops().sound(SoundType.METAL).strength(1.25F, 4.2F).lightLevel(state -> state.getValue(BaseCookingBlock.ON_CAMPFIRE).getLight())));
         ItemRegistry.ITEMS.register("pan", () -> new CookingBlockItem(PAN.get(), new Item.Properties()));
 
-        POT = BLOCKS.register("pot", () -> new PotBlock(BlockBehaviour.Properties.of().noOcclusion().requiresCorrectToolForDrops().sound(SoundType.METAL).strength(1.25F, 4.2F).lightLevel(state -> state.getValue(BaseCookingBlock.ON_CAMPFIRE) != BaseCookingBlock.OnCampfire.NONE ? 15 : 0)));
+        POT = BLOCKS.register("pot", () -> new PotBlock(BlockBehaviour.Properties.of().noOcclusion().requiresCorrectToolForDrops().sound(SoundType.METAL).strength(1.25F, 4.2F).lightLevel(state -> state.getValue(BaseCookingBlock.ON_CAMPFIRE).getLight())));
         ItemRegistry.ITEMS.register("pot", () -> new CookingBlockItem(POT.get(), new Item.Properties()));
 
         WOODEN_CUTTING_BOARD = BLOCKS.register("wooden_cutting_board", () -> new CuttingBoardBlock(BlockBehaviour.Properties.of().noOcclusion().sound(SoundType.WOOD).strength(2.0F)));
@@ -276,6 +294,42 @@ public class BlockRegistry {
 
         DRIED_RUBBER_BLOCK = BLOCKS.register("dried_rubber_block", () -> new Block(BlockBehaviour.Properties.copy(Blocks.SLIME_BLOCK)));
         ItemRegistry.ITEMS.register("dried_rubber_block", () -> new BlockItem(DRIED_RUBBER_BLOCK.get(), new Item.Properties()));
+
+        FABRIC_BLOCK = BLOCKS.register("fabric_block", () -> new FabricBlock(BlockBehaviour.Properties.copy(Blocks.WHITE_WOOL)));
+        ItemRegistry.ITEMS.register("fabric_block", () -> new BlockItem(FABRIC_BLOCK.get(), new Item.Properties()));
+
+        BLUE_FABRIC_BLOCK = BLOCKS.register("blue_fabric_block", () -> new FabricBlock(BlockBehaviour.Properties.copy(Blocks.WHITE_WOOL)));
+        ItemRegistry.ITEMS.register("blue_fabric_block", () -> new BlockItem(BLUE_FABRIC_BLOCK.get(), new Item.Properties()));
+        BROWN_FABRIC_BLOCK = BLOCKS.register("brown_fabric_block", () -> new FabricBlock(BlockBehaviour.Properties.copy(Blocks.WHITE_WOOL)));
+        ItemRegistry.ITEMS.register("brown_fabric_block", () -> new BlockItem(BROWN_FABRIC_BLOCK.get(), new Item.Properties()));
+        BLACK_FABRIC_BLOCK = BLOCKS.register("black_fabric_block", () -> new FabricBlock(BlockBehaviour.Properties.copy(Blocks.WHITE_WOOL)));
+        ItemRegistry.ITEMS.register("black_fabric_block", () -> new BlockItem(BLACK_FABRIC_BLOCK.get(), new Item.Properties()));
+        CYAN_FABRIC_BLOCK = BLOCKS.register("cyan_fabric_block", () -> new FabricBlock(BlockBehaviour.Properties.copy(Blocks.WHITE_WOOL)));
+        ItemRegistry.ITEMS.register("cyan_fabric_block", () -> new BlockItem(CYAN_FABRIC_BLOCK.get(), new Item.Properties()));
+        GRAY_FABRIC_BLOCK = BLOCKS.register("gray_fabric_block", () -> new FabricBlock(BlockBehaviour.Properties.copy(Blocks.WHITE_WOOL)));
+        ItemRegistry.ITEMS.register("gray_fabric_block", () -> new BlockItem(GRAY_FABRIC_BLOCK.get(), new Item.Properties()));
+        GREEN_FABRIC_BLOCK = BLOCKS.register("green_fabric_block", () -> new FabricBlock(BlockBehaviour.Properties.copy(Blocks.WHITE_WOOL)));
+        ItemRegistry.ITEMS.register("green_fabric_block", () -> new BlockItem(GREEN_FABRIC_BLOCK.get(), new Item.Properties()));
+        LIGHT_BLUE_FABRIC_BLOCK = BLOCKS.register("light_blue_fabric_block", () -> new FabricBlock(BlockBehaviour.Properties.copy(Blocks.WHITE_WOOL)));
+        ItemRegistry.ITEMS.register("light_blue_fabric_block", () -> new BlockItem(LIGHT_BLUE_FABRIC_BLOCK.get(), new Item.Properties()));
+        LIGHT_GRAY_FABRIC_BLOCK = BLOCKS.register("light_gray_fabric_block", () -> new FabricBlock(BlockBehaviour.Properties.copy(Blocks.WHITE_WOOL)));
+        ItemRegistry.ITEMS.register("light_gray_fabric_block", () -> new BlockItem(LIGHT_GRAY_FABRIC_BLOCK.get(), new Item.Properties()));
+        LIME_FABRIC_BLOCK = BLOCKS.register("lime_fabric_block", () -> new FabricBlock(BlockBehaviour.Properties.copy(Blocks.WHITE_WOOL)));
+        ItemRegistry.ITEMS.register("lime_fabric_block", () -> new BlockItem(LIME_FABRIC_BLOCK.get(), new Item.Properties()));
+        MAGENTA_FABRIC_BLOCK = BLOCKS.register("magenta_fabric_block", () -> new FabricBlock(BlockBehaviour.Properties.copy(Blocks.WHITE_WOOL)));
+        ItemRegistry.ITEMS.register("magenta_fabric_block", () -> new BlockItem(MAGENTA_FABRIC_BLOCK.get(), new Item.Properties()));
+        ORANGE_FABRIC_BLOCK = BLOCKS.register("orange_fabric_block", () -> new FabricBlock(BlockBehaviour.Properties.copy(Blocks.WHITE_WOOL)));
+        ItemRegistry.ITEMS.register("orange_fabric_block", () -> new BlockItem(ORANGE_FABRIC_BLOCK.get(), new Item.Properties()));
+        PINK_FABRIC_BLOCK = BLOCKS.register("pink_fabric_block", () -> new FabricBlock(BlockBehaviour.Properties.copy(Blocks.WHITE_WOOL)));
+        ItemRegistry.ITEMS.register("pink_fabric_block", () -> new BlockItem(PINK_FABRIC_BLOCK.get(), new Item.Properties()));
+        PURPLE_FABRIC_BLOCK = BLOCKS.register("purple_fabric_block", () -> new FabricBlock(BlockBehaviour.Properties.copy(Blocks.WHITE_WOOL)));
+        ItemRegistry.ITEMS.register("purple_fabric_block", () -> new BlockItem(PURPLE_FABRIC_BLOCK.get(), new Item.Properties()));
+        RED_FABRIC_BLOCK = BLOCKS.register("red_fabric_block", () -> new FabricBlock(BlockBehaviour.Properties.copy(Blocks.WHITE_WOOL)));
+        ItemRegistry.ITEMS.register("red_fabric_block", () -> new BlockItem(RED_FABRIC_BLOCK.get(), new Item.Properties()));
+        YELLOW_FABRIC_BLOCK = BLOCKS.register("yellow_fabric_block", () -> new FabricBlock(BlockBehaviour.Properties.copy(Blocks.WHITE_WOOL)));
+        ItemRegistry.ITEMS.register("yellow_fabric_block", () -> new BlockItem(YELLOW_FABRIC_BLOCK.get(), new Item.Properties()));
+        WHITE_FABRIC_BLOCK = BLOCKS.register("white_fabric_block", () -> new FabricBlock(BlockBehaviour.Properties.copy(Blocks.WHITE_WOOL)));
+        ItemRegistry.ITEMS.register("white_fabric_block", () -> new BlockItem(WHITE_FABRIC_BLOCK.get(), new Item.Properties()));
     }
 
     private static RegistryObject<Block> block(String name, BlockBehaviour.Properties blockProperties) {

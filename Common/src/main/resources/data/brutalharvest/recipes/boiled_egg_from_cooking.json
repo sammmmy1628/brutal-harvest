@@ -3,6 +3,10 @@
   "ingredients": {
       "item": "minecraft:egg"
   },
+  "fluid_ingredient": {
+    "fluid": "minecraft:water",
+    "amount": 1000
+  },
   "time": 400,
   "container": "none",
   "item_result": {

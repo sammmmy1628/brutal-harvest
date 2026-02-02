@@ -36,7 +36,7 @@ public class RubberCauldronBlockEntityRenderer implements BlockEntityRenderer<Ru
             if (!fluidStack.isEmpty()) {
                 ResourceLocation fluidTexture = IClientFluidTypeExtensions.of(fluidStack.getFluid()).getStillTexture();
                 TextureAtlasSprite atlasSprite = Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(fluidTexture);
-                float y = 0.25F + 0.00075F * fluidStack.getAmount();
+                float y = 0.25F + 0.0006875F * fluidStack.getAmount();
                 VertexConsumer builder = multiBufferSource.getBuffer(ItemBlockRenderTypes.getRenderLayer(fluidStack.getFluid().defaultFluidState()));
                 poseStack.pushPose();
                 BrutalRendererUtils.vertex(builder, poseStack, 0.125F, y, 0.125F, atlasSprite.getU0(), atlasSprite.getV0(), i, -1);

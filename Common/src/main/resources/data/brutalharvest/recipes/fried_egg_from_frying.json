@@ -3,6 +3,10 @@
   "ingredient": {
     "item": "minecraft:egg"
   },
+  "fluid_ingredient": {
+    "fluid": "brutalharvest:rapeseed_oil",
+    "amount": 250
+  },
   "time": 400,
   "container": "none",
   "result": {

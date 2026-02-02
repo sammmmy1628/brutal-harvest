@@ -53,12 +53,13 @@ public class JEIBrutalPlugin implements IModPlugin {
             registration.addRecipes(FRYING_RECIPE_TYPE, recipeManager.getAllRecipesFor(RecipeTypeRegistry.FRYING_RECIPE_TYPE.get()));
             registration.addRecipes(COOKING_RECIPE_TYPE, recipeManager.getAllRecipesFor(RecipeTypeRegistry.COOKING_RECIPE_TYPE.get()));
             registration.addRecipes(CUTTING_RECIPE_TYPE, recipeManager.getAllRecipesFor(RecipeTypeRegistry.CUTTING_RECIPE_TYPE.get()));
-            registration.addIngredientInfo(List.of(ItemRegistry.RUBBER_BUCKET.get().getDefaultInstance(), ItemRegistry.RUBBER_BOWL.get().getDefaultInstance()),
+            registration.addIngredientInfo(ItemRegistry.RUBBER_BOWL.get().getDefaultInstance(),
                     VanillaTypes.ITEM_STACK, Component.literal("To obtain rubber try interacting with rubber tree logs using a knife. When you succeed in creating an opening, put a faucet on it, then place a cauldron below and wait for liquid rubber to accumulate."));
+            registration.addIngredientInfo(List.of(ItemRegistry.RAPESEED_OIL_BOTTLE.get().getDefaultInstance(), ItemRegistry.COFFEE_BOTTLE.get().getDefaultInstance(), ItemRegistry.STIRRED_EGG_BOTTLE.get().getDefaultInstance(),
+                    ItemRegistry.BLUEBERRY_JAM_JAR.get().getDefaultInstance(), ItemRegistry.STRAWBERRY_JAM_JAR.get().getDefaultInstance()), VanillaTypes.ITEM_STACK, Component.literal("To see how to get this item, check the recipe for corresponding fluid."));
         }
     }
 
     @Override
-    public void registerGuiHandlers(@NotNull IGuiHandlerRegistration registration) {
-    }
+    public void registerGuiHandlers(@NotNull IGuiHandlerRegistration registration) {}
 }
