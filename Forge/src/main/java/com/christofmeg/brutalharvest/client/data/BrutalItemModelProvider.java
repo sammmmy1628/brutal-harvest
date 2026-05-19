@@ -88,6 +88,10 @@ public class BrutalItemModelProvider extends ItemModelProvider {
         basicItem(modLoc(getItemName(BlockRegistry.RUBBER_DOOR.get())));
         basicItem(ItemRegistry.RUBBER_BOAT_ITEM.get());
         basicItem(ItemRegistry.RUBBER_CHEST_BOAT_ITEM.get());
+        basicItem(modLoc(getItemName(BlockRegistry.APPLIE_PIE.get())));
+        basicItem(modLoc(getItemName(BlockRegistry.CHOCOLATE_CAKE.get())));
+        basicItem(modLoc(getItemName(BlockRegistry.PLANT_TART.get())));
+        basicItem(modLoc(getItemName(BlockRegistry.TIRAMISU.get())));
     }
 
     @SuppressWarnings("deprecation")

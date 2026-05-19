@@ -1,11 +1,14 @@
 package com.christofmeg.brutalharvest;
 
 import com.christofmeg.brutalharvest.client.event.ClientSetupEvent;
+import com.christofmeg.brutalharvest.common.config.BrutalConfig;
 import com.christofmeg.brutalharvest.common.event.CommonSetupEvent;
 import com.christofmeg.brutalharvest.common.init.*;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import software.bernie.geckolib.GeckoLib;
 
@@ -17,6 +20,8 @@ public class BrutalHarvest {
 
     public BrutalHarvest() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+        ModList.get().getModContainerById(CommonConstants.MOD_ID).ifPresent(modContainer ->
+                modContainer.addConfig(new ModConfig(ModConfig.Type.COMMON, BrutalConfig.SPEC, modContainer, CommonConstants.MOD_ID + "-common.toml")));
         GeckoLib.initialize();
         init(bus);
         bus.addListener(ClientSetupEvent::clientSetupEvent);
@@ -49,5 +54,4 @@ public class BrutalHarvest {
         ParticleTypeRegistry.init(modEventBus);
     }
 
-    //TODO JEI recipe compatibility
 }

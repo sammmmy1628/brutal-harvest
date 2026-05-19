@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "minecraft:cocoa_beans"
+    },
+    "D": {
+      "item": "brutalharvest:chocolate_dough"
+    },
+    "E": {
+      "tag": "forge:eggs"
+    },
+    "S": {
+      "item": "minecraft:sugar"
+    }
+  },
+  "pattern": [
+    "CCC",
+    "SES",
+    "DDD"
+  ],
+  "result": {
+    "item": "brutalharvest:chocolate_cake"
+  },
+  "show_notification": true
+}

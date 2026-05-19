@@ -118,6 +118,11 @@ public class BlockRegistry {
 
     public static final RegistryObject<Block> DIRT_TRACK;
 
+    public static final RegistryObject<Block> APPLIE_PIE;
+    public static final RegistryObject<Block> CHOCOLATE_CAKE;
+    public static final RegistryObject<Block> PLANT_TART;
+    public static final RegistryObject<Block> TIRAMISU;
+
     private BlockRegistry() {
     }
 
@@ -156,6 +161,18 @@ public class BlockRegistry {
                 Block.box(0.0, 0.0, 0.0, 16.0, 9.0, 16.0)));
         WILD_STRAWBERRY = BLOCKS.register("wild_strawberry", () -> new WildCropBlock(
                 Block.box(0.0, 0.0, 0.0, 16.0, 12.0, 16.0)));
+
+        APPLIE_PIE = BLOCKS.register("apple_pie", () -> new BrutalCakeBlock(BlockBehaviour.Properties.copy(Blocks.CAKE), 4, 1, 0.1F));
+        ItemRegistry.ITEMS.register("apple_pie", () -> new BlockItem(APPLIE_PIE.get(), new Item.Properties()));
+
+        CHOCOLATE_CAKE = BLOCKS.register("chocolate_cake", () -> new BrutalCakeBlock(BlockBehaviour.Properties.copy(Blocks.CAKE), 8, 2, 0.2F));
+        ItemRegistry.ITEMS.register("chocolate_cake", () -> new BlockItem(CHOCOLATE_CAKE.get(), new Item.Properties()));
+
+        PLANT_TART = BLOCKS.register("plant_tart", () -> new BrutalCakeBlock(BlockBehaviour.Properties.copy(Blocks.CAKE), 4, 1, 0.1F));
+        ItemRegistry.ITEMS.register("plant_tart", () -> new BlockItem(PLANT_TART.get(), new Item.Properties()));
+
+        TIRAMISU = BLOCKS.register("tiramisu", () -> new TiramisuCakeBlock(BlockBehaviour.Properties.copy(Blocks.CAKE)));
+        ItemRegistry.ITEMS.register("tiramisu", () -> new BlockItem(TIRAMISU.get(), new Item.Properties()));
 
         RUBBER_SAPLING = BLOCKS.register("rubber_sapling", () -> new SaplingBlock(new RubberTreeGrower(), BlockBehaviour.Properties.copy(Blocks.OAK_SAPLING)));
         ItemRegistry.ITEMS.register("rubber_sapling", () -> new BlockItem(RUBBER_SAPLING.get(), new Item.Properties()));
@@ -330,6 +347,7 @@ public class BlockRegistry {
         ItemRegistry.ITEMS.register("yellow_fabric_block", () -> new BlockItem(YELLOW_FABRIC_BLOCK.get(), new Item.Properties()));
         WHITE_FABRIC_BLOCK = BLOCKS.register("white_fabric_block", () -> new FabricBlock(BlockBehaviour.Properties.copy(Blocks.WHITE_WOOL)));
         ItemRegistry.ITEMS.register("white_fabric_block", () -> new BlockItem(WHITE_FABRIC_BLOCK.get(), new Item.Properties()));
+
     }
 
     private static RegistryObject<Block> block(String name, BlockBehaviour.Properties blockProperties) {

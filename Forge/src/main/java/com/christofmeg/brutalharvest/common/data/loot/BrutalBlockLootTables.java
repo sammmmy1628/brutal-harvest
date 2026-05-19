@@ -244,6 +244,10 @@ public class BrutalBlockLootTables extends BlockLootSubProvider {
         this.add(BlockRegistry.DIRT_TRACK_SLAB.get(), createSlabSilkTouchDrops(BlockRegistry.DIRT_TRACK_SLAB.get(), BlockRegistry.DIRT_SLAB.get()));
         this.add(BlockRegistry.DIRT_TRACK.get(), createSingleItemTableWithSilkTouch(BlockRegistry.DIRT_TRACK.get(), Blocks.DIRT));
 
+        this.add(BlockRegistry.APPLIE_PIE.get(), new LootTable.Builder());
+        this.add(BlockRegistry.CHOCOLATE_CAKE.get(), new LootTable.Builder());
+        this.add(BlockRegistry.PLANT_TART.get(), new LootTable.Builder());
+        this.add(BlockRegistry.TIRAMISU.get(), new LootTable.Builder());
     }
 
     @Override

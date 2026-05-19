@@ -7,7 +7,7 @@ license="The MIT License (MIT)"
     version="${version}"
     displayName="Brutal Harvest"
     displayURL="https://github.com/Christofmeg/BrutalHarvest"
-    logoFile="icon.png"
+    logoFile= "logo.png"
     authors="Christofmeg, PatiKa02, tristanh, Tymogekh"
     description=""
 [[dependencies.brutalharvest]]

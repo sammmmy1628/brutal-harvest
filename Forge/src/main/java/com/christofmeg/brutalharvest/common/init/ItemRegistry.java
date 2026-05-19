@@ -73,6 +73,8 @@ public class ItemRegistry {
 //    public static final RegistryObject<Item> RICE;
 //    public static final RegistryObject<Item> RICE_SEEDS;
 
+    public static final RegistryObject<Item> CREAM_BOWL;
+
     public static final RegistryObject<Item> BEEF_SANDWICH;
     public static final RegistryObject<Item> CHICKEN_SANDWICH;
     public static final RegistryObject<Item> MUTTON_SANDWICH;
@@ -106,6 +108,7 @@ public class ItemRegistry {
     public static final RegistryObject<Item> FLOUR;
     public static final RegistryObject<Item> DOUGH;
     public static final RegistryObject<Item> TOMATO_DOUGH;
+    public static final RegistryObject<Item> CHOCOLATE_DOUGH;
 
     public static final RegistryObject<Item> TOMATO_SAUCE;
     public static final RegistryObject<Item> MINCED_MEAT;
@@ -230,6 +233,8 @@ public class ItemRegistry {
 //        RICE = ITEMS.register("rice", () -> new Item(new Item.Properties()));
 //        RICE_SEEDS = ITEMS.register("rice_seeds", () -> new ItemNameBlockItem(BlockRegistry.SUGAR_BEET.get(), new Item.Properties()));
 
+        CREAM_BOWL = ITEMS.register("cream_bowl", () -> new Item(new Item.Properties().craftRemainder(Items.BOWL)));
+
         BEEF_SANDWICH = ITEMS.register("beef_sandwich", () -> new Item(new Item.Properties().food(BrutalFoods.BEEF_SANDWICH)));
         CHICKEN_SANDWICH = ITEMS.register("chicken_sandwich", () -> new Item(new Item.Properties().food(BrutalFoods.CHICKEN_SANDWICH)));
         MUTTON_SANDWICH = ITEMS.register("mutton_sandwich", () -> new Item(new Item.Properties().food(BrutalFoods.MUTTON_SANDWICH)));
@@ -266,6 +271,7 @@ public class ItemRegistry {
         FLOUR = ITEMS.register("flour", () -> new Item(new Item.Properties()));
         DOUGH = ITEMS.register("dough", () -> new Item(new Item.Properties()));
         TOMATO_DOUGH = ITEMS.register("tomato_dough", () -> new Item(new Item.Properties()));
+        CHOCOLATE_DOUGH = ITEMS.register("chocolate_dough", () -> new Item(new Item.Properties()));
 
         TOMATO_SAUCE = ITEMS.register("tomato_sauce", () -> new Item(new Item.Properties().craftRemainder(Items.BOWL)));
         MINCED_MEAT = ITEMS.register("minced_meat", () -> new Item(new Item.Properties().craftRemainder(Items.BOWL)));

@@ -1,0 +1,31 @@
+{
+  "variants": {
+    "tiramisu_bites=0": {
+      "model": "brutalharvest:block/tiramisu"
+    },
+    "tiramisu_bites=1": {
+      "model": "brutalharvest:block/tiramisu_slice1"
+    },
+    "tiramisu_bites=2": {
+      "model": "brutalharvest:block/tiramisu_slice2"
+    },
+    "tiramisu_bites=3": {
+      "model": "brutalharvest:block/tiramisu_slice3"
+    },
+    "tiramisu_bites=4": {
+      "model": "brutalharvest:block/tiramisu_slice4"
+    },
+    "tiramisu_bites=5": {
+      "model": "brutalharvest:block/tiramisu_slice5"
+    },
+    "tiramisu_bites=6": {
+      "model": "brutalharvest:block/tiramisu_slice6"
+    },
+    "tiramisu_bites=7": {
+      "model": "brutalharvest:block/tiramisu_slice7"
+    },
+    "tiramisu_bites=8": {
+      "model": "brutalharvest:block/tiramisu_slice8"
+    }
+  }
+}

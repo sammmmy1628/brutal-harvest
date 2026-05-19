@@ -1,0 +1,25 @@
+{
+  "variants": {
+    "bites=0": {
+      "model": "brutalharvest:block/plant_tart"
+    },
+    "bites=1": {
+      "model": "brutalharvest:block/plant_tart_slice1"
+    },
+    "bites=2": {
+      "model": "brutalharvest:block/plant_tart_slice2"
+    },
+    "bites=3": {
+      "model": "brutalharvest:block/plant_tart_slice3"
+    },
+    "bites=4": {
+      "model": "brutalharvest:block/plant_tart_slice4"
+    },
+    "bites=5": {
+      "model": "brutalharvest:block/plant_tart_slice5"
+    },
+    "bites=6": {
+      "model": "brutalharvest:block/plant_tart_slice6"
+    }
+  }
+}

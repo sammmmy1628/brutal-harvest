@@ -38,7 +38,7 @@ public class BrutalPlacedFeatures {
         HolderGetter<ConfiguredFeature<?, ?>> configuredFeatures = context.lookup(Registries.CONFIGURED_FEATURE);
 
         register(context, RUBBER_PLACED_KEY, configuredFeatures.getOrThrow(BrutalConfiguredFeatures.RUBBER_KEY),
-                VegetationPlacements.treePlacement(PlacementUtils.countExtra(0, 0.1f, 1), //10 % chance to spawn 1 tree in a forge:is_hot/overworld biome
+                VegetationPlacements.treePlacement(PlacementUtils.countExtra(0, 0.2f, 1), //10 % chance to spawn 1 tree in a forge:is_hot/overworld biome
                         BlockRegistry.RUBBER_SAPLING.get()));
 
         register(context, TOMATO_PLACED_KEY, configuredFeatures.getOrThrow(BrutalConfiguredFeatures.TOMATO_KEY),

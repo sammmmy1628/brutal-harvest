@@ -1,5 +1,6 @@
 package com.christofmeg.brutalharvest.common.block.base;
 
+import com.christofmeg.brutalharvest.common.config.BrutalConfig;
 import com.christofmeg.brutalharvest.common.item.KnifeItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -89,7 +90,7 @@ public abstract class BaseCropBlock extends CropBlock {
             if (level.isAreaLoaded(pos, 1)) {
                 if (level.getRawBrightness(pos, 0) >= 9) {
                     int age = this.getAge(state);
-                    if (age < this.getMaxAge() || (age == this.getMaxAge() && random.nextInt(20) == 0)) { // 5% chance to die
+                    if (age < this.getMaxAge() || (age == this.getMaxAge() && random.nextInt(20) == 0 && BrutalConfig.CAN_OVERRIPE.get())) { // 5% chance to die
                         float f = getGrowthSpeed(this, level, pos);
                         if (ForgeHooks.onCropsGrowPre(level, pos, state, random.nextInt((int)(25.0F / f) + 1) == 0)) {
                             level.setBlock(pos, this.getStateForAge(age + 1), 2);

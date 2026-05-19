@@ -1,0 +1,17 @@
+{
+  "type": "brutalharvest:milling",
+  "ingredients": [
+    {
+      "item": "minecraft:milk_bucket"
+    }
+  ],
+  "spins": 3,
+  "container": "bowl",
+  "remainder": {
+    "item": "minecraft:bucket"
+  },
+  "item_result": {
+    "item": "brutalharvest:cream_bowl",
+    "count": 1
+  }
+}

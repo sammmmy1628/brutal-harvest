@@ -1,0 +1,25 @@
+{
+	"format_version": "1.21.11",
+	"credit": "Made with Blockbench",
+	"textures": {
+		"1": "brutalharvest:block/chocolate_cake_top",
+		"2": "brutalharvest:block/chocolate_cake_bottom",
+		"3": "brutalharvest:block/chocolate_cake_side",
+		"4": "brutalharvest:block/chocolate_cake_inner",
+		"particle": "brutalharvest:block/chocolate_cake_side"
+	},
+	"elements": [
+		{
+			"from": [13, 0, 1],
+			"to": [15, 8, 15],
+			"faces": {
+				"north": {"uv": [1, 8, 3, 16], "texture": "#3"},
+				"east": {"uv": [1, 8, 15, 16], "texture": "#3"},
+				"south": {"uv": [13, 8, 15, 16], "texture": "#3"},
+				"west": {"uv": [1, 8, 15, 16], "texture": "#4"},
+				"up": {"uv": [13, 1, 15, 15], "texture": "#1"},
+				"down": {"uv": [13, 1, 15, 15], "texture": "#2", "cullface": "down"}
+			}
+		}
+	]
+}

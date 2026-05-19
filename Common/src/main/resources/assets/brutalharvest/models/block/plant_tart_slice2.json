@@ -1,0 +1,25 @@
+{
+	"format_version": "1.21.11",
+	"credit": "Made with Blockbench",
+	"textures": {
+		"1": "brutalharvest:block/plant_tart_side",
+		"2": "brutalharvest:block/plant_tart_top",
+		"3": "brutalharvest:block/plant_tart_inner",
+		"particle": "block/cake_bottom",
+		"bottom": "block/cake_bottom"
+	},
+	"elements": [
+		{
+			"from": [5, 0, 1],
+			"to": [15, 4, 15],
+			"faces": {
+				"north": {"uv": [1, 12, 11, 16], "texture": "#1"},
+				"east": {"uv": [1, 12, 15, 16], "texture": "#1"},
+				"south": {"uv": [5, 12, 15, 16], "texture": "#1"},
+				"west": {"uv": [1, 12, 15, 16], "texture": "#3"},
+				"up": {"uv": [5, 1, 15, 15], "texture": "#2"},
+				"down": {"uv": [5, 1, 15, 15], "texture": "#bottom", "cullface": "down"}
+			}
+		}
+	]
+}

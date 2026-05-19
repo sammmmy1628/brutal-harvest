@@ -1,0 +1,38 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "essenceofthewild"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "category": "misc",
+        "key": {
+          "U": {
+            "item": "brutalharvest:unripe_tomato"
+          },
+          "T": {
+            "item": "brutalharvest:tomato"
+          },
+          "C": {
+            "item": "essenceofthewild:sheep_cheese_wedge"
+          },
+          "D": {
+            "item": "brutalharvest:tomato_dough"
+          }
+        },
+        "pattern": [
+          "UCT",
+          "DDD"
+        ],
+        "result": {
+          "item": "brutalharvest:plant_tart"
+        }
+      }
+    }
+  ]
+}

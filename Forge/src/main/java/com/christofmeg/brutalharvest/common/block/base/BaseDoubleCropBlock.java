@@ -1,5 +1,6 @@
 package com.christofmeg.brutalharvest.common.block.base;
 
+import com.christofmeg.brutalharvest.common.config.BrutalConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
@@ -47,7 +48,7 @@ public abstract class BaseDoubleCropBlock extends BaseCropBlock {
                     if (age < this.getMaxAge() || (age == this.getMaxAge() && random.nextInt(20) == 0)) { // 5% chance to die
                         float f = getGrowthSpeed(this, level, pos);
                         if (ForgeHooks.onCropsGrowPre(level, pos, state, random.nextInt((int)(25.0F / f) + 1) == 0)) {
-                            if (age == this.getMaxAge()) {
+                            if (age == this.getMaxAge() && BrutalConfig.CAN_OVERRIPE.get()) {
                                 level.setBlock(pos.above(), this.getStateForAge(age + 1 + this.getMaxAgeDifference()), 2);
                                 level.setBlock(pos, this.getStateForAge(age + 1), 2);
                             } else {

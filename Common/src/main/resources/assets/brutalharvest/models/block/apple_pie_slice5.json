@@ -1,0 +1,25 @@
+{
+	"format_version": "1.21.11",
+	"credit": "Made with Blockbench",
+	"textures": {
+		"4": "brutalharvest:block/apple_pie_top",
+		"5": "brutalharvest:block/apple_pie_side",
+		"6": "brutalharvest:block/apple_pie_inner",
+		"particle": "block/cake_bottom",
+		"bottom": "block/cake_bottom"
+	},
+	"elements": [
+		{
+			"from": [11, 0, 1],
+			"to": [15, 4, 15],
+			"faces": {
+				"north": {"uv": [1, 12, 5, 16], "texture": "#5"},
+				"east": {"uv": [1, 12, 15, 16], "texture": "#5"},
+				"south": {"uv": [11, 12, 15, 16], "texture": "#5"},
+				"west": {"uv": [1, 12, 15, 16], "texture": "#6"},
+				"up": {"uv": [11, 1, 15, 15], "texture": "#4"},
+				"down": {"uv": [11, 1, 15, 15], "texture": "#bottom", "cullface": "down"}
+			}
+		}
+	]
+}

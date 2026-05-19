@@ -10,6 +10,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.client.model.generators.VariantBlockStateBuilder;
@@ -87,6 +88,11 @@ public class BrutalBlockStateProvider extends BaseBlockStateProvider {
 
         simpleBlock(BlockRegistry.RUBBER_CAULDRON.get(), models().withExistingParent("rubber_cauldron", mcLoc("block/cauldron")));
         simpleBlock(BlockRegistry.DRIED_RUBBER_BLOCK.get(), cubeAll(BlockRegistry.DRIED_RUBBER_BLOCK.get()));
+
+        cakeBlock(BlockRegistry.APPLIE_PIE.get(), CakeBlock.MAX_BITES, CakeBlock.BITES);
+        cakeBlock(BlockRegistry.CHOCOLATE_CAKE.get(), CakeBlock.MAX_BITES, CakeBlock.BITES);
+        cakeBlock(BlockRegistry.PLANT_TART.get(), CakeBlock.MAX_BITES, CakeBlock.BITES);
+        cakeBlock(BlockRegistry.TIRAMISU.get(), 8, TiramisuCakeBlock.TIRAMISU_BITES);
 
         for (Block block : new Block[] {BlockRegistry.WOODEN_CUTTING_BOARD.get(), BlockRegistry.IRON_CUTTING_BOARD.get()}) {
 
@@ -219,5 +225,18 @@ public class BrutalBlockStateProvider extends BaseBlockStateProvider {
         getVariantBuilder(block)
                 .partialState().with(DoublePlantBlock.HALF, DoubleBlockHalf.LOWER).modelForState().modelFile(lowerModel).addModel()
                 .partialState().with(DoublePlantBlock.HALF, DoubleBlockHalf.UPPER).modelForState().modelFile(upperModel).addModel();
+    }
+
+    private void cakeBlock(Block block, int maxBites, IntegerProperty bitesProperty) {
+        String name = Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block)).getPath();
+        VariantBlockStateBuilder builder = getVariantBuilder(block);
+        for (int slice = 0; slice <= maxBites; slice++) {
+            String modelName = name;
+            if (slice != 0) {
+                modelName += "_slice" + slice;
+            }
+            ModelFile modelForSlice = models().getExistingFile(new ResourceLocation(CommonConstants.MOD_ID, modelName));
+            builder.partialState().with(bitesProperty, slice).modelForState().modelFile(modelForSlice).addModel();
+        }
     }
 }

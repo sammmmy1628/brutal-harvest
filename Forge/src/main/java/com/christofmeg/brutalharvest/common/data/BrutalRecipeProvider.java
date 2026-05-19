@@ -115,6 +115,10 @@ public class BrutalRecipeProvider extends BaseRecipeProvider {
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockRegistry.FAUCET.get()).define('N', Items.IRON_NUGGET).define('I', Items.IRON_INGOT).pattern(" N ").pattern("III").pattern("I  ").unlockedBy("has_iron_ingot", has(Items.IRON_INGOT)).save(consumer, modLoc(getItemName(BlockRegistry.FAUCET.get())));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockRegistry.DRIED_RUBBER_BLOCK.get()).define('R', ItemRegistry.DRIED_RUBBER.get()).pattern("RRR").pattern("RRR").pattern("RRR").unlockedBy("has_dried_rubber", has(ItemRegistry.DRIED_RUBBER.get())).save(consumer, modLoc(getItemName(BlockRegistry.DRIED_RUBBER_BLOCK.get())));
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockRegistry.CHOCOLATE_CAKE.get()).define('C', Items.COCOA_BEANS).define('S', Items.SUGAR).define('E', Tags.Items.EGGS).define('D', ItemRegistry.CHOCOLATE_DOUGH.get()).pattern("CCC").pattern("SES").pattern("DDD").unlockedBy("has_cocoa", has(Items.COCOA_BEANS)).save(consumer, modLoc(getItemName(BlockRegistry.CHOCOLATE_CAKE.get())));
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockRegistry.APPLIE_PIE.get()).define('A', Items.APPLE).define('D', ItemRegistry.DOUGH.get()).pattern("ADA").pattern("DDD").unlockedBy("has_apple", has(Items.APPLE)).save(consumer, modLoc(getItemName(BlockRegistry.APPLIE_PIE.get())));
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockRegistry.TIRAMISU.get()).define('P', ItemRegistry.COFFEE_POWDER.get()).define('C', ItemRegistry.CREAM_BOWL.get()).define('O', Items.COOKIE).pattern("PPP").pattern("CCC").pattern("OOO").unlockedBy("has_coffee_powder", has(ItemRegistry.COFFEE_POWDER.get())).save(consumer, modLoc(getItemName(BlockRegistry.TIRAMISU.get())));
+
         ForgeRegistries.BLOCKS.getValues().stream().filter(block -> block instanceof FabricBlock).forEach(block -> {
             String itemName = Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block)).getPath().replace("_block", "");
             Item item = ForgeRegistries.ITEMS.getValue(modLoc(itemName));
@@ -212,7 +216,6 @@ public class BrutalRecipeProvider extends BaseRecipeProvider {
                 .requires(ItemRegistry.SUGAR_BEET.get())
                 .unlockedBy("sugar_beet", has(ItemRegistry.SUGAR_BEET.get()))
                 .save(consumer, modLoc("sugar"));
-
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ItemRegistry.SCRAMBLED_EGG_TOAST.get())
                 .requires(ItemRegistry.SCRAMBLED_EGG.get())
@@ -318,6 +321,11 @@ public class BrutalRecipeProvider extends BaseRecipeProvider {
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ItemRegistry.TOMATO_DOUGH.get()).requires(TagRegistry.Items.FLOUR).requires(TagRegistry.Items.TOMATO).requires(Tags.Items.EGGS).requires(TagRegistry.Items.BUCKETS_MILK).unlockedBy("flour", has(ItemRegistry.FLOUR.get())).save(consumer, modLoc(getItemName(ItemRegistry.TOMATO_DOUGH.get()) + "_from_" + "milk_bucket"));
         ShapelessWithRemainder.shapeless(RecipeCategory.MISC, ItemRegistry.TOMATO_DOUGH.get(), waterBottle, Ingredient.of(Items.GLASS_BOTTLE)).requires(TagRegistry.Items.FLOUR).requires(TagRegistry.Items.TOMATO).requires(Tags.Items.EGGS).requires(waterBottle).unlockedBy("flour", has(ItemRegistry.FLOUR.get())).save(consumer, modLoc(getItemName(ItemRegistry.TOMATO_DOUGH.get()) + "_from_" + "water_bottle"));
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ItemRegistry.TOMATO_DOUGH.get()).requires(Ingredient.of(TagRegistry.Items.FLOUR), 2).requires(Tags.Items.EGGS).requires(TagRegistry.Items.BOTTLES_MILK).unlockedBy("flour", has(ItemRegistry.FLOUR.get())).save(consumer, modLoc(getItemName(ItemRegistry.TOMATO_DOUGH.get()) + "_from_" + "milk_bottle"));
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ItemRegistry.CHOCOLATE_DOUGH.get()).requires(TagRegistry.Items.FLOUR).requires(Items.COCOA_BEANS).requires(Tags.Items.EGGS).requires(TagRegistry.Items.BUCKETS_WATER).unlockedBy("flour", has(ItemRegistry.FLOUR.get())).save(consumer, modLoc(getItemName(ItemRegistry.CHOCOLATE_DOUGH.get()) + "_from_water_bucket"));
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ItemRegistry.CHOCOLATE_DOUGH.get()).requires(TagRegistry.Items.FLOUR).requires(Items.COCOA_BEANS).requires(Tags.Items.EGGS).requires(TagRegistry.Items.BUCKETS_MILK).unlockedBy("flour", has(ItemRegistry.FLOUR.get())).save(consumer, modLoc(getItemName(ItemRegistry.CHOCOLATE_DOUGH.get()) + "_from_milk_bucket"));
+        ShapelessWithRemainder.shapeless(RecipeCategory.MISC, ItemRegistry.CHOCOLATE_DOUGH.get(), waterBottle, Ingredient.of(Items.GLASS_BOTTLE)).requires(TagRegistry.Items.FLOUR).requires(Items.COCOA_BEANS).requires(Tags.Items.EGGS).unlockedBy("flour", has(ItemRegistry.FLOUR.get())).save(consumer, modLoc(getItemName(ItemRegistry.CHOCOLATE_DOUGH.get()) + "_from_water_bottle"));
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ItemRegistry.CHOCOLATE_DOUGH.get()).requires(Ingredient.of(TagRegistry.Items.FLOUR), 2).requires(Items.COCOA_BEANS).requires(Tags.Items.EGGS).requires(TagRegistry.Items.BOTTLES_MILK).unlockedBy("flour", has(ItemRegistry.FLOUR.get())).save(consumer, modLoc(getItemName(ItemRegistry.CHOCOLATE_DOUGH.get()) + "_from_milk_bottle"));
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, BlockRegistry.RUBBER_PLANKS.get(), 4).requires(TagRegistry.Items.RUBBER_LOGS).unlockedBy("has_rubber_log", has(TagRegistry.Items.RUBBER_LOGS)).save(consumer, modLoc(getItemName(BlockRegistry.RUBBER_PLANKS.get())));
 

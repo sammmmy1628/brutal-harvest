@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "brutalharvest:cream_bowl"
+    },
+    "O": {
+      "item": "minecraft:cookie"
+    },
+    "P": {
+      "item": "brutalharvest:coffee_powder"
+    }
+  },
+  "pattern": [
+    "PPP",
+    "CCC",
+    "OOO"
+  ],
+  "result": {
+    "item": "brutalharvest:tiramisu"
+  },
+  "show_notification": true
+}
