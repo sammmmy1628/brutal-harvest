@@ -1,3 +1,2 @@
-1.24.0
-* Added cakes - apple pie, chocolate cake, plant tart and tiramisu
-* Added mod config
+1.24.1
+* Changed some textures
